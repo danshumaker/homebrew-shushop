@@ -3,7 +3,7 @@ class Denver < Formula
   homepage "https://github.com/danshumaker/homebrew-denver"
   version File.read(File.expand_path("../../VERSION", __dir__)).strip
   url "https://github.com/danshumaker/homebrew-denver/archive/refs/tags/v${version}.tar.gz"
-  sha256 "REPLACE_ME"
+  sha256 "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
   license "MIT"
 
   def install
