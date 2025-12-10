@@ -114,6 +114,7 @@ run 'eval "$(/usr/local/bin/brew shellenv 2>/dev/null || true)"'
 run 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv 2>/dev/null || true)"'
 
 # ---------------- Tap + Install formula ----------
+run "brew untap danshumaker/denver --force"
 info "Tapping danshumaker/denver..."
 run "brew tap danshumaker/denver"
 
@@ -135,17 +136,21 @@ run "mkdir -p \"$BACKUP_DIR\""
 
 info "Backing up existing dotfiles... to $BACKUP_DIR"
 
-for f in .bash_profile .bashrc .zshrc .gitconfig; do
-  if [[ -e "$HOME/$f" ]]; then
-    run "mv \"$HOME/$f\" \"$BACKUP_DIR/\""
+files=$(find $PAYLOAD/dotfiles/ -type f -depth 1)
+for f in ${files[@]}; do
+  if [[ -e "$HOME/.$f" ]]; then
+    run "mv -v \"$HOME/.$f\" \"$BACKUP_DIR/\""
   fi
 done
+
+wait_for_user
 
 # ---------------- Brew bundle --------------------
 info "Running brew bundle..."
 run "brew tap homebrew/bundle || true"
 run "brew bundle --file=\"$BREWFILE\""
 
+wait_for_user
 # ---------------- rcup deployment ----------------
 info "Running rcup..."
 run "rcup -d \"$PAYLOAD\""
