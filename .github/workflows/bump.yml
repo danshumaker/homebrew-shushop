@@ -20,7 +20,7 @@ jobs:
       - name: Compute SHA
         run: |
           VERSION=${{ github.event.inputs.version }}
-          URL="https://github.com/danshumaker/homebrew-denver/archive/refs/tags/v${VERSION}.tar.gz"
+          URL="https://github.com/danshumaker/homebrew-denver/archive/refs/tags/${VERSION}.tar.gz"
           curl -L "$URL" -o archive.tar.gz
           SHA=$(shasum -a 256 archive.tar.gz | awk '{print $1}')
 
@@ -32,6 +32,6 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
           git add VERSION Formula/denver.rb
-          git commit -m "Release v${VERSION}"
-          git tag "v${VERSION}"
+          git commit -m "Release ${VERSION}"
+          git tag "${VERSION}"
           git push origin main --tags
