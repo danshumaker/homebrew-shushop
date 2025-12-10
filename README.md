@@ -185,12 +185,12 @@ MIT License — Do whatever you want, just don’t blame me.
 
 ---
 
-# 🙋 Need Enhancements?
+# 🙋 TODO
 
-Possible next steps:
-
-- Platform-specific Brewfiles (`Brewfile.macos` / `Brewfile.linux`)
-- Machine-tag driven dotfile sets (`rcup -t macos -t work`)
-- Logging to `~/.shushop/shushop.log`
-- Interactive install wizard
-- Self-update capability
+- put dotfiles in place.
+- fix jj (zz) it's not loading.
+- comb through bash_profile and aliases to clean them up.
+- show list of NON-tracked dot files with explainations why they are not tracked.
+- Convert all hashes and tokens (gh, terminus, acquia, etc) over to use 1pass-cli (op)
+- check fonts
+- test install (xcode, bash, kitty, brewfile, prompt, tmux, 1pass-cli and shutrail.) on laptop

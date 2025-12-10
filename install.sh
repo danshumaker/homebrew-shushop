@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SHUSHOP_VERSION="$(cat "$(dirname "$0")/VERSION" 2>/dev/null || echo 'unknown')"
-info "ShuShop version $SHUSHOP_VERSION"
+
 # ---------------- Color Support ----------------
 if test -t 1 && command -v tput >/dev/null 2>&1; then
   COLOR_BLUE="$(tput setaf 4)"
@@ -19,6 +19,9 @@ else
 fi
 
 info() { printf "%s[INFO]%s %s\n" "$COLOR_BLUE" "$COLOR_RESET" "$*"; }
+
+info "ShuShop version $SHUSHOP_VERSION"
+
 warn() { printf "%s[WARN]%s %s\n" "$COLOR_YELLOW" "$COLOR_RESET" "$*"; }
 error() {
   printf "%s[ERROR]%s %s\n" "$COLOR_RED" "$COLOR_RESET" "$*"
@@ -41,6 +44,32 @@ run() {
   fi
 }
 
+getc() {
+  local save_state
+  save_state="$(/bin/stty -g)"
+  /bin/stty raw -echo
+  IFS='' read -r -n 1 -d '' "$@"
+  /bin/stty "${save_state}"
+}
+
+ring_bell() {
+  # Use the shell's audible bell.
+  if [[ -t 1 ]]; then
+    printf "\a"
+  fi
+}
+
+wait_for_user() {
+  local c
+  echo
+  warn "Press RETURN/ENTER to continue or any other key to abort:"
+  getc c
+  # we test for \r and \n because some stuff does \r instead
+  if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]; then
+    exit 1
+  fi
+}
+
 # ---------------- Detect OS -------------------
 OS="$(uname -s)"
 case "$OS" in
@@ -49,6 +78,25 @@ case "$OS" in
   *) error "Unsupported OS: $OS" ;;
 esac
 info "Platform: $PLATFORM"
+
+# ----------------- xCode Developer Tools -------
+if ! xcode-select -p >/dev/null 2>&1; then
+  info "The Xcode Command Line Tools will be installed."
+  run "xcode-select --install"
+  echo "Press any key when the installation has completed."
+  getc
+else
+  info "Xcode Command Line Tools is already installed."
+fi
+
+# ----------------- Change Zsh to Bash default shell -------
+# USER isn't always set so provide a fall back for the installer and subprocesses.
+if [[ -z "${USER-}" ]]; then
+  USER="$(chomp "$(id -un)")"
+  export USER
+fi
+info "Changing default user shell to bash"
+run "chpass -s /usr/local/bin/bash $USER"
 
 # ---------------- Homebrew Install --------------
 if ! command -v brew >/dev/null 2>&1; then
@@ -74,6 +122,10 @@ PAYLOAD="$(brew --prefix shushop)/share"
 BREWFILE="$PAYLOAD/Brewfile"
 
 [[ -f "$BREWFILE" ]] || error "Brewfile not found at $BREWFILE"
+
+# Update Homebrew and basic sanity
+brew update
+brew doctor || true
 
 # ---------------- Backup dotfiles ----------------
 BACKUP_DIR="$HOME/.old_dots/backup_$(date +%Y%m%d_%H%M%S)"
@@ -108,7 +160,7 @@ fi
 
 # ---------------- Install Rust --------------------
 if ! command -v cargo >/dev/null 2>&1; then
-  info "Installing Rust toolchain..."
+  info "Installing Rust/Cargo toolchain..."
   run 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
 else
   info "Rust already installed."
@@ -116,6 +168,8 @@ fi
 
 # ---------------- Install Fonts (macOS only) -------
 if [[ "$PLATFORM" == "macos" ]]; then
+  # TODO: Possible install powerline fonts https://github.com/powerline/fonts.git
+
   FONT_SRC="/Applications/Utilities/Terminal.app/Contents/Resources/Fonts"
   if [[ -d "$FONT_SRC" ]]; then
     info "Installing Terminal fonts..."
