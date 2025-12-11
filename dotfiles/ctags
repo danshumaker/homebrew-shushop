@@ -1,0 +1,37 @@
+-f .tags
+--recurse=yes
+--fields=+l
+--langmap=PHP:.engine.inc.module.theme.install.php
+--languages=PHP
+--extras=+q
+--tag-relative=yes
+--exclude=.git
+--exclude=BUILD
+--exclude=.svn
+--exclude=\*.js
+--exclude=node_modules
+--exclude=db/*
+--exclude=\*.phar
+--exclude=\*.sql
+--exclude=log/*
+--exclude=\*.min.\*
+--exclude=\*.swp
+--exclude=\*.bak
+--exclude=\*.pyc
+--exclude=\*.class
+--exclude=\*.sln
+--exclude=\*.csproj
+--exclude=\*.csproj.user
+--exclude=\*.cache
+--exclude=\*.dll
+--exclude=\*.pdb
+--exclude=\*.woff2
+--exclude=\*.svg
+--exclude=\*.gif
+--totals=yes
+--regex-PHP=/abstract\s+class\s+([^ ]+)/\1/c/
+--regex-PHP=/interface\s+([^ ]+)/\1/c/
+--regex-PHP=/(public\s+|static\s+|protected\s+|private\s+)\$([^ 	=]+)/\2/p/
+--regex-PHP=/const\s+([^ 	=]+)/\1/d/
+--regex-PHP=/final\s+(public\s+|static\s+|abstract\s+|protected\s+|private\s+)function\s+\&?\s*([^ (]+)/\2/f/
+--PHP-kinds=+cfpd

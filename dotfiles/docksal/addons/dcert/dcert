@@ -1,0 +1,316 @@
+#!/usr/bin/env bash
+# Author: Dan Shumaker
+# Date: 2025-11-19
+# vim: ft=bash:
+
+# Set script name based on file name -thus supporting script file rename without breakage.
+_whoami="${0##*/}"
+_whereami=$(dirname "$0")
+_version="3.0.0 2025-11-28"
+
+# Heredocs read help function
+function help() {
+  read -r -d '' HELP <<-START
+
+   $_whoami  Docksal Certificate Manager
+
+   Version: $_version
+
+   Options:
+    -i|--install|--init|install|init (create and install certificates and verify them)
+    -h|--help|help                   (print help)
+    --version|version                (print version)
+    -v|--verbose|verbose             (turn on verbose debugging)
+    -t|--test|test                   (test certificates - browser, php, culr)
+    -f|--files|files                 (show files modified & tested)
+    -c|--clean|clean                 (clean up old certs)
+
+   Requirements/Dependencies:
+    - mkcert installed (macOS)
+    - docksal installed and running
+    - openssl on host (macOS)
+    - Run from a Docksal project (VIRTUAL_HOST must be set).
+    - On macOS, host trust uses System keychain and may prompt for sudo.
+
+START
+
+  echo ""
+  echo "$HELP"
+  echo ""
+}
+VHOST="${VIRTUAL_HOST:-}"
+
+# Color terminal printing via associative arrays
+declare -A colors
+colors[BLACK]=$(tput setaf 0)
+colors[RED]=$(tput setaf 1)
+colors[GREEN]=$(tput setaf 2)
+colors[YELLOW]=$(tput setaf 3)
+colors[LIME_YELLOW]=$(tput setaf 190)
+colors[POWDER_BLUE]=$(tput setaf 153)
+colors[BLUE]=$(tput setaf 4)
+colors[MAGENTA]=$(tput setaf 5)
+colors[CYAN]=$(tput setaf 6)
+colors[WHITE]=$(tput setaf 7)
+declare -A styles
+styles[BRIGHT]=$(tput bold)
+styles[NORMAL]=$(tput sgr0)
+styles[BLINK]=$(tput blink)
+styles[REVERSE]=$(tput smso)
+styles[UNDERLINE]=$(tput smul)
+
+ERROR=RED
+CHECK=LIME_YELLOW
+SUCCESS=GREEN
+EXECUTE=MAGENTA
+# usage: format, color, style, string
+#   pp "%s" color bright "test this cyan color"
+function pp() {
+  ppargs=($@)
+  printable="${ppargs[@]:3}"
+  printf $1 "${colors[$2]}${styles[$3]}${printable}${styles[NORMAL]}"
+}
+
+function process_msg() {
+  if (($1)); then
+    pp "%s\n" $ERROR BRIGHT "FAIL"
+  else
+    pp "%s\n" $SUCCESS BRIGHT "SUCCESS"
+  fi
+}
+
+H_D_SYSTEM_CERTS="$(mkcert -CAROOT)"
+H_D_CERTS="${HOME}/.docksal/certs"
+C_D_CERTS=/usr/local/share/ca-certificates
+C_D_TRUST=/etc/ssl/certs
+
+declare -A host_files
+host_files[singleRootCa.crt]="${H_D_CERTS}/singleRootCa.crt"
+host_files[${VHOST}.crt]="${H_D_CERTS}/${VHOST}.crt"
+host_files[${VHOST}.key]="${H_D_CERTS}/${VHOST}.key"
+host_files[rootCA.pem]="${H_D_SYSTEM_CERTS}/rootCA.pem"
+host_files[php.ini]="${PROJECT_ROOT}/.docksal/etc/php/php.ini"
+
+declare -A cli_links
+cli_links[singleRootCa.pem]=${C_D_CERTS}/singleRootCa.crt
+
+function print_header() {
+  pp "\n%s\n" $ERROR BRIGHT "================================="
+  pp "%s" $ERROR BRIGHT "${1}"
+  pp "\n%s\n" $ERROR BRIGHT "================================="
+}
+
+function printCertFiles() {
+
+  print_header "Files & Links"
+  pp "%s\n" CYAN BRIGHT "Files::"
+  for file in "${!host_files[@]}"; do
+    pp "\t%s\n" $CHECK BRIGHT "${host_files[$file]}"
+  done
+  pp "\n%s\n" CYAN BRIGHT "Links::"
+  for link in "${!cli_links[@]}"; do
+    pp "\t%s\n" $CHECK BRIGHT "$C_D_TRUST/$link -> ${cli_links[$link]}"
+    pp "\t%s\n" $CHECK BRIGHT "$C_D_TRUST/<hash>.0 -> $C_D_TRUST/$link"
+  done
+  echo
+  echo
+
+}
+
+function cleanOldCerts() {
+  pp "\n%s\n" $EXECUTE BRIGHT "rm -rf ${H_D_CERTS}/*"
+  rm -rvf ${H_D_CERTS}/*
+  ls -lat "${H_D_CERTS}"
+  pp "\n%s\n" $EXECUTE BRIGHT "rm stale container links in /etc/ssl/certs/"
+  fin exec sudo bash -lc 'find /etc/ssl/certs -type l ! -exec test -e {} \; -print -delete'
+}
+
+# Capture Arguements
+argc=$#   # total args
+argv=($@) # array of args
+
+# Parse bool args
+for ((j = 0; j < argc; j++)); do
+  case ${argv[j]} in
+    -help | -h | --help | help)
+      help
+      exit
+      ;;
+    -v | --verbose | verbose)
+      # Boolean Arguement
+      argv=("${argv[@]:0:$j}" "${argv[@]:($j + 1)}")
+
+      # Remove the arguement from the list of args
+      argc=$(($argc - 1)) # decrement by 1
+      ((j--))
+      set -v
+      set -x
+      ;;
+    --version | version)
+      pp "\n\n%s\n\n" GREEN BRIGHT "$_whereami $_whoami :: $_version"
+      exit
+      ;;
+  esac
+done
+
+function fail() {
+  pp "\n%s\n" $ERROR BRIGHT 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+# Check requirements and fail if necesary
+command -v fin >/dev/null 2>&1 || fail "fin command not found. Run inside a Docksal project."
+command -v mkcert >/dev/null 2>&1 || fail "mkcert not found. Install mkcert on host first."
+[[ -n "${VHOST}" ]] || fail "VIRTUAL_HOST is not set."
+[[ "$(uname -s)" == "Darwin" ]] || fail "Only MacOS Supported"
+
+# ----------------------------------------------------------------------------------
+# root CA Install
+# ----------------------------------------------------------------------------------
+function rootCAInstall() {
+
+  pp "\t%s\n" $EXECUTE BRIGHT "CREATE rootCA.pem"
+  # only install if it doesn't exist. @TODO add force option
+  if [[ ! -f "${host_files[rootCA.pem]}" ]]; then
+    mkcert -install
+    [[ -f "${host_files[rootCA.pem]}" ]] || fail "mkcert failed"
+  fi
+
+}
+
+function projectCertsInstall() {
+
+  pp "\t%s\n" $EXECUTE BRIGHT "CREATE VHOST Cert&Key"
+  # Only create if they do not exist @TODO add force option
+  if [[ ! -f "${host_files[${VHOST}.crt]}" || ! -f "${host_files[${VHOST}.key]}" ]]; then
+    mkcert -key-file "${host_files[${VHOST}.key]}" -cert-file "${host_files[${VHOST}.crt]}" "*.${VHOST}" "${VHOST}"
+  fi
+}
+
+function containerTrustHost() {
+
+  pp "\t%s\n\n" $EXECUTE BRIGHT "CREATE & COPY rootCA single cert to container"
+  openssl x509 -in "${host_files[rootCA.pem]}" -outform PEM >"${host_files[singleRootCa.crt]}" || fail "Failed to create ${host_files[singleRootCA.crt]}"
+  local CLI
+  CLI=$(docker ps --filter name=cli --format '{{.Names}}')
+  docker cp "${host_files[singleRootCa.crt]}" "${CLI}":"${cli_links[singleRootCa.pem]}" >/dev/null 2>&1
+
+  fin exec sudo bash -lc 'command -v update-ca-certificates && command -v openssl >/dev/null' >/dev/null 2>&1
+  if (($?)); then
+    fin exec sudo bash -lc '
+        apt-get update
+        apt-get install -y ca-certificates
+        apt-get install -y ssl-cert
+        apt-get install -y openssl
+        apt-get install -y debianutils
+      '
+  fi
+  fin exec sudo bash -lc 'update-ca-certificates --fresh >/dev/null 2>&1' || fail "Failed update-ca-certificates run"
+}
+
+function projectPhpIniSetup() {
+
+  pp "\t%s\n" $EXECUTE BRIGHT "CREATE php.ini"
+  if [[ ! -f "${host_files[php.ini]}" ]]; then
+    php_ini_dir="$(dirname "${host_files[php.ini]}")"
+    mkdir -p "${php_ini_dir}"
+    cat >"${host_files[php.ini]}" <<'EOF'
+[dcert]
+openssl.cafile=/etc/ssl/certs/ca-certificates.crt
+curl.cainfo=/etc/ssl/certs/ca-certificates.crt
+EOF
+  elif ! grep -q '^\[dcert\]' "${host_files[php.ini]}"; then
+    cat >>"${host_files[php.ini]}" <<'EOF'
+
+[dcert]
+openssl.cafile=/etc/ssl/certs/ca-certificates.crt
+curl.cainfo=/etc/ssl/certs/ca-certificates.crt
+EOF
+  fi
+}
+
+function hostTrustInstall() {
+
+  pp "\t%s\n" $EXECUTE BRIGHT "KEYCHAIN Trust Root Install"
+  if /usr/bin/security verify-cert -l -c "${host_files[rootCA.pem]}" >/dev/null 2>&1; then
+    sudo security add-trusted-cert \
+      -d -r trustRoot \
+      -k /Library/Keychains/System.keychain \
+      "${host_files[rootCA.pem]}"
+  fi
+}
+
+function host_exists() {
+  [[ -f $1 ]] && pp "\t\t%s\n" $SUCCESS BRIGHT "EXISTS ${1} " || pp "\t\t%s\n" $ERROR BRIGHT "MISSING ${1}"
+}
+
+function cli_exists() {
+
+  if fin exec bash -lc 'ls -l /etc/ssl/certs' | grep "${1}" >/dev/null 2>&1; then
+    pp "\t\t%s\n" $SUCCESS BRIGHT "EXISTS ${1} "
+  else
+    pp "\t\t%s\n" $ERROR BRIGHT "MISSING ${1} "
+  fi
+}
+
+function testAll() {
+
+  print_header "Verification"
+
+  pp "\t%s\n" $CHECK BRIGHT "Files::"
+  for file in "${host_files[@]}"; do
+    host_exists "$file"
+  done
+
+  pp "\n\t%s\n" $CHECK BRIGHT "Links::"
+  for link_dest in "${cli_links[@]}"; do
+    cli_exists $link_dest
+  done
+
+  pp "\n\t%s\n" $CHECK BRIGHT "Connections::"
+  pp "\t\t%-50.50s" $CHECK BRIGHT "KEYCHAIN"
+  /usr/bin/security verify-cert -l -c "${host_files[rootCA.pem]}" >/dev/null 2>&1
+  process_msg $?
+
+  pp "\t\t%-50.50s" $CHECK BRIGHT "SSL Vhost:443"
+  fin exec bash -lc "openssl s_client -connect ${VHOST}:443 -showcerts </dev/null > /dev/null 2>&1"
+  process_msg $?
+
+  pp "\t\t%-50.50s" $CHECK BRIGHT "SSL 509 ISSUER"
+  fin exec bash -lc "openssl x509 -in ${cli_links[singleRootCa.pem]} -noout -subject -issuer >/dev/null 2>&1"
+  process_msg $?
+
+  pp "\t\t%-50.50s" $CHECK BRIGHT "CURL"
+  fin exec bash -lc "curl -v https://${VHOST} -o /dev/null" | grep "certificate verify" >/dev/null 2>&1
+  process_msg $?
+
+}
+
+# Process Commands
+for ((j = 0; j < argc; j++)); do
+  case ${argv[j]} in
+    -f | --files | files)
+      printCertFiles
+      ;;
+    -t | --test | test)
+      testAll
+      ;;
+    -i | --install | init | install)
+      print_header "Installation"
+      rootCAInstall
+      projectCertsInstall
+      containerTrustHost
+      projectPhpIniSetup
+      hostTrustInstall
+      testAll
+      ;;
+    -c | --clean | clean)
+      cleanOldCerts
+      ;;
+    *)
+      pp "%s" RED BRIGHT "Invalid Option ${argv[j]} "
+      help
+      exit
+      ;;
+  esac
+done

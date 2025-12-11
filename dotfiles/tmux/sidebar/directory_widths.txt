@@ -1,0 +1,4 @@
+/Users/dan	40
+/Users/dan/bin	40
+/Users/dan/work/Phase2/mti/mti_cms/src	40
+	40

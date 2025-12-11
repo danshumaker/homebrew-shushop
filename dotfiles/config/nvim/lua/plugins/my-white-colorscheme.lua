@@ -1,0 +1,1971 @@
+-- ~/.config/nvim/colors/my-white-colorscheme.lua
+return {
+  {
+    -- "sainnhe/edge",
+    -- "tokyonight",
+    "EdenEast/nightfox.nvim",
+    name = "dayfox",
+    priority = 1000,
+    lazy = false,
+    enabled = false,
+    config = function()
+      -- 1. Setup the base colorscheme
+      -- require("tokyonight").setup(opts)
+      -- 2. Override highlight groups as you wish
+      -- Example: Make comments bold and blue, change Normal background
+      -- require("edge-light").setup()
+      -- require("dayfox").setup()
+      vim.cmd.colorscheme("dayfox")
+      -- vim.api.nvim_set_hl(0, "luaComment", { fg = "#AA0000", bold = true, italic = true })
+      vim.api.nvim_set_hl(0, "Cursor", { bg = "#000000", fg = "#0000FF" })
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = "#000000", fg = "#00FF00" })
+      -- vim.api.nvim_set_hl(0, "Normal", { bg = "#FFFFFF", fg = "#000000" })
+      vim.api.nvim_set_hl(0, "Normal", { bg = "#FFFFFF" })
+
+      -- Normal
+      -- NormalNC
+      -- NormalFloat
+      -- EndOfBuffer
+      -- ColorColumn
+      -- Conceal
+      -- Cursor
+      -- CursorIM
+      -- CursorColumn
+      -- CursorLine
+      -- CursorLineNr
+      -- LineNr
+      -- LineNrAbove
+      -- LineNrBelow
+      -- Folded
+      -- FoldColumn
+      -- SignColumn
+      -- VertSplit
+      -- StatusLine
+      -- StatusLineNC
+      -- StatusLineTerm
+      -- StatusLineTermNC
+      -- TabLine
+      -- TabLineFill
+      -- TabLineSel
+      -- ToolbarLine
+      -- ToolbarButton
+      -- WildMenu
+      -- Pmenu
+      -- PmenuSel
+      --EndOfBuffer    xxx guifg=#222436
+      --TermCursor     xxx cterm=reverse gui=reverse
+      --NonText        xxx guifg=#545c7e
+      --Directory      xxx guifg=#82aaff
+      --ErrorMsg       xxx guifg=#c53b53
+      --IncSearch      xxx guifg=#1b1d2b guibg=#ff966c
+      --Search         xxx guifg=#c8d3f5 guibg=#3e68d7
+      --CurSearch      xxx links to IncSearch
+      --MoreMsg        xxx guifg=#82aaff
+      --ModeMsg        xxx cterm=bold gui=bold guifg=#828bb8
+      --LineNr         xxx guifg=#3b4261
+      --LineNrAbove    xxx guifg=#3b4261
+      --LineNrBelow    xxx guifg=#3b4261
+      --CursorLineNr   xxx cterm=bold gui=bold guifg=#ff966c
+      --CursorLineSign xxx links to SignColumn
+      --CursorLineFold xxx links to FoldColumn
+      --Question       xxx guifg=#82aaff
+      --StatusLine     xxx guifg=#828bb8 guibg=#1e2030
+      --StatusLineNC   xxx guifg=#3b4261 guibg=#1e2030
+      --WinSeparator   xxx cterm=bold gui=bold guifg=#1b1d2b
+      --VertSplit      xxx guifg=#1b1d2b
+      --Title          xxx cterm=bold gui=bold guifg=#82aaff
+      --Visual         xxx guibg=#2d3f76
+      --VisualNC       xxx cleared
+      --WarningMsg     xxx guifg=#ffc777
+      --WildMenu       xxx guibg=#2d3f76
+      --Folded         xxx guifg=#82aaff guibg=#3b4261
+      --FoldColumn     xxx guifg=#636da6 guibg=#222436
+      --DiffAdd        xxx guibg=#273849
+      --DiffChange     xxx guibg=#252a3f
+      --DiffDelete     xxx guibg=#3a273a
+      --DiffText       xxx guibg=#394b70
+      --SignColumn     xxx guifg=#3b4261 guibg=#222436
+      --Conceal        xxx guifg=#737aa2
+      --SpellBad       xxx cterm=undercurl gui=undercurl guisp=#c53b53
+      --SpellCap       xxx cterm=undercurl gui=undercurl guisp=#ffc777
+      --SpellRare      xxx cterm=undercurl gui=undercurl guisp=#4fd6be
+      --SpellLocal     xxx cterm=undercurl gui=undercurl guisp=#0db9d7
+      --Pmenu          xxx guifg=#c8d3f5 guibg=#1e2030
+      --PmenuSel       xxx guibg=#363c58
+      --PmenuMatch     xxx guifg=#65bcff guibg=#1e2030
+      --PmenuMatchSel  xxx guifg=#65bcff guibg=#363c58
+      --PmenuKind      xxx links to Pmenu
+      --PmenuKindSel   xxx links to PmenuSel
+      --PmenuExtra     xxx links to Pmenu
+      --PmenuExtraSel  xxx links to PmenuSel
+      --PmenuSbar      xxx guibg=#27293a
+      --PmenuThumb     xxx guibg=#3b4261
+      --TabLine        xxx guifg=#3b4261 guibg=#1e2030
+      --TabLineSel     xxx guifg=#1b1d2b guibg=#82aaff
+      --TabLineFill    xxx guibg=#1b1d2b
+      --CursorColumn   xxx guibg=#2f334d
+      --CursorLine     xxx guibg=#2f334d
+      --ColorColumn    xxx guibg=#1b1d2b
+      --QuickFixLine   xxx cterm=bold gui=bold guibg=#2d3f76
+      --Whitespace     xxx guifg=#3b4261
+      --NormalNC       xxx guifg=#c8d3f5 guibg=#222436
+      --MsgSeparator   xxx links to StatusLine
+      --NormalFloat    xxx guifg=#c8d3f5 guibg=#1e2030
+      --MsgArea        xxx guifg=#828bb8
+      --FloatBorder    xxx guifg=#589ed7 guibg=#1e2030
+      --WinBar         xxx links to StatusLine
+      --WinBarNC       xxx links to StatusLineNC
+      --Cursor         xxx guifg=#222436 guibg=#c8d3f5
+      --FloatTitle     xxx guifg=#589ed7 guibg=#1e2030
+      --FloatFooter    xxx links to FloatTitle
+      --StatusLineTerm xxx links to StatusLine
+      --StatusLineTermNC xxx links to StatusLineNC
+      --RedrawDebugNormal xxx cterm=reverse gui=reverse
+      --Underlined     xxx cterm=underline gui=underline
+      --lCursor        xxx guifg=#222436 guibg=#c8d3f5
+      --CursorIM       xxx guifg=#222436 guibg=#c8d3f5
+      --ComplMatchIns  xxx cleared
+      --Substitute     xxx guifg=#1b1d2b guibg=#ff757f
+      --VisualNOS      xxx guibg=#2d3f76
+      --Normal         xxx guifg=#c8d3f5 guibg=#222436
+      --Character      xxx guifg=#c3e88d
+      --Constant       xxx guifg=#ff966c
+      --Number         xxx links to Constant
+      --Boolean        xxx links to Constant
+      --Float          xxx links to Number
+      --Conditional    xxx links to Statement
+      --Statement      xxx guifg=#c099ff
+      --Repeat         xxx links to Statement
+      --Label          xxx links to Statement
+      --Keyword        xxx cterm=italic gui=italic guifg=#86e1fc
+      --Exception      xxx links to Statement
+      --Include        xxx links to PreProc
+      --PreProc        xxx guifg=#86e1fc
+      --Define         xxx links to PreProc
+      --Macro          xxx links to PreProc
+      --PreCondit      xxx links to PreProc
+      --StorageClass   xxx links to Type
+      --Type           xxx guifg=#65bcff
+      --Structure      xxx links to Type
+      --Typedef        xxx links to Type
+      --Tag            xxx links to Special
+      --Special        xxx guifg=#65bcff
+      --SpecialChar    xxx links to Special
+      --SpecialComment xxx links to Special
+      --Debug          xxx guifg=#ff966c
+      --Ignore         xxx links to Normal
+      --LspCodeLens    xxx guifg=#636da6
+      --LspCodeLensSeparator xxx links to LspCodeLens
+      --LspInlayHint   xxx guifg=#545c7e guibg=#24283c
+      --LspReferenceRead xxx guibg=#3b4261
+      --LspReferenceText xxx guibg=#3b4261
+      --LspReferenceWrite xxx guibg=#3b4261
+      --LspReferenceTarget xxx links to LspReferenceText
+      --LspSignatureActiveParameter xxx cterm=bold gui=bold guibg=#262f50
+      --SnippetTabstop xxx links to Visual
+      --DiagnosticFloatingError xxx links to DiagnosticError
+      --DiagnosticError xxx guifg=#c53b53
+      --DiagnosticFloatingWarn xxx links to DiagnosticWarn
+      --DiagnosticWarn xxx guifg=#ffc777
+      --DiagnosticFloatingInfo xxx links to DiagnosticInfo
+      --DiagnosticInfo xxx guifg=#0db9d7
+      --DiagnosticFloatingHint xxx links to DiagnosticHint
+      --DiagnosticHint xxx guifg=#4fd6be
+      --DiagnosticFloatingOk xxx links to DiagnosticOk
+      --DiagnosticOk   xxx ctermfg=10 guifg=NvimLightGreen
+      --DiagnosticVirtualTextError xxx guifg=#c53b53 guibg=#322639
+      --DiagnosticVirtualTextWarn xxx guifg=#ffc777 guibg=#38343d
+      --DiagnosticVirtualTextInfo xxx guifg=#0db9d7 guibg=#203346
+      --DiagnosticVirtualTextHint xxx guifg=#4fd6be guibg=#273644
+      --DiagnosticVirtualTextOk xxx links to DiagnosticOk
+      --DiagnosticVirtualLinesError xxx links to DiagnosticError
+      --DiagnosticVirtualLinesWarn xxx links to DiagnosticWarn
+      --DiagnosticVirtualLinesInfo xxx links to DiagnosticInfo
+      --DiagnosticVirtualLinesHint xxx links to DiagnosticHint
+      --DiagnosticVirtualLinesOk xxx links to DiagnosticOk
+      --DiagnosticSignError xxx links to DiagnosticError
+      --DiagnosticSignWarn xxx links to DiagnosticWarn
+      --DiagnosticSignInfo xxx links to DiagnosticInfo
+      --DiagnosticSignHint xxx links to DiagnosticHint
+      --DiagnosticSignOk xxx links to DiagnosticOk
+      --DiagnosticUnnecessary xxx guifg=#444a73
+      --Comment        xxx cterm=italic gui=italic guifg=#636da6
+      --@variable      xxx guifg=#c8d3f5
+      --@variable.builtin xxx guifg=#ff757f
+      --@variable.parameter xxx guifg=#ffc777
+      --@variable.parameter.builtin xxx guifg=#f4c990
+      --@constant      xxx links to Constant
+      --@constant.builtin xxx links to Special
+      --@module        xxx links to Directory
+      --@module.builtin xxx guifg=#ff757f
+      --@label         xxx guifg=#82aaff
+      --@string        xxx links to String
+      --String         xxx guifg=#c3e88d
+      --@string.regexp xxx guifg=#b4f9f8
+      --@string.special xxx links to SpecialChar
+      --@string.escape xxx guifg=#c099ff
+      --@string.special.url xxx links to Underlined
+      --@character     xxx links to Character
+      --@character.special xxx links to SpecialChar
+      --@boolean       xxx links to Boolean
+      --@number        xxx links to Number
+      --@number.float  xxx links to Float
+      --@type          xxx links to Type
+      --@type.builtin  xxx guifg=#589ed7
+      --@attribute     xxx links to PreProc
+      --@attribute.builtin xxx links to Special
+      --@property      xxx guifg=#4fd6be
+      --Identifier     xxx guifg=#c099ff
+      --@function      xxx links to Function
+      --Function       xxx guifg=#82aaff
+      --@function.builtin xxx links to Special
+      --@constructor   xxx guifg=#c099ff
+      --@operator      xxx guifg=#89ddff
+      --Operator       xxx guifg=#89ddff
+      --@keyword       xxx cterm=italic gui=italic guifg=#fca7ea
+      --@punctuation   xxx links to Delimiter
+      --Delimiter      xxx links to Special
+      --@punctuation.special xxx guifg=#89ddff
+      --@comment       xxx links to Comment
+      --@comment.error xxx guifg=#c53b53
+      --@comment.warning xxx guifg=#ffc777
+      --@comment.note  xxx guifg=#4fd6be
+      --@comment.todo  xxx guifg=#82aaff
+      --Todo           xxx guifg=#222436 guibg=#ffc777
+      --@markup        xxx links to @none
+      --@markup.strong xxx cterm=bold gui=bold
+      --@markup.italic xxx cterm=italic gui=italic
+      --@markup.strikethrough xxx cterm=strikethrough gui=strikethrough
+      --@markup.underline xxx cterm=underline gui=underline
+      --@markup.heading xxx links to Title
+      --@markup.link   xxx guifg=#4fd6be
+      --@diff          xxx cleared
+      --@diff.plus     xxx links to DiffAdd
+      --Added          xxx ctermfg=10 guifg=NvimLightGreen
+      --@diff.minus    xxx links to DiffDelete
+      --Removed        xxx ctermfg=9 guifg=NvimLightRed
+      --@diff.delta    xxx links to DiffChange
+      --Changed        xxx ctermfg=14 guifg=NvimLightCyan
+      --@tag           xxx links to Label
+      --@tag.builtin   xxx links to Special
+      --@markup.heading.1.delimiter.vimdoc xxx cterm=underdouble,nocombine gui=underdouble,nocombine guifg=bg guibg=bg guisp=fg
+      --@markup.heading.2.delimiter.vimdoc xxx cterm=underline,nocombine gui=underline,nocombine guifg=bg guibg=bg guisp=fg
+      --@lsp           xxx cleared
+      --@lsp.type.class xxx links to @type
+      --@lsp.type.comment xxx links to @comment
+      --@lsp.type.decorator xxx links to @attribute
+      --@lsp.type.enum xxx links to @type
+      --@lsp.type.enumMember xxx links to @constant
+      --@lsp.type.event xxx links to @type
+      --@lsp.type.function xxx links to @function
+      --@lsp.type.interface xxx guifg=#83c3fc
+      --@lsp.type.keyword xxx links to @keyword
+      --@lsp.type.macro xxx links to @constant.macro
+      --@constant.macro xxx links to Define
+      --@lsp.type.method xxx links to @function.method
+      --@function.method xxx links to Function
+      --@lsp.type.modifier xxx links to @type.qualifier
+      --@type.qualifier xxx links to @keyword
+      --@lsp.type.namespace xxx links to @module
+      --@lsp.type.number xxx links to @number
+      --@lsp.type.operator xxx links to @operator
+      --@lsp.type.parameter xxx links to @variable.parameter
+      --@lsp.type.property xxx links to @property
+      --@lsp.type.regexp xxx links to @string.regexp
+      --@lsp.type.string xxx links to @string
+      --@lsp.type.struct xxx links to @type
+      --@lsp.type.type xxx links to @type
+      --@lsp.type.typeParameter xxx links to @type.definition
+      --@type.definition xxx links to Typedef
+      --@lsp.type.variable xxx cleared
+      --@lsp.mod.deprecated xxx links to DiagnosticDeprecated
+      --DiagnosticDeprecated xxx cterm=strikethrough gui=strikethrough guisp=NvimLightRed
+      --FloatShadow    xxx ctermbg=0 guibg=NvimDarkGrey4 blend=80
+      --FloatShadowThrough xxx ctermbg=0 guibg=NvimDarkGrey4 blend=100
+      --MatchParen     xxx cterm=bold gui=bold guifg=#ff966c
+      --RedrawDebugClear xxx ctermfg=0 ctermbg=11 guibg=NvimDarkYellow
+      --RedrawDebugComposed xxx ctermfg=0 ctermbg=10 guibg=NvimDarkGreen
+      --RedrawDebugRecompose xxx ctermfg=0 ctermbg=9 guibg=NvimDarkRed
+      --Error          xxx guifg=#c53b53
+      --DiagnosticUnderlineError xxx cterm=undercurl gui=undercurl guisp=#c53b53
+      --DiagnosticUnderlineWarn xxx cterm=undercurl gui=undercurl guisp=#ffc777
+      --DiagnosticUnderlineInfo xxx cterm=undercurl gui=undercurl guisp=#0db9d7
+      --DiagnosticUnderlineHint xxx cterm=undercurl gui=undercurl guisp=#4fd6be
+      --DiagnosticUnderlineOk xxx cterm=underline gui=underline guisp=NvimLightGreen
+      --NvimInternalError xxx ctermfg=9 ctermbg=9 guifg=Red guibg=Red
+      --NvimAssignment xxx links to Operator
+      --NvimPlainAssignment xxx links to NvimAssignment
+      --NvimAugmentedAssignment xxx links to NvimAssignment
+      --NvimAssignmentWithAddition xxx links to NvimAugmentedAssignment
+      --NvimAssignmentWithSubtraction xxx links to NvimAugmentedAssignment
+      --NvimAssignmentWithConcatenation xxx links to NvimAugmentedAssignment
+      --NvimOperator   xxx links to Operator
+      --NvimUnaryOperator xxx links to NvimOperator
+      --NvimUnaryPlus  xxx links to NvimUnaryOperator
+      --NvimUnaryMinus xxx links to NvimUnaryOperator
+      --NvimNot        xxx links to NvimUnaryOperator
+      --NvimBinaryOperator xxx links to NvimOperator
+      --NvimComparison xxx links to NvimBinaryOperator
+      --NvimComparisonModifier xxx links to NvimComparison
+      --NvimBinaryPlus xxx links to NvimBinaryOperator
+      --NvimBinaryMinus xxx links to NvimBinaryOperator
+      --NvimConcat     xxx links to NvimBinaryOperator
+      --NvimConcatOrSubscript xxx links to NvimConcat
+      --NvimOr         xxx links to NvimBinaryOperator
+      --NvimAnd        xxx links to NvimBinaryOperator
+      --NvimMultiplication xxx links to NvimBinaryOperator
+      --NvimDivision   xxx links to NvimBinaryOperator
+      --NvimMod        xxx links to NvimBinaryOperator
+      --NvimTernary    xxx links to NvimOperator
+      --NvimTernaryColon xxx links to NvimTernary
+      --NvimParenthesis xxx links to Delimiter
+      --NvimLambda     xxx links to NvimParenthesis
+      --NvimNestingParenthesis xxx links to NvimParenthesis
+      --NvimCallingParenthesis xxx links to NvimParenthesis
+      --NvimSubscript  xxx links to NvimParenthesis
+      --NvimSubscriptBracket xxx links to NvimSubscript
+      --NvimSubscriptColon xxx links to NvimSubscript
+      --NvimCurly      xxx links to NvimSubscript
+      --NvimContainer  xxx links to NvimParenthesis
+      --NvimDict       xxx links to NvimContainer
+      --NvimList       xxx links to NvimContainer
+      --NvimIdentifier xxx links to Identifier
+      --NvimIdentifierScope xxx links to NvimIdentifier
+      --NvimIdentifierScopeDelimiter xxx links to NvimIdentifier
+      --NvimIdentifierName xxx links to NvimIdentifier
+      --NvimIdentifierKey xxx links to NvimIdentifier
+      --NvimColon      xxx links to Delimiter
+      --NvimComma      xxx links to Delimiter
+      --NvimArrow      xxx links to Delimiter
+      --NvimRegister   xxx links to SpecialChar
+      --NvimNumber     xxx links to Number
+      --NvimFloat      xxx links to NvimNumber
+      --NvimNumberPrefix xxx links to Type
+      --NvimOptionSigil xxx links to Type
+      --NvimOptionName xxx links to NvimIdentifier
+      --NvimOptionScope xxx links to NvimIdentifierScope
+      --NvimOptionScopeDelimiter xxx links to NvimIdentifierScopeDelimiter
+      --NvimEnvironmentSigil xxx links to NvimOptionSigil
+      --NvimEnvironmentName xxx links to NvimIdentifier
+      --NvimString     xxx links to String
+      --NvimStringBody xxx links to NvimString
+      --NvimStringQuote xxx links to NvimString
+      --NvimStringSpecial xxx links to SpecialChar
+      --NvimSingleQuote xxx links to NvimStringQuote
+      --NvimSingleQuotedBody xxx links to NvimStringBody
+      --NvimSingleQuotedQuote xxx links to NvimStringSpecial
+      --NvimDoubleQuote xxx links to NvimStringQuote
+      --NvimDoubleQuotedBody xxx links to NvimStringBody
+      --NvimDoubleQuotedEscape xxx links to NvimStringSpecial
+      --NvimFigureBrace xxx links to NvimInternalError
+      --NvimSingleQuotedUnknownEscape xxx links to NvimInternalError
+      --NvimSpacing    xxx links to Normal
+      --NvimInvalidSingleQuotedUnknownEscape xxx links to NvimInternalError
+      --NvimInvalid    xxx links to Error
+      --NvimInvalidAssignment xxx links to NvimInvalid
+      --NvimInvalidPlainAssignment xxx links to NvimInvalidAssignment
+      --NvimInvalidAugmentedAssignment xxx links to NvimInvalidAssignment
+      --NvimInvalidAssignmentWithAddition xxx links to NvimInvalidAugmentedAssignment
+      --NvimInvalidAssignmentWithSubtraction xxx links to NvimInvalidAugmentedAssignment
+      --NvimInvalidAssignmentWithConcatenation xxx links to NvimInvalidAugmentedAssignment
+      --NvimInvalidOperator xxx links to NvimInvalid
+      --NvimInvalidUnaryOperator xxx links to NvimInvalidOperator
+      --NvimInvalidUnaryPlus xxx links to NvimInvalidUnaryOperator
+      --NvimInvalidUnaryMinus xxx links to NvimInvalidUnaryOperator
+      --NvimInvalidNot xxx links to NvimInvalidUnaryOperator
+      --NvimInvalidBinaryOperator xxx links to NvimInvalidOperator
+      --NvimInvalidComparison xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidComparisonModifier xxx links to NvimInvalidComparison
+      --NvimInvalidBinaryPlus xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidBinaryMinus xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidConcat xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidConcatOrSubscript xxx links to NvimInvalidConcat
+      --NvimInvalidOr  xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidAnd xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidMultiplication xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidDivision xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidMod xxx links to NvimInvalidBinaryOperator
+      --NvimInvalidTernary xxx links to NvimInvalidOperator
+      --NvimInvalidTernaryColon xxx links to NvimInvalidTernary
+      --NvimInvalidDelimiter xxx links to NvimInvalid
+      --NvimInvalidParenthesis xxx links to NvimInvalidDelimiter
+      --NvimInvalidLambda xxx links to NvimInvalidParenthesis
+      --NvimInvalidNestingParenthesis xxx links to NvimInvalidParenthesis
+      --NvimInvalidCallingParenthesis xxx links to NvimInvalidParenthesis
+      --NvimInvalidSubscript xxx links to NvimInvalidParenthesis
+      --NvimInvalidSubscriptBracket xxx links to NvimInvalidSubscript
+      --NvimInvalidSubscriptColon xxx links to NvimInvalidSubscript
+      --NvimInvalidCurly xxx links to NvimInvalidSubscript
+      --NvimInvalidContainer xxx links to NvimInvalidParenthesis
+      --NvimInvalidDict xxx links to NvimInvalidContainer
+      --NvimInvalidList xxx links to NvimInvalidContainer
+      --NvimInvalidValue xxx links to NvimInvalid
+      --NvimInvalidIdentifier xxx links to NvimInvalidValue
+      --NvimInvalidIdentifierScope xxx links to NvimInvalidIdentifier
+      --NvimInvalidIdentifierScopeDelimiter xxx links to NvimInvalidIdentifier
+      --NvimInvalidIdentifierName xxx links to NvimInvalidIdentifier
+      --NvimInvalidIdentifierKey xxx links to NvimInvalidIdentifier
+      --NvimInvalidColon xxx links to NvimInvalidDelimiter
+      --NvimInvalidComma xxx links to NvimInvalidDelimiter
+      --NvimInvalidArrow xxx links to NvimInvalidDelimiter
+      --NvimInvalidRegister xxx links to NvimInvalidValue
+      --NvimInvalidNumber xxx links to NvimInvalidValue
+      --NvimInvalidFloat xxx links to NvimInvalidNumber
+      --NvimInvalidNumberPrefix xxx links to NvimInvalidNumber
+      --NvimInvalidOptionSigil xxx links to NvimInvalidIdentifier
+      --NvimInvalidOptionName xxx links to NvimInvalidIdentifier
+      --NvimInvalidOptionScope xxx links to NvimInvalidIdentifierScope
+      --NvimInvalidOptionScopeDelimiter xxx links to NvimInvalidIdentifierScopeDelimiter
+      --NvimInvalidEnvironmentSigil xxx links to NvimInvalidOptionSigil
+      --NvimInvalidEnvironmentName xxx links to NvimInvalidIdentifier
+      --NvimInvalidString xxx links to NvimInvalidValue
+      --NvimInvalidStringBody xxx links to NvimStringBody
+      --NvimInvalidStringQuote xxx links to NvimInvalidString
+      --NvimInvalidStringSpecial xxx links to NvimStringSpecial
+      --NvimInvalidSingleQuote xxx links to NvimInvalidStringQuote
+      --NvimInvalidSingleQuotedBody xxx links to NvimInvalidStringBody
+      --NvimInvalidSingleQuotedQuote xxx links to NvimInvalidStringSpecial
+      --NvimInvalidDoubleQuote xxx links to NvimInvalidStringQuote
+      --NvimInvalidDoubleQuotedBody xxx links to NvimInvalidStringBody
+      --NvimInvalidDoubleQuotedEscape xxx links to NvimInvalidStringSpecial
+      --NvimInvalidDoubleQuotedUnknownEscape xxx links to NvimInvalidValue
+      --NvimInvalidFigureBrace xxx links to NvimInvalidDelimiter
+      --NvimInvalidSpacing xxx links to ErrorMsg
+      --NvimDoubleQuotedUnknownEscape xxx links to NvimInvalidValue
+      --SnacksNotifierIconInfo xxx guifg=#0db9d7
+      --SnacksNotifierInfo xxx guifg=#c8d3f5 guibg=#222436
+      --@markup.environment xxx links to Macro
+      --@markup.environment.name xxx links to Type
+      --SnacksIndent1  xxx cterm=nocombine gui=nocombine guifg=#82aaff
+      --GrugFarResultsHeader xxx guifg=#ff966c
+      --WhichKeySeparator xxx guifg=#636da6
+      --GrugFarResultsLineNo xxx guifg=#545c7e
+      --@function.macro xxx links to Macro
+      --GitSignsAdd    xxx guifg=#b8db87
+      --@function.method.call xxx links to @function.method
+      --@comment.info  xxx guifg=#0db9d7
+      --SnacksNotifierTitleTrace xxx guifg=#fca7ea
+      --SnacksProfilerIconInfo xxx guifg=#65bcff guibg=#365272
+      --SnacksScratchKey xxx links to SnacksProfilerIconInfo
+      --@markup.list   xxx guifg=#89ddff
+      --@markup.list.markdown xxx cterm=bold gui=bold guifg=#ff966c
+      --SnacksIndent4  xxx cterm=nocombine gui=nocombine guifg=#4fd6be
+      --@markup.heading.7.markdown xxx cterm=bold gui=bold guifg=#ff966c
+      --diffNewFile    xxx guifg=#65bcff guibg=#273849
+      --SnacksPickerSelected xxx guifg=#ff007c
+      --SnacksPickerInputTitle xxx guifg=#ff966c guibg=#1e2030
+      --@markup.link.url xxx links to Underlined
+      --@markup.list.checked xxx guifg=#4fd6be
+      --@markup.math   xxx links to Special
+      --@markup.raw    xxx links to String
+      --MiniIconsPurple xxx guifg=#fca7ea
+      --NeoTreeDimText xxx guifg=#3b4261
+      --NeoTreeFileName xxx guifg=#828bb8
+      --LspKindObject  xxx links to @constant
+      --BlinkCmpKindObject xxx links to LspKindObject
+      --NeoTreeGitStaged xxx guifg=#4fd6be
+      --LspKindEnumMember xxx links to @lsp.type.enumMember
+      --BlinkCmpKindEnumMember xxx links to LspKindEnumMember
+      --LspKindNull    xxx links to @constant.builtin
+      --BlinkCmpKindNull xxx links to LspKindNull
+      --WhichKey       xxx guifg=#86e1fc
+      --LspKindOperator xxx links to @operator
+      --BlinkCmpKindOperator xxx links to LspKindOperator
+      --BlinkCmpLabelMatch xxx guifg=#65bcff
+      --LspKindString  xxx links to @string
+      --BlinkCmpKindString xxx links to LspKindString
+      --LspKindArray   xxx links to @punctuation.bracket
+      --BlinkCmpKindArray xxx links to LspKindArray
+      --BlinkCmpMenuBorder xxx guifg=#589ed7 guibg=#1e2030
+      --BlinkCmpSignatureHelpBorder xxx guifg=#589ed7 guibg=#1e2030
+      --BlinkCmpSignatureHelp xxx guifg=#c8d3f5 guibg=#1e2030
+      --BlinkCmpKindTabNine xxx guifg=#4fd6be
+      --BlinkCmpKindSupermaven xxx guifg=#4fd6be
+      --BlinkCmpKindCopilot xxx guifg=#4fd6be
+      --BlinkCmpKindCodeium xxx guifg=#4fd6be
+      --BlinkCmpGhostText xxx guifg=#444a73
+      --BlinkCmpDocBorder xxx guifg=#589ed7 guibg=#1e2030
+      --LspKindNamespace xxx links to @module
+      --BlinkCmpKindNamespace xxx links to LspKindNamespace
+      --LspKindNumber  xxx links to @number
+      --BlinkCmpKindNumber xxx links to LspKindNumber
+      --LspKindModule  xxx links to @module
+      --BlinkCmpKindModule xxx links to LspKindModule
+      --LspKindMethod  xxx links to @function.method
+      --BlinkCmpKindMethod xxx links to LspKindMethod
+      --SnacksDashboardDesc xxx guifg=#86e1fc
+      --@tag.javascript xxx guifg=#ff757f
+      --@lsp.type.unresolvedReference xxx cterm=undercurl gui=undercurl guisp=#c53b53
+      --NoiceCmdlinePopupBorderLua xxx guifg=#65bcff
+      --@variable.member xxx guifg=#4fd6be
+      --LspKindKey     xxx links to @variable.member
+      --GitSignsChange xxx guifg=#7ca1f2
+      --SnacksProfilerBadgeInfo xxx guifg=#65bcff guibg=#29334a
+      --SnacksIndent2  xxx cterm=nocombine gui=nocombine guifg=#ffc777
+      --SnacksIndent5  xxx cterm=nocombine gui=nocombine guifg=#c099ff
+      --SnacksIndent7  xxx cterm=nocombine gui=nocombine guifg=#ff966c
+      --SnacksIndent8  xxx cterm=nocombine gui=nocombine guifg=#ff757f
+      --@character.printf xxx links to SpecialChar
+      --RenderMarkdownH4Bg xxx guibg=#273644
+      --DashboardFooter xxx guifg=#65bcff
+      --BlinkCmpKindDefault xxx guifg=#828bb8
+      --GitSignsDelete xxx guifg=#e26a75
+      --SnacksNotifierTitleWarn xxx guifg=#ffc777
+      --LspKindValue   xxx links to @string
+      --NoiceCompletionItemKindValue xxx links to LspKindValue
+      --LspKindKeyword xxx links to @lsp.type.keyword
+      --NoiceCompletionItemKindKeyword xxx links to LspKindKeyword
+      --NoiceCompletionItemKindKey xxx links to LspKindKey
+      --LspKindTypeParameter xxx links to @lsp.type.typeParameter
+      --NoiceCompletionItemKindTypeParameter xxx links to LspKindTypeParameter
+      --LspKindUnit    xxx links to @lsp.type.struct
+      --NoiceCompletionItemKindUnit xxx links to LspKindUnit
+      --NoiceCompletionItemKindMethod xxx links to LspKindMethod
+      --LspKindVariable xxx links to @variable
+      --NoiceCompletionItemKindVariable xxx links to LspKindVariable
+      --NoiceCompletionItemKindNumber xxx links to LspKindNumber
+      --LspKindConstructor xxx links to @constructor
+      --NoiceCompletionItemKindConstructor xxx links to LspKindConstructor
+      --LspKindConstant xxx links to @constant
+      --NoiceCompletionItemKindConstant xxx links to LspKindConstant
+      --LspKindClass   xxx links to @type
+      --NoiceCompletionItemKindClass xxx links to LspKindClass
+      --NoiceCompletionItemKindOperator xxx links to LspKindOperator
+      --TelescopeResultsComment xxx guifg=#545c7e
+      --RenderMarkdownH4Fg xxx cterm=bold gui=bold guifg=#4fd6be
+      --NeoTreeTabActive xxx cterm=bold gui=bold guifg=#82aaff guibg=#1e2030
+      --NeoTreeGitModified xxx guifg=#ff966c
+      --NeoTreeTabSeparatorInactive xxx guifg=#222436 guibg=#181a26
+      --NeoTreeNormal  xxx guifg=#828bb8 guibg=#1e2030
+      --BlinkCmpKindKeyword xxx links to LspKindKeyword
+      --LspInfoBorder  xxx guifg=#589ed7 guibg=#1e2030
+      --healthError    xxx guifg=#c53b53
+      --LspKindReference xxx links to @markup.link
+      --BlinkCmpKindReference xxx links to LspKindReference
+      --LspKindText    xxx links to @markup
+      --BlinkCmpKindText xxx links to LspKindText
+      --RenderMarkdownH3Bg xxx guibg=#32383f
+      --LspKindEnum    xxx links to @lsp.type.enum
+      --BlinkCmpKindEnum xxx links to LspKindEnum
+      --BlinkCmpLabelDeprecated xxx cterm=strikethrough gui=strikethrough guifg=#3b4261
+      --SnacksNotifierError xxx guifg=#c8d3f5 guibg=#222436
+      --SnacksNotifierBorderError xxx guifg=#632d42 guibg=#222436
+      --SignColumnSB   xxx guifg=#3b4261 guibg=#1e2030
+      --SnacksZenIcon  xxx guifg=#fca7ea
+      --SnacksInputBorder xxx guifg=#ffc777
+      --SnacksDashboardKey xxx guifg=#ff966c
+      --SnacksDashboardSpecial xxx guifg=#fca7ea
+      --LspKindPackage xxx links to @module
+      --BlinkCmpKindPackage xxx links to LspKindPackage
+      --LspKindField   xxx links to @variable.member
+      --BlinkCmpKindField xxx links to LspKindField
+      --Foo            xxx guifg=#c8d3f5 guibg=#ff007c
+      --LspKindBoolean xxx links to @boolean
+      --BlinkCmpKindBoolean xxx links to LspKindBoolean
+      --LspKindEvent   xxx links to Special
+      --BlinkCmpKindEvent xxx links to LspKindEvent
+      --GrugFarResultsStats xxx guifg=#82aaff
+      --GrugFarResultsLineColumn xxx guifg=#545c7e
+      --SnacksNotifierBorderWarn xxx guifg=#7a6550 guibg=#222436
+      --LspKindProperty xxx links to @property
+      --BlinkCmpKindProperty xxx links to LspKindProperty
+      --SnacksNotifierTitleError xxx guifg=#c53b53
+      --WhichKeyNormal xxx guibg=#1e2030
+      --@constructor.tsx xxx guifg=#65bcff
+      --BlinkCmpKindConstructor xxx links to LspKindConstructor
+      --@none          xxx cleared
+      --LspKindFolder  xxx links to Directory
+      --BlinkCmpKindFolder xxx links to LspKindFolder
+      --BlinkCmpMenu   xxx guifg=#c8d3f5 guibg=#1e2030
+      --BlinkCmpKindValue xxx links to LspKindValue
+      --SnacksInputIcon xxx guifg=#65bcff
+      --SnacksPickerBoxTitle xxx guifg=#ff966c guibg=#1e2030
+      --NeoTreeTabInactive xxx guifg=#545c7e guibg=#181a26
+      --LspKindSnippet xxx links to Conceal
+      --BlinkCmpKindSnippet xxx links to LspKindSnippet
+      --GrugFarResultsChangeIndicator xxx guifg=#7ca1f2
+      --@function.call xxx links to @function
+      --NeoTreeGitUntracked xxx guifg=#c099ff
+      --@string.documentation xxx guifg=#ffc777
+      --TroubleNormal  xxx guifg=#c8d3f5 guibg=#1e2030
+      --diffChanged    xxx guifg=#7ca1f2 guibg=#252a3f
+      --diffAdded      xxx guifg=#b8db87 guibg=#273849
+      --healthWarning  xxx guifg=#ffc777
+      --healthSuccess  xxx guifg=#4fd6be
+      --@markup.heading.5.markdown xxx cterm=bold gui=bold guifg=#c099ff
+      --diffOldFile    xxx guifg=#65bcff guibg=#3a273a
+      --diffRemoved    xxx guifg=#e26a75 guibg=#3a273a
+      --@markup.heading.1.markdown xxx cterm=bold gui=bold guifg=#82aaff
+      --@tag.tsx       xxx guifg=#ff757f
+      --DashboardHeader xxx guifg=#82aaff
+      --NormalSB       xxx guifg=#828bb8 guibg=#1e2030
+      --@keyword.directive xxx links to PreProc
+      --@keyword.function xxx guifg=#c099ff
+      --@lsp.type.namespace.python xxx links to @variable
+      --@keyword.repeat xxx links to Repeat
+      --@lsp.type.generic xxx links to @variable
+      --SnacksNotifierWarn xxx guifg=#c8d3f5 guibg=#222436
+      --MiniIconsOrange xxx guifg=#ff966c
+      --MiniIconsRed   xxx guifg=#ff757f
+      --@keyword.debug xxx links to Debug
+      --TelescopeBorder xxx guifg=#589ed7 guibg=#1e2030
+      --TelescopeNormal xxx guifg=#c8d3f5 guibg=#1e2030
+      --NoiceCmdlinePopupBorderInput xxx guifg=#ffc777
+      --NoiceCompletionItemKindBoolean xxx links to LspKindBoolean
+      --NoiceCompletionItemKindNamespace xxx links to LspKindNamespace
+      --NoiceCompletionItemKindModule xxx links to LspKindModule
+      --helpCommand    xxx guifg=#82aaff guibg=#444a73
+      --htmlH1         xxx cterm=bold gui=bold guifg=#c099ff
+      --LspKindColor   xxx links to Special
+      --NoiceCompletionItemKindColor xxx links to LspKindColor
+      --htmlH2         xxx cterm=bold gui=bold guifg=#82aaff
+      --dosIniLabel    xxx links to @property
+      --debugBreakpoint xxx guifg=#0db9d7 guibg=#203346
+      --SnacksProfilerIconTrace xxx guifg=#545c7e guibg=#293047
+      --SnacksPickerPickWin xxx cterm=bold gui=bold guifg=#c8d3f5 guibg=#3e68d7
+      --SnacksPickerPickWinCurrent xxx cterm=bold gui=bold guifg=#c8d3f5 guibg=#ff007c
+      --WhichKeyDesc   xxx guifg=#c099ff
+      --BlinkCmpKindColor xxx links to LspKindColor
+      --FlashLabel     xxx cterm=bold gui=bold guifg=#c8d3f5 guibg=#ff007c
+      --SnacksIndentScope xxx cterm=nocombine gui=nocombine guifg=#65bcff
+      --LazyProgressTodo xxx cterm=bold gui=bold guifg=#3b4261
+      --LazyProgressDone xxx cterm=bold gui=bold guifg=#ff007c
+      --@lsp.type.escapeSequence xxx links to @string.escape
+      --@lsp.type.deriveHelper xxx links to @attribute
+      --@tag.delimiter xxx links to Delimiter
+      --@lsp.type.builtinType xxx links to @type.builtin
+      --@lsp.type.boolean xxx links to @boolean
+      --@punctuation.delimiter xxx guifg=#89ddff
+      --@lsp.typemod.type.defaultLibrary xxx guifg=#589ed7
+      --@lsp.type.selfTypeKeyword xxx links to @variable.builtin
+      --@markup.link.label xxx links to SpecialChar
+      --@markup.link.label.symbol xxx links to Identifier
+      --@lsp.type.typeAlias xxx links to @type.definition
+      --@markup.heading.4.markdown xxx cterm=bold gui=bold guifg=#4fd6be
+      --DashboardMruTitle xxx guifg=#86e1fc
+      --DashboardMruIcon xxx guifg=#fca7ea
+      --DashboardFiles xxx guifg=#82aaff
+      --@lsp.typemod.keyword.injected xxx links to @keyword
+      --@lsp.typemod.macro.defaultLibrary xxx links to @function.builtin
+      --@lsp.typemod.method.defaultLibrary xxx links to @function.builtin
+      --@lsp.typemod.operator.injected xxx links to @operator
+      --@lsp.typemod.string.injected xxx links to @string
+      --@lsp.typemod.struct.defaultLibrary xxx links to @type.builtin
+      --@lsp.typemod.typeAlias.defaultLibrary xxx guifg=#589ed7
+      --@lsp.typemod.variable.static xxx links to @constant
+      --@lsp.typemod.variable.injected xxx links to @variable
+      --@tag.attribute xxx links to @property
+      --@lsp.typemod.variable.callable xxx links to @function
+      --@lsp.typemod.class.defaultLibrary xxx links to @type.builtin
+      --@lsp.typemod.enum.defaultLibrary xxx links to @type.builtin
+      --@lsp.typemod.function.defaultLibrary xxx links to @function.builtin
+      --@keyword.coroutine xxx links to @keyword
+      --@lsp.typemod.keyword.async xxx links to @keyword.coroutine
+      --@lsp.type.selfKeyword xxx links to @variable.builtin
+      --TroubleCount   xxx guifg=#c099ff guibg=#3b4261
+      --qfFileName     xxx guifg=#82aaff
+      --qfLineNr       xxx guifg=#737aa2
+      --SnacksIndent3  xxx cterm=nocombine gui=nocombine guifg=#c3e88d
+      --@markup.heading.2.markdown xxx cterm=bold gui=bold guifg=#ffc777
+      --@keyword.return xxx links to @keyword
+      --@markup.heading.8.markdown xxx cterm=bold gui=bold guifg=#ff757f
+      --@annotation    xxx links to PreProc
+      --SnacksNotifierIconTrace xxx guifg=#fca7ea
+      --WhichKeyValue  xxx guifg=#737aa2
+      --@markup.emphasis xxx cterm=italic gui=italic
+      --SnacksNotifierTrace xxx guifg=#c8d3f5 guibg=#222436
+      --SnacksNotifierTitleInfo xxx guifg=#0db9d7
+      --TroubleText    xxx guifg=#828bb8
+      --@namespace     xxx cleared
+      --@namespace.builtin xxx links to @variable.builtin
+      --SnacksNotifierDebug xxx guifg=#c8d3f5 guibg=#222436
+      --SnacksNotifierBorderDebug xxx guifg=#3c4163 guibg=#222436
+      --NeoTreeNormalNC xxx guifg=#828bb8 guibg=#1e2030
+      --@keyword.operator xxx links to @operator
+      --@punctuation.special.markdown xxx guifg=#ff966c
+      --SnacksNotifierTitleDebug xxx guifg=#636da6
+      --SnacksIndent6  xxx cterm=nocombine gui=nocombine guifg=#fca7ea
+      --SnacksNotifierIconError xxx guifg=#c53b53
+      --LspKindStruct  xxx links to @lsp.type.struct
+      --BlinkCmpKindStruct xxx links to LspKindStruct
+      --SnacksInputTitle xxx guifg=#ffc777
+      --diffLine       xxx guifg=#636da6
+      --diffIndexLine  xxx guifg=#c099ff
+      --DashboardIcon  xxx guifg=#86e1fc
+      --SnacksDashboardIcon xxx guifg=#65bcff
+      --DashboardShortCutIcon xxx guifg=#c099ff
+      --DashboardProjectIcon xxx guifg=#ffc777
+      --LspKindInterface xxx links to @lsp.type.interface
+      --NoiceCompletionItemKindInterface xxx links to LspKindInterface
+      --LspKindFunction xxx links to @function
+      --NoiceCompletionItemKindFunction xxx links to LspKindFunction
+      --NoiceCompletionItemKindFolder xxx links to LspKindFolder
+      --LspKindFile    xxx links to Normal
+      --NoiceCompletionItemKindFile xxx links to LspKindFile
+      --NoiceCompletionItemKindField xxx links to LspKindField
+      --NoiceCmdlineIconLua xxx guifg=#65bcff
+      --RenderMarkdownBullet xxx guifg=#ff966c
+      --RenderMarkdownCode xxx guibg=#1e2030
+      --RenderMarkdownDash xxx guifg=#ff966c
+      --RenderMarkdownTableHead xxx guifg=#ff757f
+      --RenderMarkdownTableRow xxx guifg=#ff966c
+      --@markup.raw.markdown_inline xxx guifg=#82aaff guibg=#444a73
+      --RenderMarkdownCodeInline xxx links to @markup.raw.markdown_inline
+      --NoiceCmdlineIconInput xxx guifg=#ffc777
+      --NoiceCompletionItemKindEnum xxx links to LspKindEnum
+      --FlashBackdrop  xxx guifg=#545c7e
+      --GrugFarInputLabel xxx guifg=#65bcff
+      --GrugFarInputPlaceholder xxx guifg=#545c7e
+      --DapStoppedLine xxx guibg=#38343d
+      --MiniIconsYellow xxx guifg=#ffc777
+      --MiniIconsAzure xxx guifg=#0db9d7
+      --MiniIconsGrey  xxx guifg=#c8d3f5
+      --TelescopePromptBorder xxx guifg=#ff966c guibg=#1e2030
+      --TelescopePromptTitle xxx guifg=#ff966c guibg=#1e2030
+      --@lsp.type.formatSpecifier xxx links to @markup.list
+      --GrugFarHelpHeader xxx guifg=#636da6
+      --BlinkCmpKindClass xxx links to LspKindClass
+      --@tag.delimiter.tsx xxx guifg=#6582c3
+      --@lsp.typemod.variable.defaultLibrary xxx links to @variable.builtin
+      --@lsp.typemod.enumMember.defaultLibrary xxx links to @constant.builtin
+      --Bold           xxx cterm=bold gui=bold guifg=#c8d3f5
+      --DashboardKey   xxx guifg=#ff966c
+      --MiniIconsGreen xxx guifg=#c3e88d
+      --MiniIconsBlue  xxx guifg=#82aaff
+      --MiniIconsCyan  xxx guifg=#4fd6be
+      --BlinkCmpKindFile xxx links to LspKindFile
+      --RenderMarkdownH3Fg xxx cterm=bold gui=bold guifg=#c3e88d
+      --DashboardProjectTitle xxx guifg=#86e1fc
+      --BlinkCmpKindConstant xxx links to LspKindConstant
+      --GrugFarHelpHeaderKey xxx guifg=#86e1fc
+      --@markup.heading.6.markdown xxx cterm=bold gui=bold guifg=#fca7ea
+      --SnacksNotifierIconWarn xxx guifg=#ffc777
+      --DashboardShortCut xxx guifg=#86e1fc
+      --BlinkCmpKindTypeParameter xxx links to LspKindTypeParameter
+      --@markup.list.unchecked xxx guifg=#82aaff
+      --SnacksPickerInputBorder xxx guifg=#ff966c guibg=#1e2030
+      --RenderMarkdownH1Bg xxx guibg=#2c314a
+      --SnacksDashboardHeader xxx guifg=#82aaff
+      --RenderMarkdownH1Fg xxx cterm=bold gui=bold guifg=#82aaff
+      --RenderMarkdownH2Bg xxx guibg=#38343d
+      --SnacksDashboardDir xxx guifg=#545c7e
+      --RenderMarkdownH2Fg xxx cterm=bold gui=bold guifg=#ffc777
+      --BlinkCmpKindKey xxx links to LspKindKey
+      --SnacksScratchDesc xxx links to SnacksProfilerBadgeInfo
+      --helpExample    xxx guifg=#636da6
+      --BlinkCmpKindInterface xxx links to LspKindInterface
+      --SnacksPickerToggle xxx links to SnacksProfilerBadgeInfo
+      --BlinkCmpKindFunction xxx links to LspKindFunction
+      --BlinkCmpKindUnit xxx links to LspKindUnit
+      --DashboardDesc  xxx guifg=#86e1fc
+      --BlinkCmpLabel  xxx guifg=#c8d3f5
+      --RenderMarkdownH5Bg xxx guibg=#32304a
+      --SnacksDashboardFooter xxx guifg=#65bcff
+      --@keyword.exception xxx links to Exception
+      --SnacksProfilerBadgeTrace xxx guifg=#545c7e guibg=#24283c
+      --RenderMarkdownH8Bg xxx guibg=#382c3d
+      --GrugFarResultsMatch xxx guifg=#1b1d2b guibg=#ff757f
+      --SnacksNotifierIconDebug xxx guifg=#636da6
+      --@keyword.conditional xxx links to Conditional
+      --@comment.hint  xxx guifg=#4fd6be
+      --@markup.heading.3.markdown xxx cterm=bold gui=bold guifg=#c3e88d
+      --@keyword.import xxx links to Include
+      --@keyword.directive.define xxx links to Define
+      --BlinkCmpKindVariable xxx links to LspKindVariable
+      --SnacksIndent   xxx cterm=nocombine gui=nocombine guifg=#3b4261
+      --NoiceCompletionItemKindText xxx links to LspKindText
+      --NoiceCompletionItemKindStruct xxx links to LspKindStruct
+      --debugPC        xxx guibg=#1e2030
+      --RenderMarkdownH5Fg xxx cterm=bold gui=bold guifg=#c099ff
+      --RenderMarkdownH6Bg xxx guibg=#383148
+      --diffFile       xxx guifg=#82aaff
+      --NoiceCompletionItemKindEvent xxx links to LspKindEvent
+      --RenderMarkdownH6Fg xxx cterm=bold gui=bold guifg=#fca7ea
+      --RenderMarkdownH7Bg xxx guibg=#382f3b
+      --@keyword.storage xxx links to StorageClass
+      --@lsp.type.lifetime xxx links to @keyword.storage
+      --BlinkCmpDoc    xxx guifg=#c8d3f5 guibg=#1e2030
+      --NoiceCompletionItemKindString xxx links to LspKindString
+      --NoiceCompletionItemKindSnippet xxx links to LspKindSnippet
+      --NoiceCompletionItemKindReference xxx links to LspKindReference
+      --RenderMarkdownH7Fg xxx cterm=bold gui=bold guifg=#ff966c
+      --NoiceCompletionItemKindProperty xxx links to LspKindProperty
+      --NoiceCompletionItemKindPackage xxx links to LspKindPackage
+      --NoiceCompletionItemKindArray xxx links to LspKindArray
+      --@punctuation.bracket xxx guifg=#828bb8
+      --RenderMarkdownH8Fg xxx cterm=bold gui=bold guifg=#ff757f
+      --NoiceCompletionItemKindObject xxx links to LspKindObject
+      --NoiceCompletionItemKindNull xxx links to LspKindNull
+      --NoiceCompletionItemKindEnumMember xxx links to LspKindEnumMember
+      --NoiceCmdlinePopupTitleLua xxx guifg=#65bcff
+      --NoiceCmdlinePopupTitleInput xxx guifg=#ffc777
+      --NoiceCompletionItemKindDefault xxx guifg=#828bb8
+      --BufferLineIndicatorSelected xxx guifg=#7ca1f2
+      --WhichKeyGroup  xxx guifg=#82aaff
+      --Italic         xxx cterm=italic gui=italic guifg=#c8d3f5
+      --SnacksNotifierBorderTrace xxx guifg=#79587e guibg=#222436
+      --DashboardProjectTitleIcon xxx guifg=#ff966c
+      --SnacksNotifierBorderInfo xxx guifg=#1a6076 guibg=#222436
+      --NeoTreeTabSeparatorActive xxx guifg=#82aaff guibg=#1e2030
+      --TelescopePreviewSocket xxx links to Statement
+      --TelescopePromptNormal xxx links to TelescopeNormal
+      --TelescopePreviewLink xxx links to Special
+      --TelescopeMultiIcon xxx links to Identifier
+      --TelescopePreviewMatch xxx links to Search
+      --TelescopePreviewLine xxx links to Visual
+      --TelescopePromptPrefix xxx links to Identifier
+      --TelescopeMatching xxx links to Special
+      --TelescopePromptCounter xxx links to NonText
+      --TelescopeTitle xxx links to TelescopeBorder
+      --TelescopePreviewTitle xxx links to TelescopeTitle
+      --TelescopeResultsTitle xxx links to TelescopeTitle
+      --TelescopePreviewBorder xxx links to TelescopeBorder
+      --TelescopeResultsBorder xxx links to TelescopeBorder
+      --TelescopeResultsNormal xxx links to TelescopeNormal
+      --TelescopeMultiSelection xxx links to Type
+      --TelescopeSelection xxx links to Visual
+      --TelescopeSelectionCaret xxx links to TelescopeSelection
+      --TelescopePreviewCharDev xxx links to Constant
+      --TelescopePreviewDirectory xxx links to Directory
+      --TelescopePreviewBlock xxx links to Constant
+      --TelescopeResultsOperator xxx links to Operator
+      --Method         xxx cleared
+      --TelescopeResultsMethod xxx links to Method
+      --TelescopeResultsFunction xxx links to Function
+      --TelescopeResultsField xxx links to Function
+      --TelescopeResultsConstant xxx links to Constant
+      --TelescopeResultsClass xxx links to Function
+      --TelescopePreviewMessage xxx links to TelescopePreviewNormal
+      --TelescopePreviewMessageFillchar xxx links to TelescopePreviewMessage
+      --TelescopePreviewNormal xxx links to TelescopeNormal
+      --TelescopePreviewDate xxx links to Directory
+      --TelescopePreviewGroup xxx links to Constant
+      --TelescopePreviewUser xxx links to Constant
+      --TelescopeResultsDiffUntracked xxx links to NonText
+      --TelescopeResultsDiffDelete xxx links to DiffDelete
+      --TelescopeResultsDiffAdd xxx links to DiffAdd
+      --TelescopeResultsDiffChange xxx links to DiffChange
+      --TelescopeResultsSpecialComment xxx links to SpecialComment
+      --TelescopePreviewRead xxx links to Constant
+      --TelescopeResultsNumber xxx links to Number
+      --TelescopeResultsIdentifier xxx links to Identifier
+      --TelescopeResultsLineNr xxx links to LineNr
+      --TelescopeResultsVariable xxx links to SpecialChar
+      --TelescopePreviewPipe xxx links to Constant
+      --TelescopePreviewWrite xxx links to Statement
+      --TelescopePreviewExecute xxx links to String
+      --TelescopePreviewHyphen xxx links to NonText
+      --TelescopePreviewSticky xxx links to Keyword
+      --TelescopePreviewSize xxx links to String
+      --Struct         xxx cleared
+      --TelescopeResultsStruct xxx links to Struct
+      --GitSignsChangedelete xxx links to GitSignsChange
+      --GitSignsTopdelete xxx links to GitSignsDelete
+      --GitSignsUntracked xxx links to GitSignsAdd
+      --GitSignsAddNr  xxx links to GitSignsAdd
+      --GitGutterAddLineNr xxx cleared
+      --GitSignsChangeNr xxx links to GitSignsChange
+      --GitGutterChangeLineNr xxx cleared
+      --GitSignsDeleteNr xxx links to GitSignsDelete
+      --GitGutterDeleteLineNr xxx cleared
+      --GitSignsChangedeleteNr xxx links to GitSignsChangeNr
+      --GitSignsTopdeleteNr xxx links to GitSignsDeleteNr
+      --GitSignsUntrackedNr xxx links to GitSignsAddNr
+      --GitSignsAddLn  xxx links to DiffAdd
+      --GitGutterAddLine xxx cleared
+      --SignifyLineAdd xxx cleared
+      --GitSignsChangeLn xxx links to DiffChange
+      --GitGutterChangeLine xxx cleared
+      --SignifyLineChange xxx cleared
+      --GitSignsChangedeleteLn xxx links to GitSignsChangeLn
+      --GitSignsTopdeleteLn xxx links to GitSignsDeleteLn
+      --GitSignsDeleteLn xxx cleared
+      --GitSignsUntrackedLn xxx links to GitSignsAddLn
+      --GitSignsAddCul xxx links to GitSignsAdd
+      --GitSignsChangeCul xxx links to GitSignsChange
+      --GitSignsDeleteCul xxx links to GitSignsDelete
+      --GitSignsChangedeleteCul xxx links to GitSignsChangeCul
+      --GitSignsTopdeleteCul xxx links to GitSignsDeleteCul
+      --GitSignsUntrackedCul xxx links to GitSignsAddCul
+      --GitSignsStagedAdd xxx guifg=#5c6d43
+      --GitSignsStagedChange xxx guifg=#3e5079
+      --GitSignsStagedDelete xxx guifg=#71353a
+      --GitSignsStagedChangedelete xxx guifg=#3e5079
+      --GitSignsStagedTopdelete xxx guifg=#71353a
+      --GitSignsStagedUntracked xxx guifg=#5c6d43
+      --GitSignsStagedAddNr xxx guifg=#5c6d43
+      --GitSignsStagedChangeNr xxx guifg=#3e5079
+      --GitSignsStagedDeleteNr xxx guifg=#71353a
+      --GitSignsStagedChangedeleteNr xxx guifg=#3e5079
+      --GitSignsStagedTopdeleteNr xxx guifg=#71353a
+      --GitSignsStagedUntrackedNr xxx guifg=#5c6d43
+      --GitSignsStagedAddLn xxx guibg=#273849
+      --GitSignsStagedChangeLn xxx guibg=#252a3f
+      --GitSignsStagedChangedeleteLn xxx guibg=#252a3f
+      --GitSignsStagedTopdeleteLn xxx cleared
+      --GitSignsStagedUntrackedLn xxx guibg=#273849
+      --GitSignsStagedAddCul xxx guifg=#5c6d43
+      --GitSignsStagedChangeCul xxx guifg=#3e5079
+      --GitSignsStagedDeleteCul xxx guifg=#71353a
+      --GitSignsStagedChangedeleteCul xxx guifg=#3e5079
+      --GitSignsStagedTopdeleteCul xxx guifg=#71353a
+      --GitSignsStagedUntrackedCul xxx guifg=#5c6d43
+      --GitSignsAddPreview xxx links to DiffAdd
+      --GitSignsDeletePreview xxx links to DiffDelete
+      --GitGutterDeleteLine xxx cleared
+      --SignifyLineDelete xxx cleared
+      --GitSignsCurrentLineBlame xxx links to NonText
+      --GitSignsAddInline xxx links to TermCursor
+      --GitSignsDeleteInline xxx links to TermCursor
+      --GitSignsChangeInline xxx links to TermCursor
+      --GitSignsAddLnInline xxx links to GitSignsAddInline
+      --GitSignsChangeLnInline xxx links to GitSignsChangeInline
+      --GitSignsDeleteLnInline xxx links to GitSignsDeleteInline
+      --GitSignsDeleteVirtLn xxx links to DiffDelete
+      --GitSignsDeleteVirtLnInLine xxx links to GitSignsDeleteLnInline
+      --GitSignsVirtLnum xxx links to GitSignsDeleteVirtLn
+      --luaMetaMethod  xxx links to Function
+      --luaParenError  xxx links to Error
+      --luaParen       xxx cleared
+      --luaError       xxx links to Error
+      --luaFunction    xxx links to Function
+      --luaFunctionBlock xxx cleared
+      --luaCondElse    xxx links to Conditional
+      --luaCondEnd     xxx cleared
+      --luaCond        xxx links to Conditional
+      --luaCondElseif  xxx cleared
+      --luaCondStart   xxx cleared
+      --luaStatement   xxx links to Statement
+      --luaBlock       xxx cleared
+      --luaRepeat      xxx links to Repeat
+      --luaRepeatBlock xxx cleared
+      --luaWhile       xxx cleared
+      --luaFor         xxx links to Repeat
+      --luaLabel       xxx links to Label
+      --luaOperator    xxx links to Operator
+      --luaSymbolOperator xxx links to luaOperator
+      --luaTodo        xxx links to Todo
+      --luaComment     xxx links to Comment
+      --luaInnerComment xxx cleared
+      --luaCommentDelimiter xxx links to luaComment
+      --luaConstant    xxx links to Constant
+      --luaSpecial     xxx links to SpecialChar
+      --luaString2     xxx links to String
+      --luaStringDelimiter xxx links to luaString
+      --luaString      xxx links to String
+      --luaNumber      xxx links to Number
+      --luaTable       xxx links to Structure
+      --luaTableBlock  xxx cleared
+      --luaFunc        xxx links to Identifier
+      --@spell         xxx cleared
+      --SnacksStatusColumnMark xxx links to DiagnosticHint
+      --SnacksIndentBlank xxx links to SnacksIndent
+      --SnacksIndentChunk xxx links to SnacksIndentScope
+      --SnacksInputNormal xxx links to Normal
+      --SnacksInputPrompt xxx links to SnacksInputTitle
+      --SnacksPickerIconStruct xxx links to @lsp.type.struct
+      --SnacksPickerIconString xxx links to @string
+      --SnacksPickerIconProperty xxx links to @property
+      --SnacksPickerIconOperator xxx links to @operator
+      --SnacksPickerIconObject xxx links to @constant
+      --SnacksPickerIconNumber xxx links to @number
+      --SnacksPickerIconNull xxx links to @constant.builtin
+      --SnacksPickerLspDisabled xxx links to DiagnosticWarn
+      --SnacksPickerSearch xxx links to Search
+      --SnacksPickerManSection xxx links to Number
+      --SnacksPickerGitStatusStaged xxx links to DiagnosticHint
+      --SnacksPickerPrompt xxx links to Special
+      --SnacksPickerGitStatusIgnored xxx links to NonText
+      --SnacksPickerGitStatusUntracked xxx links to NonText
+      --SnacksPickerGitStatus xxx links to Special
+      --SnacksPickerGitStatusCopied xxx links to SnacksPickerGitStatus
+      --SnacksPickerIconFunction xxx links to @function
+      --SnacksPickerGitDetached xxx links to DiagnosticWarn
+      --SnacksPickerGitStatusRenamed xxx links to SnacksPickerGitStatus
+      --SnacksPickerGitStatusDeleted xxx links to Removed
+      --SnacksPickerGitStatusModified xxx links to DiagnosticWarn
+      --SnacksPickerGitStatusAdded xxx links to Added
+      --SnacksPickerGitScope xxx links to Italic
+      --SnacksPickerItalic xxx links to Italic
+      --SnacksPickerGitType xxx links to Title
+      --SnacksPickerGitIssue xxx links to Number
+      --SnacksPickerGitDate xxx links to Special
+      --SnacksPickerGitBranchCurrent xxx links to Number
+      --SnacksPickerGitBranch xxx links to Title
+      --SnacksPickerDir xxx links to NonText
+      --SnacksPickerGitBreaking xxx links to Error
+      --SnacksPickerGitCommit xxx links to @variable.builtin
+      --SnacksPickerUndoSaved xxx links to Special
+      --SnacksPickerUndoCurrent xxx links to @variable.builtin
+      --SnacksPickerUndoAdded xxx links to Added
+      --SnacksPickerTime xxx links to Special
+      --SnacksPickerKeymapRhs xxx links to NonText
+      --SnacksPickerBufFlags xxx links to NonText
+      --SnacksPickerBufNr xxx links to Number
+      --SnacksPickerKeymapNowait xxx links to @variable.builtin
+      --SnacksPickerKeymapLhs xxx links to Special
+      --SnacksPickerKeymapMode xxx links to Number
+      --SnacksPickerRegister xxx links to Number
+      --SnacksPickerDiagnosticSource xxx links to Comment
+      --SnacksPickerDiagnosticCode xxx links to Special
+      --SnacksPickerAuGroup xxx links to Type
+      --SnacksPickerAuPattern xxx links to String
+      --SnacksPickerCode xxx links to @markup.raw.markdown_inline
+      --SnacksPickerMatch xxx links to Special
+      --SnacksPickerIdx xxx links to Number
+      --SnacksPickerComment xxx links to Comment
+      --SnacksPickerCmdBuiltin xxx links to @constructor
+      --SnacksPickerCmd xxx links to Function
+      --SnacksPickerSpinner xxx links to Special
+      --SnacksPickerDelim xxx links to Delimiter
+      --SnacksPickerIconPackage xxx links to @module
+      --SnacksPickerCol xxx links to LineNr
+      --SnacksPickerDimmed xxx links to Conceal
+      --SnacksPickerRow xxx links to String
+      --SnacksPickerPathHidden xxx links to NonText
+      --SnacksPickerPathIgnored xxx links to NonText
+      --SnacksPickerLinkBroken xxx links to DiagnosticError
+      --SnacksPickerLink xxx links to Comment
+      --SnacksPickerTotals xxx links to NonText
+      --SnacksPickerLspAttached xxx links to DiagnosticWarn
+      --SnacksPickerLspAttachedBuf xxx links to DiagnosticInfo
+      --SnacksPickerLspUnavailable xxx links to DiagnosticError
+      --SnacksPickerManPage xxx links to Special
+      --SnacksPickerIconSource xxx links to @constant
+      --SnacksPickerIconName xxx links to @keyword
+      --SnacksPickerIconCategory xxx links to @module
+      --SnacksPickerIconArray xxx links to @punctuation.bracket
+      --SnacksPickerIconBoolean xxx links to @boolean
+      --SnacksPickerIconClass xxx links to @type
+      --SnacksPickerIconConstant xxx links to @constant
+      --SnacksPickerIconConstructor xxx links to @constructor
+      --SnacksPickerIconEnum xxx links to @lsp.type.enum
+      --SnacksPickerIconEnumMember xxx links to @lsp.type.enumMember
+      --SnacksPickerIconEvent xxx links to Special
+      --SnacksPickerIconField xxx links to @variable.member
+      --SnacksPickerIconFile xxx links to Normal
+      --SnacksPickerIconInterface xxx links to @lsp.type.interface
+      --SnacksPickerIconKey xxx links to @lsp.type.keyword
+      --SnacksPickerFile xxx cleared
+      --SnacksPickerIconMethod xxx links to @function.method
+      --SnacksPickerIconModule xxx links to @module
+      --SnacksPickerIconNamespace xxx links to @module
+      --SnacksPickerIconTypeParameter xxx links to @lsp.type.typeParameter
+      --SnacksPickerIconVariable xxx links to @variable
+      --SnacksPickerAuEvent xxx links to Constant
+      --SnacksPickerTree xxx links to LineNr
+      --SnacksPickerIcon xxx links to Special
+      --SnacksPickerLspEnabled xxx links to Special
+      --SnacksPickerSpecial xxx links to Special
+      --SnacksPickerLabel xxx links to SnacksPickerSpecial
+      --SnacksPickerBold xxx links to Bold
+      --SnacksPickerDirectory xxx links to Directory
+      --SnacksPickerDesc xxx links to Comment
+      --SnacksPickerInputSearch xxx links to @keyword
+      --SnacksPickerUndoRemoved xxx links to Removed
+      --SnacksPickerUnselected xxx links to NonText
+      --SnacksPickerGitStatusUnmerged xxx links to DiagnosticError
+      --SnacksPickerToggleIgnored xxx links to SnacksPickerToggle
+      --SnacksPickerToggleModified xxx links to SnacksPickerToggle
+      --SnacksPickerToggleFollow xxx links to SnacksPickerToggle
+      --SnacksPickerToggleRegex xxx links to SnacksPickerToggle
+      --SnacksPickerToggleHidden xxx links to SnacksPickerToggle
+      --TodoBgPERF     xxx gui=bold guifg=#222436 guibg=#c099ff
+      --TodoFgPERF     xxx guifg=#c099ff
+      --TodoSignPERF   xxx guifg=#c099ff guibg=#222436
+      --TodoBgHACK     xxx gui=bold guifg=#222436 guibg=#ffc777
+      --TodoFgHACK     xxx guifg=#ffc777
+      --TodoSignHACK   xxx guifg=#ffc777 guibg=#222436
+      --TodoBgTEST     xxx gui=bold guifg=#222436 guibg=#c099ff
+      --TodoFgTEST     xxx guifg=#c099ff
+      --TodoSignTEST   xxx guifg=#c099ff guibg=#222436
+      --TodoBgTODO     xxx gui=bold guifg=#222436 guibg=#0db9d7
+      --TodoFgTODO     xxx guifg=#0db9d7
+      --TodoSignTODO   xxx guifg=#0db9d7 guibg=#222436
+      --TodoBgFIX      xxx gui=bold guifg=#c8d3f5 guibg=#c53b53
+      --TodoFgFIX      xxx guifg=#c53b53
+      --TodoSignFIX    xxx guifg=#c53b53 guibg=#222436
+      --TodoBgWARN     xxx gui=bold guifg=#222436 guibg=#ffc777
+      --TodoFgWARN     xxx guifg=#ffc777
+      --TodoSignWARN   xxx guifg=#ffc777 guibg=#222436
+      --TodoBgNOTE     xxx gui=bold guifg=#222436 guibg=#4fd6be
+      --TodoFgNOTE     xxx guifg=#4fd6be
+      --TodoSignNOTE   xxx guifg=#4fd6be guibg=#222436
+      --TroubleIndent  xxx links to LineNr
+      --TroubleIndentLast xxx links to TroubleIndent
+      --TroubleIndentMiddle xxx links to TroubleIndent
+      --TroubleIndentTop xxx links to TroubleIndent
+      --TroubleIndentFoldOpen xxx links to TroubleIndent
+      --TroubleIndentFoldClosed xxx links to CursorLineNr
+      --TroubleIconDirectory xxx links to Special
+      --TroubleNormalNC xxx links to NormalFloat
+      --TroubleIconStruct xxx links to @lsp.type.struct
+      --TroubleIconString xxx links to @string
+      --TroubleIconProperty xxx links to @property
+      --TroubleIconVariable xxx links to @variable
+      --TroubleIconOperator xxx links to @operator
+      --TroubleIconTypeParameter xxx links to @lsp.type.typeParameter
+      --TroubleIconObject xxx links to @constant
+      --TroubleIconNumber xxx links to @number
+      --TroubleIconNull xxx links to @constant.builtin
+      --TroubleIconNamespace xxx links to @module
+      --TroubleIconModule xxx links to @module
+      --TroubleIconMethod xxx links to @function.method
+      --TroubleIconKey xxx links to @lsp.type.keyword
+      --TroubleSource  xxx links to Comment
+      --TroubleIconInterface xxx links to @lsp.type.interface
+      --TroubleIconFunction xxx links to @function
+      --TroubleIconFile xxx links to Normal
+      --TroubleIconField xxx links to @variable.member
+      --TroubleIconEvent xxx links to Special
+      --TroubleIconEnumMember xxx links to @lsp.type.enumMember
+      --TroubleIconEnum xxx links to @lsp.type.enum
+      --TroubleIconConstructor xxx links to @constructor
+      --TroubleIconConstant xxx links to @constant
+      --TroubleIconClass xxx links to @type
+      --TroubleIconBoolean xxx links to @boolean
+      --TroubleIconArray xxx links to @punctuation.bracket
+      --TroublePos     xxx links to LineNr
+      --TroubleFilename xxx links to Directory
+      --TroubleBasename xxx links to TroubleFilename
+      --TroubleDirectory xxx links to Directory
+      --TroubleCode    xxx links to Special
+      --TroubleIconPackage xxx links to @module
+      --TroublePreview xxx links to Visual
+      --TroubleIndentWs xxx links to TroubleIndent
+      --TroubleFsBasename xxx links to TroubleFilename
+      --TroubleFsFilename xxx links to TroubleFilename
+      --TroubleFsCount xxx links to TroubleCount
+      --TroubleFsPos   xxx links to TroublePos
+      --TroubleFsSource xxx links to TroubleSource
+      --ChatGPTQuestion xxx cterm=italic gui=italic guifg=#b4befe
+      --ChatGPTWelcome xxx cterm=italic gui=italic guifg=#9399b2
+      --ChatGPTTotalTokens xxx guifg=#ffffff guibg=#444444
+      --ChatGPTTotalTokensBorder xxx guifg=#444444
+      --ChatGPTMessageAction xxx cterm=italic gui=italic guifg=#ffffff guibg=#1d4c61
+      --ChatGPTCompletion xxx cterm=italic gui=italic guifg=#9399b2
+      --ChatGPTSelectedMessage xxx links to ColorColumn
+      --BufferLineBackground xxx guifg=#636da6 guibg=#191b28
+      --BufferLineFill xxx guifg=#636da6 guibg=#12131d
+      --BufferLineCloseButtonSelected xxx guifg=#c8d3f5 guibg=#222436
+      --BufferLineDiagnostic xxx guifg=#4a517c guibg=#191b28
+      --BufferLineModifiedSelected xxx guifg=#c3e88d guibg=#222436
+      --BufferLineSeparator xxx guifg=#12131d guibg=#191b28
+      --BufferLineError xxx guifg=#636da6 guibg=#191b28 guisp=#c53b53
+      --BufferLineDuplicateVisible xxx cterm=italic gui=italic guifg=#5e679d guibg=#1f2131
+      --BufferLinePick xxx cterm=bold,italic gui=bold,italic guifg=#c53b53 guibg=#191b28
+      --BufferLineBufferVisible xxx guifg=#636da6 guibg=#1f2131
+      --BufferLineTab  xxx guifg=#636da6 guibg=#191b28
+      --BufferLineTabSeparatorSelected xxx guifg=#12131d guibg=#222436
+      --BufferLineTabSeparator xxx guifg=#12131d guibg=#191b28
+      --BufferLineSeparatorVisible xxx guifg=#12131d guibg=#1f2131
+      --BufferLineSeparatorSelected xxx guifg=#12131d guibg=#222436
+      --BufferLineDuplicate xxx cterm=italic gui=italic guifg=#5e679d guibg=#191b28
+      --BufferLineWarning xxx guifg=#636da6 guibg=#191b28 guisp=#ffc777
+      --BufferLineInfo xxx guifg=#636da6 guibg=#191b28 guisp=#0db9d7
+      --BufferLineTruncMarker xxx guifg=#636da6 guibg=#12131d
+      --BufferLineBuffer xxx guifg=#636da6 guibg=#191b28
+      --BufferLineGroupLabel xxx guifg=#12131d guibg=#636da6
+      --BufferLineTabSelected xxx guifg=#82aaff guibg=#222436
+      --BufferLineModified xxx guifg=#c3e88d guibg=#191b28
+      --BufferLineTabClose xxx guifg=#636da6 guibg=#191b28
+      --BufferLineCloseButton xxx guifg=#636da6 guibg=#191b28
+      --BufferLineInfoSelected xxx cterm=bold,italic gui=bold,italic guifg=#0db9d7 guibg=#222436 guisp=#0db9d7
+      --BufferLineInfoVisible xxx guifg=#636da6 guibg=#1f2131
+      --BufferLineOffsetSeparator xxx guifg=#1b1d2b guibg=#12131d
+      --BufferLineHintDiagnosticVisible xxx guifg=#4a517c guibg=#1f2131
+      --BufferLineHintDiagnostic xxx guifg=#4a517c guibg=#191b28 guisp=#3ba08e
+      --BufferLineHintSelected xxx cterm=bold,italic gui=bold,italic guifg=#4fd6be guibg=#222436 guisp=#4fd6be
+      --BufferLineHintVisible xxx guifg=#636da6 guibg=#1f2131
+      --BufferLineDiagnosticSelected xxx cterm=bold,italic gui=bold,italic guifg=#969eb7 guibg=#222436
+      --BufferLineDiagnosticVisible xxx guifg=#4a517c guibg=#1f2131
+      --BufferLineNumbersVisible xxx guifg=#636da6 guibg=#1f2131
+      --BufferLineNumbersSelected xxx cterm=bold,italic gui=bold,italic guifg=#c8d3f5 guibg=#222436
+      --BufferLineNumbers xxx guifg=#636da6 guibg=#191b28
+      --BufferLineBufferSelected xxx cterm=bold,italic gui=bold,italic guifg=#c8d3f5 guibg=#222436
+      --BufferLineDuplicateSelected xxx cterm=italic gui=italic guifg=#5e679d guibg=#222436
+      --BufferLineHint xxx guifg=#636da6 guibg=#191b28 guisp=#4fd6be
+      --BufferLineCloseButtonVisible xxx guifg=#636da6 guibg=#1f2131
+      --BufferLineErrorDiagnosticSelected xxx cterm=bold,italic gui=bold,italic guifg=#932c3e guibg=#222436 guisp=#932c3e
+      --BufferLineErrorDiagnosticVisible xxx guifg=#4a517c guibg=#1f2131
+      --BufferLineErrorDiagnostic xxx guifg=#4a517c guibg=#191b28 guisp=#932c3e
+      --BufferLineErrorSelected xxx cterm=bold,italic gui=bold,italic guifg=#c53b53 guibg=#222436 guisp=#c53b53
+      --BufferLineGroupSeparator xxx guifg=#636da6 guibg=#12131d
+      --BufferLineWarningDiagnosticSelected xxx cterm=bold,italic gui=bold,italic guifg=#bf9559 guibg=#222436 guisp=#bf9559
+      --BufferLineWarningDiagnosticVisible xxx guifg=#4a517c guibg=#1f2131
+      --BufferLineWarningDiagnostic xxx guifg=#4a517c guibg=#191b28 guisp=#bf9559
+      --BufferLineWarningSelected xxx cterm=bold,italic gui=bold,italic guifg=#ffc777 guibg=#222436 guisp=#ffc777
+      --BufferLineWarningVisible xxx guifg=#636da6 guibg=#1f2131
+      --BufferLineInfoDiagnosticSelected xxx cterm=bold,italic gui=bold,italic guifg=#098aa1 guibg=#222436 guisp=#098aa1
+      --BufferLineInfoDiagnosticVisible xxx guifg=#4a517c guibg=#1f2131
+      --BufferLineInfoDiagnostic xxx guifg=#4a517c guibg=#191b28 guisp=#098aa1
+      --BufferLineHintDiagnosticSelected xxx cterm=bold,italic gui=bold,italic guifg=#3ba08e guibg=#222436 guisp=#3ba08e
+      --BufferLineModifiedVisible xxx guifg=#c3e88d guibg=#1f2131
+      --BufferLineErrorVisible xxx guifg=#636da6 guibg=#1f2131
+      --BufferLinePickVisible xxx cterm=bold,italic gui=bold,italic guifg=#c53b53 guibg=#1f2131
+      --BufferLinePickSelected xxx cterm=bold,italic gui=bold,italic guifg=#c53b53 guibg=#222436
+      --BufferLineIndicatorVisible xxx guifg=#1f2131 guibg=#1f2131
+      --TroubleDiagnosticsBasename xxx links to TroubleFilename
+      --TroubleDiagnosticsItemSource xxx links to Comment
+      --TroubleDiagnosticsFilename xxx links to TroubleFilename
+      --TroubleDiagnosticsCode xxx links to Comment
+      --TroubleDiagnosticsCount xxx links to TroubleCount
+      --TroubleDiagnosticsMessage xxx links to TroubleText
+      --TroubleDiagnosticsPos xxx links to TroublePos
+      --TroubleDiagnosticsSource xxx links to TroubleSource
+      --TroubleFzfBasename xxx links to TroubleFilename
+      --TroubleFzfFilename xxx links to TroubleFilename
+      --TroubleFzfCount xxx links to TroubleCount
+      --TroubleFzfPos  xxx links to TroublePos
+      --TroubleFzfSource xxx links to TroubleSource
+      --TroubleLspBasename xxx links to TroubleFilename
+      --TroubleLspFilename xxx links to TroubleFilename
+      --TroubleLspCount xxx links to TroubleCount
+      --TroubleLspPos  xxx links to TroublePos
+      --TroubleLspSource xxx links to TroubleSource
+      --TroubleQfBasename xxx links to TroubleFilename
+      --TroubleQfFilename xxx links to TroubleFilename
+      --TroubleQfCount xxx links to TroubleCount
+      --TroubleQfPos   xxx links to TroublePos
+      --TroubleQfSource xxx links to TroubleSource
+      --TroubleSnacksBasename xxx links to TroubleFilename
+      --TroubleSnacksFilename xxx links to TroubleFilename
+      --TroubleSnacksCount xxx links to TroubleCount
+      --TroubleSnacksPos xxx links to TroublePos
+      --TroubleSnacksSource xxx links to TroubleSource
+      --TroubleTelescopeBasename xxx links to TroubleFilename
+      --TroubleTelescopeFilename xxx links to TroubleFilename
+      --TroubleTelescopeCount xxx links to TroubleCount
+      --TroubleTelescopePos xxx links to TroublePos
+      --TroubleTelescopeSource xxx links to TroubleSource
+      --TroubleTodoBasename xxx links to TroubleFilename
+      --TroubleTodoFilename xxx links to TroubleFilename
+      --TroubleTodoCount xxx links to TroubleCount
+      --TroubleTodoPos xxx links to TroublePos
+      --TroubleTodoSource xxx links to TroubleSource
+      --TroubleProfilerBasename xxx links to TroubleFilename
+      --TroubleProfilerFilename xxx links to TroubleFilename
+      --TroubleProfilerCount xxx links to TroubleCount
+      --TroubleProfilerPos xxx links to TroublePos
+      --TroubleProfilerSource xxx links to TroubleSource
+      --lualine_transparent xxx gui=nocombine guifg=#c8d3f5 guibg=#222436
+      --lualine_a_visual xxx gui=nocombine guifg=#1b1d2b guibg=#c099ff
+      --lualine_b_visual xxx gui=nocombine guifg=#c099ff guibg=#3b4261
+      --lualine_a_terminal xxx gui=nocombine guifg=#1b1d2b guibg=#4fd6be
+      --lualine_b_terminal xxx gui=nocombine guifg=#4fd6be guibg=#3b4261
+      --lualine_a_insert xxx gui=nocombine guifg=#1b1d2b guibg=#c3e88d
+      --lualine_b_insert xxx gui=nocombine guifg=#c3e88d guibg=#3b4261
+      --lualine_a_command xxx gui=nocombine guifg=#1b1d2b guibg=#ffc777
+      --lualine_b_command xxx gui=nocombine guifg=#ffc777 guibg=#3b4261
+      --lualine_b_inactive xxx gui=bold,nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_c_inactive xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_a_inactive xxx gui=nocombine guifg=#82aaff guibg=#1e2030
+      --lualine_b_normal xxx gui=nocombine guifg=#82aaff guibg=#3b4261
+      --lualine_c_normal xxx gui=nocombine guifg=#828bb8 guibg=#1e2030
+      --lualine_a_normal xxx gui=nocombine guifg=#1b1d2b guibg=#82aaff
+      --lualine_a_replace xxx gui=nocombine guifg=#1b1d2b guibg=#ff757f
+      --lualine_b_replace xxx gui=nocombine guifg=#ff757f guibg=#3b4261
+      --lualine_x_2    xxx links to DiagnosticError
+      --lualine_x_3_normal xxx gui=nocombine guifg=#c099ff guibg=#1e2030
+      --lualine_x_3_insert xxx gui=nocombine guifg=#c099ff guibg=#1e2030
+      --lualine_x_3_visual xxx gui=nocombine guifg=#c099ff guibg=#1e2030
+      --lualine_x_3_replace xxx gui=nocombine guifg=#c099ff guibg=#1e2030
+      --lualine_x_3_command xxx gui=nocombine guifg=#c099ff guibg=#1e2030
+      --lualine_x_3_terminal xxx gui=nocombine guifg=#c099ff guibg=#1e2030
+      --lualine_x_3_inactive xxx gui=nocombine guifg=#c099ff guibg=#1e2030
+      --lualine_x_4_normal xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_4_insert xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_4_visual xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_4_replace xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_4_command xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_4_terminal xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_4_inactive xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_5_normal xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_5_insert xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_5_visual xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_5_replace xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_5_command xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_5_terminal xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_5_inactive xxx gui=nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_x_6_normal xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_x_6_insert xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_x_6_visual xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_x_6_replace xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_x_6_command xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_x_6_terminal xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_x_6_inactive xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_x_diff_added_normal xxx gui=nocombine guifg=#b8db87 guibg=#1e2030
+      --lualine_x_diff_added_insert xxx gui=nocombine guifg=#b8db87 guibg=#1e2030
+      --lualine_x_diff_added_visual xxx gui=nocombine guifg=#b8db87 guibg=#1e2030
+      --lualine_x_diff_added_replace xxx gui=nocombine guifg=#b8db87 guibg=#1e2030
+      --lualine_x_diff_added_command xxx gui=nocombine guifg=#b8db87 guibg=#1e2030
+      --lualine_x_diff_added_terminal xxx gui=nocombine guifg=#b8db87 guibg=#1e2030
+      --lualine_x_diff_added_inactive xxx gui=nocombine guifg=#b8db87 guibg=#1e2030
+      --lualine_x_diff_modified_normal xxx gui=nocombine guifg=#7ca1f2 guibg=#1e2030
+      --lualine_x_diff_modified_insert xxx gui=nocombine guifg=#7ca1f2 guibg=#1e2030
+      --lualine_x_diff_modified_visual xxx gui=nocombine guifg=#7ca1f2 guibg=#1e2030
+      --lualine_x_diff_modified_replace xxx gui=nocombine guifg=#7ca1f2 guibg=#1e2030
+      --lualine_x_diff_modified_command xxx gui=nocombine guifg=#7ca1f2 guibg=#1e2030
+      --lualine_x_diff_modified_terminal xxx gui=nocombine guifg=#7ca1f2 guibg=#1e2030
+      --lualine_x_diff_modified_inactive xxx gui=nocombine guifg=#7ca1f2 guibg=#1e2030
+      --lualine_x_diff_removed_normal xxx gui=nocombine guifg=#e26a75 guibg=#1e2030
+      --lualine_x_diff_removed_insert xxx gui=nocombine guifg=#e26a75 guibg=#1e2030
+      --lualine_x_diff_removed_visual xxx gui=nocombine guifg=#e26a75 guibg=#1e2030
+      --lualine_x_diff_removed_replace xxx gui=nocombine guifg=#e26a75 guibg=#1e2030
+      --lualine_x_diff_removed_command xxx gui=nocombine guifg=#e26a75 guibg=#1e2030
+      --lualine_x_diff_removed_terminal xxx gui=nocombine guifg=#e26a75 guibg=#1e2030
+      --lualine_x_diff_removed_inactive xxx gui=nocombine guifg=#e26a75 guibg=#1e2030
+      --lualine_c_11_normal xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_c_11_insert xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_c_11_visual xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_c_11_replace xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_c_11_command xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_c_11_terminal xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_c_11_inactive xxx gui=nocombine guifg=#65bcff guibg=#1e2030
+      --lualine_c_diagnostics_error_normal xxx gui=nocombine guifg=#c53b53 guibg=#1e2030
+      --lualine_c_diagnostics_error_insert xxx gui=nocombine guifg=#c53b53 guibg=#1e2030
+      --lualine_c_diagnostics_error_visual xxx gui=nocombine guifg=#c53b53 guibg=#1e2030
+      --lualine_c_diagnostics_error_replace xxx gui=nocombine guifg=#c53b53 guibg=#1e2030
+      --lualine_c_diagnostics_error_command xxx gui=nocombine guifg=#c53b53 guibg=#1e2030
+      --lualine_c_diagnostics_error_terminal xxx gui=nocombine guifg=#c53b53 guibg=#1e2030
+      --lualine_c_diagnostics_error_inactive xxx gui=nocombine guifg=#c53b53 guibg=#1e2030
+      --lualine_c_diagnostics_warn_normal xxx gui=nocombine guifg=#ffc777 guibg=#1e2030
+      --lualine_c_diagnostics_warn_insert xxx gui=nocombine guifg=#ffc777 guibg=#1e2030
+      --lualine_c_diagnostics_warn_visual xxx gui=nocombine guifg=#ffc777 guibg=#1e2030
+      --lualine_c_diagnostics_warn_replace xxx gui=nocombine guifg=#ffc777 guibg=#1e2030
+      --lualine_c_diagnostics_warn_command xxx gui=nocombine guifg=#ffc777 guibg=#1e2030
+      --lualine_c_diagnostics_warn_terminal xxx gui=nocombine guifg=#ffc777 guibg=#1e2030
+      --lualine_c_diagnostics_warn_inactive xxx gui=nocombine guifg=#ffc777 guibg=#1e2030
+      --lualine_c_diagnostics_info_normal xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_diagnostics_info_insert xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_diagnostics_info_visual xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_diagnostics_info_replace xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_diagnostics_info_command xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_diagnostics_info_terminal xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_diagnostics_info_inactive xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_diagnostics_hint_normal xxx gui=nocombine guifg=#4fd6be guibg=#1e2030
+      --lualine_c_diagnostics_hint_insert xxx gui=nocombine guifg=#4fd6be guibg=#1e2030
+      --lualine_c_diagnostics_hint_visual xxx gui=nocombine guifg=#4fd6be guibg=#1e2030
+      --lualine_c_diagnostics_hint_replace xxx gui=nocombine guifg=#4fd6be guibg=#1e2030
+      --lualine_c_diagnostics_hint_command xxx gui=nocombine guifg=#4fd6be guibg=#1e2030
+      --lualine_c_diagnostics_hint_terminal xxx gui=nocombine guifg=#4fd6be guibg=#1e2030
+      --lualine_c_diagnostics_hint_inactive xxx gui=nocombine guifg=#4fd6be guibg=#1e2030
+      --NoiceLspProgressClient xxx links to Title
+      --NoiceLspProgressTitle xxx links to NonText
+      --NoiceLspProgressSpinner xxx links to Constant
+      --NoiceFormatLevelError xxx links to DiagnosticVirtualTextError
+      --NoiceFormatLevelWarn xxx links to DiagnosticVirtualTextWarn
+      --NoiceFormatLevelInfo xxx links to DiagnosticVirtualTextInfo
+      --NoiceFormatLevelOff xxx links to NonText
+      --NoiceFormatLevelTrace xxx links to NonText
+      --NoiceFormatLevelDebug xxx links to NonText
+      --NoiceFormatTitle xxx links to Title
+      --NoiceFormatConfirmDefault xxx links to Visual
+      --NoiceFormatConfirm xxx links to CursorLine
+      --NoiceFormatDate xxx links to Special
+      --NoiceFormatKind xxx links to NonText
+      --NoiceCmdline   xxx links to MsgArea
+      --NoiceFormatProgressTodo xxx links to CursorLine
+      --NoiceFormatProgressDone xxx guifg=#c8d3f5 guibg=#3e68d7
+      --NoiceVirtualText xxx links to DiagnosticVirtualTextInfo
+      --NoiceSplitBorder xxx links to FloatBorder
+      --NoiceSplit     xxx links to NormalFloat
+      --NoiceScrollbarThumb xxx links to PmenuThumb
+      --NoicePopupmenuBorder xxx links to FloatBorder
+      --NoicePopupmenu xxx links to Pmenu
+      --NoicePopupBorder xxx links to FloatBorder
+      --NoicePopup     xxx links to NormalFloat
+      --NoiceMini      xxx links to MsgArea
+      --NoiceConfirmBorder xxx links to DiagnosticSignInfo
+      --NoiceConfirm   xxx links to Normal
+      --NoiceCmdlinePopupBorderSearch xxx links to DiagnosticSignWarn
+      --NoiceCmdlinePopup xxx links to Normal
+      --NoiceCmdlinePrompt xxx links to Title
+      --NoiceCmdlineIconSearch xxx links to DiagnosticSignWarn
+      --NoiceCursor    xxx links to Cursor
+      --NoiceFormatEvent xxx links to NonText
+      --NoiceCmdlineIcon xxx links to DiagnosticSignInfo
+      --NoiceCmdlineIconCmdline xxx links to NoiceCmdlineIcon
+      --NoiceCmdlinePopupBorder xxx links to DiagnosticSignInfo
+      --NoiceCmdlinePopupBorderCmdline xxx links to NoiceCmdlinePopupBorder
+      --NoiceCmdlinePopupTitleCmdline xxx links to NoiceCmdlinePopupBorderCmdline
+      --NoiceCmdlineIconCalculator xxx links to NoiceCmdlineIcon
+      --NoiceCmdlinePopupBorderCalculator xxx links to NoiceCmdlinePopupBorder
+      --NoiceCmdlinePopupTitleCalculator xxx links to NoiceCmdlinePopupBorderCalculator
+      --NoiceCmdlinePopupTitle xxx links to DiagnosticSignInfo
+      --NoiceCmdlinePopupTitleSearch xxx links to NoiceCmdlinePopupBorderSearch
+      --NoiceCmdlinePopupBorderFilter xxx links to NoiceCmdlinePopupBorder
+      --NoiceCmdlinePopupTitleFilter xxx links to NoiceCmdlinePopupBorderFilter
+      --NoiceCmdlineIconFilter xxx links to NoiceCmdlineIcon
+      --NoiceCmdlinePopupBorderHelp xxx links to NoiceCmdlinePopupBorder
+      --NoiceCmdlinePopupTitleHelp xxx links to NoiceCmdlinePopupBorderHelp
+      --NoiceCmdlineIconHelp xxx links to NoiceCmdlineIcon
+      --NoicePopupmenuMatch xxx links to Special
+      --NoicePopupmenuSelected xxx links to PmenuSel
+      --NoiceScrollbar xxx links to PmenuSbar
+      --NoiceHiddenCursor xxx cterm=nocombine gui=nocombine blend=100
+      --WhichKeyIcon   xxx links to @markup.link
+      --WhichKeyBorder xxx links to FloatBorder
+      --WhichKeyIconOrange xxx links to MiniIconsOrange
+      --WhichKeyIconGrey xxx links to MiniIconsGrey
+      --WhichKeyIconPurple xxx links to MiniIconsPurple
+      --WhichKeyIconBlue xxx links to MiniIconsBlue
+      --WhichKeyIconAzure xxx links to MiniIconsAzure
+      --WhichKeyIconRed xxx links to MiniIconsRed
+      --WhichKeyIconYellow xxx links to MiniIconsYellow
+      --WhichKeyIconGreen xxx links to MiniIconsGreen
+      --WhichKeyTitle  xxx links to FloatTitle
+      --WhichKeyIconCyan xxx links to MiniIconsCyan
+      --MiniIcons      xxx cleared
+      --lualine_c_filetype_MiniIconsAzure_normal xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsAzure_insert xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsAzure_visual xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsAzure_replace xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsAzure_command xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsAzure_terminal xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsAzure_inactive xxx gui=nocombine guifg=#0db9d7 guibg=#1e2030
+      --lualine_c_14_LV_Bold_normal xxx gui=bold,nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_14_LV_Bold_insert xxx gui=bold,nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_14_LV_Bold_visual xxx gui=bold,nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_14_LV_Bold_replace xxx gui=bold,nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_14_LV_Bold_command xxx gui=bold,nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_14_LV_Bold_terminal xxx gui=bold,nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_14_LV_Bold_inactive xxx gui=bold,nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_transitional_lualine_a_normal_to_lualine_b_normal xxx gui=nocombine guifg=#82aaff guibg=#3b4261
+      --lualine_transitional_lualine_b_normal_to_lualine_c_filetype_MiniIconsAzure_normal xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_transitional_lualine_b_normal_to_lualine_c_normal xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --BlinkCmpLabelDetail xxx links to PmenuExtra
+      --BlinkCmpLabelDescription xxx links to PmenuExtra
+      --BlinkCmpSource xxx links to PmenuExtra
+      --BlinkCmpKind   xxx links to PmenuKind
+      --BlinkCmpScrollBarThumb xxx links to PmenuThumb
+      --BlinkCmpScrollBarGutter xxx links to PmenuSbar
+      --BlinkCmpMenuSelection xxx links to PmenuSel
+      --BlinkCmpDocSeparator xxx links to NormalFloat
+      --BlinkCmpDocCursorLine xxx links to Visual
+      --BlinkCmpSignatureHelpActiveParameter xxx links to LspSignatureActiveParameter
+      --lualine_transitional_lualine_b_normal_to_lualine_x_3_normal xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --TroubleStatusline0 xxx guifg=#82aaff guibg=#1e2030
+      --TroubleStatusline1 xxx guifg=#c8d3f5 guibg=#1e2030
+      --lualine_transitional_lualine_a_command_to_lualine_b_command xxx gui=nocombine guifg=#ffc777 guibg=#3b4261
+      --lualine_transitional_lualine_b_command_to_lualine_c_filetype_MiniIconsAzure_command xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_transitional_lualine_b_command_to_lualine_x_3_command xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --LazyReasonRequire xxx links to @variable.parameter
+      --LazyReasonImport xxx links to Identifier
+      --LazyDir        xxx links to @markup.link
+      --LazyUrl        xxx links to @markup.link
+      --LazyReasonPlugin xxx links to Special
+      --LazyComment    xxx links to Comment
+      --@macro         xxx cleared
+      --LazyReasonRuntime xxx links to @macro
+      --LazyLocal      xxx links to Constant
+      --LazyNoCond     xxx links to DiagnosticWarn
+      --LazyProp       xxx links to Conceal
+      --LazyDimmed     xxx links to Conceal
+      --LazyCommitScope xxx links to Italic
+      --LazyCommitType xxx links to Title
+      --LazyWarning    xxx links to DiagnosticWarn
+      --LazyButtonActive xxx links to Visual
+      --LazyCommit     xxx links to @variable.builtin
+      --LazyH2         xxx links to Bold
+      --LazyH1         xxx links to IncSearch
+      --LazyReasonCmd  xxx links to Operator
+      --LazyReasonFt   xxx links to Character
+      --LazyReasonSource xxx links to Character
+      --LazyReasonStart xxx links to @variable.member
+      --LazyReasonKeys xxx links to Statement
+      --LazyReasonEvent xxx links to Constant
+      --LazyError      xxx links to DiagnosticError
+      --LazyValue      xxx links to @string
+      --LazyInfo       xxx links to DiagnosticInfo
+      --LazyItalic     xxx cterm=italic gui=italic
+      --LazySpecial    xxx links to @punctuation.special
+      --LazyBold       xxx cterm=bold gui=bold
+      --LazyNormal     xxx links to NormalFloat
+      --LazyCommitIssue xxx links to Number
+      --LazyTaskOutput xxx links to MsgArea
+      --LazyButton     xxx links to CursorLine
+      --LazyBackdrop   xxx guibg=#000000
+      --lualine_transitional_lualine_a_visual_to_lualine_b_visual xxx gui=nocombine guifg=#c099ff guibg=#3b4261
+      --lualine_transitional_lualine_b_visual_to_lualine_c_filetype_MiniIconsAzure_visual xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_transitional_lualine_b_visual_to_lualine_x_3_visual xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --@symbol        xxx cleared
+      --RenderMarkdownIndent xxx links to Whitespace
+      --RenderMarkdownTodo xxx links to @markup.raw
+      --RenderMarkdownChecked xxx links to @markup.list.checked
+      --RenderMarkdownH6 xxx links to @markup.heading.6.markdown
+      --RenderMarkdownH5 xxx links to @markup.heading.5.markdown
+      --RenderMarkdownH4 xxx links to @markup.heading.4.markdown
+      --RenderMarkdownH3 xxx links to @markup.heading.3.markdown
+      --RenderMarkdownError xxx links to DiagnosticError
+      --RenderMarkdownHint xxx links to DiagnosticHint
+      --RenderMarkdownTableFill xxx links to Conceal
+      --RenderMarkdownWarn xxx links to DiagnosticWarn
+      --RenderMarkdownInfo xxx links to DiagnosticInfo
+      --RenderMarkdownSign xxx links to SignColumn
+      --RenderMarkdownUnchecked xxx links to @markup.list.unchecked
+      --RenderMarkdownCodeInfo xxx links to @label
+      --RenderMarkdownLink xxx links to @markup.link.label.markdown_inline
+      --RenderMarkdownWikiLink xxx links to RenderMarkdownLink
+      --RenderMarkdownMath xxx links to @markup.math
+      --RenderMarkdownQuote xxx links to @markup.quote
+      --RenderMarkdownQuote3 xxx links to RenderMarkdownQuote
+      --RenderMarkdownQuote1 xxx links to RenderMarkdownQuote
+      --RenderMarkdownHtmlComment xxx links to @comment
+      --RenderMarkdownInlineHighlight xxx links to RenderMarkdownCodeInline
+      --RenderMarkdownQuote6 xxx links to RenderMarkdownQuote
+      --RenderMarkdownQuote5 xxx links to RenderMarkdownQuote
+      --RenderMarkdownQuote4 xxx links to RenderMarkdownQuote
+      --RenderMarkdownCodeBorder xxx links to RenderMarkdownCode
+      --RenderMarkdownCodeFallback xxx links to Normal
+      --RenderMarkdownQuote2 xxx links to RenderMarkdownQuote
+      --RenderMarkdownSuccess xxx links to DiagnosticOk
+      --RenderMarkdownH1 xxx links to @markup.heading.1.markdown
+      --RenderMarkdownH2 xxx links to @markup.heading.2.markdown
+      --xmlError       xxx links to Error
+      --xmlEntity      xxx links to Statement
+      --xmlString      xxx links to String
+      --xmlAttribPunct xxx links to Comment
+      --xmlEqual       xxx cleared
+      --xmlAttrib      xxx links to Type
+      --xmlNamespace   xxx links to Tag
+      --xmlTagName     xxx links to Function
+      --xmlTag         xxx links to Function
+      --xmlEndTag      xxx links to Identifier
+      --xmlCdata       xxx links to String
+      --xmlRegion      xxx cleared
+      --xmlComment     xxx links to Comment
+      --xmlProcessing  xxx links to Type
+      --xmlEntityPunct xxx links to Type
+      --xmlCommentStart xxx links to xmlComment
+      --xmlCommentError xxx links to Error
+      --xmlCommentPart xxx links to Comment
+      --xmlTodo        xxx links to Todo
+      --xmlCdataStart  xxx links to Type
+      --xmlCdataEnd    xxx links to Type
+      --xmlCdataCdata  xxx links to Statement
+      --xmlProcessingDelim xxx links to Comment
+      --xmlDocTypeKeyword xxx links to Statement
+      --xmlInlineDTD   xxx links to Function
+      --xmlDocTypeDecl xxx links to Function
+      --xmlDocType     xxx cleared
+      --dtdFunction    xxx links to Function
+      --dtdTag         xxx links to Normal
+      --dtdTagName     xxx links to Statement
+      --dtdError       xxx links to Error
+      --dtdComment     xxx links to Comment
+      --dtdString      xxx links to dtdConstant
+      --dtdAttrType    xxx links to dtdType
+      --dtdAttrDef     xxx links to dtdType
+      --dtdEnum        xxx links to dtdConstant
+      --dtdParamEntityInst xxx links to dtdConstant
+      --dtdParamEntityDecl xxx links to dtdType
+      --dtdCard        xxx links to dtdFunction
+      --dtdTodo        xxx links to Todo
+      --dtdParamEntityPunct xxx links to dtdType
+      --dtdParamEntityDPunct xxx links to dtdComment
+      --dtdEntityPunct xxx links to dtdType
+      --dtdEntity      xxx links to Statement
+      --dtdType        xxx links to Type
+      --dtdConstant    xxx links to Constant
+      --xmlSyncComment xxx cleared
+      --htmlError      xxx links to Error
+      --htmlSpecialChar xxx links to Special
+      --javaScriptExpression xxx links to javaScript
+      --htmlString     xxx links to String
+      --htmlValue      xxx links to String
+      --htmlTagN       xxx cleared
+      --htmlTagError   xxx links to htmlError
+      --htmlEndTag     xxx links to Identifier
+      --htmlArg        xxx links to Type
+      --htmlEvent      xxx links to javaScript
+      --htmlCssDefinition xxx links to Special
+      --htmlTag        xxx links to Function
+      --htmlTagName    xxx links to htmlStatement
+      --htmlSpecialTagName xxx links to Exception
+      --htmlMathTagName xxx links to htmlTagName
+      --htmlSvgTagName xxx links to htmlTagName
+      --htmlMath       xxx cleared
+      --htmlSvg        xxx cleared
+      --htmlCommentError xxx links to htmlError
+      --htmlComment    xxx links to Comment
+      --htmlCommentNested xxx links to htmlError
+      --htmlPreStmt    xxx links to PreProc
+      --htmlPreError   xxx links to Error
+      --htmlPreAttr    xxx links to String
+      --htmlPreProc    xxx links to PreProc
+      --htmlPreProcAttrError xxx links to Error
+      --htmlPreProcAttrName xxx links to PreProc
+      --htmlLink       xxx links to Underlined
+      --javaScript     xxx links to Special
+      --htmlStrike     xxx cterm=strikethrough gui=strikethrough
+      --htmlBoldUnderline xxx cterm=bold,underline gui=bold,underline
+      --htmlBoldItalic xxx cterm=bold,italic gui=bold,italic
+      --htmlBold       xxx cterm=bold gui=bold
+      --htmlBoldUnderlineItalic xxx cterm=bold,underline,italic gui=bold,underline,italic
+      --htmlBoldItalicUnderline xxx links to htmlBoldUnderlineItalic
+      --htmlUnderlineBold xxx links to htmlBoldUnderline
+      --htmlUnderlineItalic xxx cterm=underline,italic gui=underline,italic
+      --htmlUnderline  xxx cterm=underline gui=underline
+      --htmlUnderlineBoldItalic xxx links to htmlBoldUnderlineItalic
+      --htmlUnderlineItalicBold xxx links to htmlBoldUnderlineItalic
+      --htmlItalicBold xxx links to htmlBoldItalic
+      --htmlItalicUnderline xxx links to htmlUnderlineItalic
+      --htmlItalic     xxx cterm=italic gui=italic
+      --htmlItalicBoldUnderline xxx links to htmlBoldUnderlineItalic
+      --htmlItalicUnderlineBold xxx links to htmlBoldUnderlineItalic
+      --htmlLeadingSpace xxx links to None
+      --htmlH3         xxx links to htmlH2
+      --htmlH4         xxx links to htmlH3
+      --htmlH5         xxx links to htmlH4
+      --htmlH6         xxx links to htmlH5
+      --htmlTitle      xxx links to Title
+      --cssStyle       xxx cleared
+      --htmlHead       xxx links to PreProc
+      --javaScriptCommentTodo xxx links to Todo
+      --javaScriptLineComment xxx links to Comment
+      --javaScriptCommentSkip xxx cleared
+      --javaScriptComment xxx links to Comment
+      --javaScriptSpecial xxx links to Special
+      --javaScriptStringD xxx links to String
+      --javaScriptStringS xxx links to String
+      --javaScriptEmbed xxx links to Special
+      --javaScriptStringT xxx links to String
+      --javaScriptSpecialCharacter xxx links to javaScriptSpecial
+      --javaScriptNumber xxx links to Number
+      --javaScriptRegexpString xxx links to String
+      --javaScriptConditional xxx links to Conditional
+      --javaScriptRepeat xxx links to Repeat
+      --javaScriptBranch xxx links to Conditional
+      --javaScriptOperator xxx links to Operator
+      --javaScriptType xxx links to Type
+      --javaScriptStatement xxx links to Statement
+      --javaScriptBoolean xxx links to Boolean
+      --javaScriptNull xxx links to Keyword
+      --javaScriptIdentifier xxx links to Identifier
+      --javaScriptLabel xxx links to Label
+      --javaScriptException xxx links to Exception
+      --javaScriptMessage xxx links to Keyword
+      --javaScriptGlobal xxx links to Keyword
+      --javaScriptMember xxx links to Keyword
+      --javaScriptDeprecated xxx links to Exception
+      --javaScriptReserved xxx links to Keyword
+      --javaScriptModifier xxx links to StorageClass
+      --javaScriptFunction xxx links to Keyword
+      --javaScriptBraces xxx links to Function
+      --javaScriptParens xxx cleared
+      --javaScriptCharacter xxx links to Character
+      --javaScriptError xxx links to Error
+      --javaScrParenError xxx links to javaScriptError
+      --javaScriptDebug xxx links to Debug
+      --javaScriptConstant xxx links to Label
+      --htmlCssStyleComment xxx links to Comment
+      --htmlScriptTag  xxx links to htmlTag
+      --htmlEventSQ    xxx links to htmlEvent
+      --htmlEventDQ    xxx links to htmlEvent
+      --vbConditional  xxx links to Conditional
+      --vbOperator     xxx links to Operator
+      --vbBoolean      xxx links to Boolean
+      --vbConst        xxx links to Constant
+      --vbRepeat       xxx links to Repeat
+      --vbEvents       xxx links to Special
+      --vbFunction     xxx links to Identifier
+      --vbMethods      xxx links to PreProc
+      --vbStatement    xxx links to Statement
+      --vbKeyword      xxx links to Statement
+      --vbTodo         xxx links to Todo
+      --vbTypes        xxx links to Type
+      --vbDefine       xxx links to Constant
+      --vbNumber       xxx links to Number
+      --vbFloat        xxx links to Float
+      --vbString       xxx links to String
+      --vbComment      xxx links to Comment
+      --vbLineLabel    xxx links to Comment
+      --vbLineNumber   xxx links to Comment
+      --vbTypeSpecifier xxx links to Type
+      --vbPreProc      xxx links to PreProc
+      --vbError        xxx links to Error
+      --vbIdentifier   xxx links to Identifier
+      --cssTagName     xxx links to Statement
+      --cssSelectorOp  xxx links to Special
+      --cssSelectorOp2 xxx links to Special
+      --cssUnicodeEscape xxx links to Special
+      --cssStringQ     xxx links to String
+      --cssStringQQ    xxx links to String
+      --cssAttributeSelector xxx links to String
+      --cssClassNameDot xxx links to Function
+      --cssClassName   xxx links to Function
+      --cssIdentifier  xxx links to Function
+      --cssUnitDecorators xxx links to Number
+      --cssValueInteger xxx links to Number
+      --cssValueNumber xxx links to Number
+      --cssValueLength xxx links to Number
+      --cssValueAngle  xxx links to Number
+      --cssValueTime   xxx links to Number
+      --cssValueFrequency xxx links to Number
+      --cssColor       xxx links to Constant
+      --cssImportant   xxx links to Special
+      --cssCustomProp  xxx links to Special
+      --cssFunctionName xxx links to Function
+      --cssURL         xxx links to String
+      --cssMathParens  xxx cleared
+      --cssFunction    xxx links to Constant
+      --cssMathGroup   xxx cleared
+      --cssFunctionComma xxx links to Function
+      --cssGradientAttr xxx links to cssAttr
+      --cssCommonAttr  xxx links to cssAttr
+      --cssAnimationProp xxx links to cssProp
+      --cssAnimationAttr xxx links to cssAttr
+      --cssBackgroundProp xxx links to cssProp
+      --cssBackgroundAttr xxx links to cssAttr
+      --cssBorderProp  xxx links to cssProp
+      --cssBorderAttr  xxx links to cssAttr
+      --cssBoxProp     xxx links to cssProp
+      --cssBoxAttr     xxx links to cssAttr
+      --cssCascadeProp xxx links to cssProp
+      --cssCascadeAttr xxx links to cssAttr
+      --cssColorProp   xxx links to cssProp
+      --cssDimensionProp xxx links to cssProp
+      --cssFlexibleBoxProp xxx links to cssProp
+      --cssFlexibleBoxAttr xxx links to cssAttr
+      --cssFontProp    xxx links to cssProp
+      --cssFontAttr    xxx links to cssAttr
+      --cssMultiColumnProp xxx links to cssProp
+      --cssMultiColumnAttr xxx links to cssAttr
+      --cssInteractProp xxx links to cssProp
+      --cssInteractAttr xxx links to cssAttr
+      --cssGeneratedContentProp xxx links to cssProp
+      --cssGeneratedContentAttr xxx links to cssAttr
+      --cssGridProp    xxx links to cssProp
+      --cssHyerlinkProp xxx links to cssProp
+      --cssListProp    xxx links to cssProp
+      --cssListAttr    xxx links to cssAttr
+      --cssObjectProp  xxx links to cssProp
+      --cssObjectAttr  xxx links to cssAttr
+      --cssPositioningProp xxx links to cssProp
+      --cssPositioningAttr xxx links to cssAttr
+      --cssPrintAttr   xxx links to cssAttr
+      --cssTableProp   xxx links to cssProp
+      --cssTableAttr   xxx links to cssAttr
+      --cssTextProp    xxx links to cssProp
+      --cssTextAttr    xxx links to cssAttr
+      --cssTransformProp xxx links to cssProp
+      --cssTransitionProp xxx links to cssProp
+      --cssTransitionAttr xxx links to cssAttr
+      --cssUIProp      xxx links to cssProp
+      --cssUIAttr      xxx links to cssAttr
+      --cssIEUIAttr    xxx links to cssAttr
+      --cssIEUIProp    xxx links to cssProp
+      --cssAuralProp   xxx links to cssProp
+      --cssAuralAttr   xxx links to cssAttr
+      --cssMobileTextProp xxx links to cssProp
+      --cssMediaProp   xxx links to cssProp
+      --cssMediaAttr   xxx links to cssAttr
+      --cssDefinition  xxx cleared
+      --cssKeyFrameProp xxx links to Constant
+      --cssPageMarginProp xxx links to cssAtKeyword
+      --cssPageProp    xxx links to cssProp
+      --cssFontDescriptorProp xxx links to cssProp
+      --cssFontDescriptorAttr xxx links to cssAttr
+      --cssBraces      xxx links to Function
+      --cssError       xxx links to Error
+      --cssAtRule      xxx links to Include
+      --cssAttrRegion  xxx cleared
+      --cssComment     xxx links to Comment
+      --cssVendor      xxx links to Comment
+      --cssHacks       xxx links to Comment
+      --cssNoise       xxx links to Noise
+      --cssBraceError  xxx links to Error
+      --cssAttrComma   xxx links to Special
+      --cssPseudoClassId xxx links to PreProc
+      --cssPseudoClassFn xxx cleared
+      --cssPseudoClass xxx cleared
+      --cssSpecialCharQQ xxx cleared
+      --cssSpecialCharQ xxx cleared
+      --cssAtKeyword   xxx links to PreProc
+      --cssAtRuleLogical xxx links to Statement
+      --cssMediaType   xxx links to Special
+      --cssPagePseudo  xxx links to PreProc
+      --cssDeprecated  xxx links to Error
+      --cssProp        xxx links to StorageClass
+      --cssContentForPagedMediaProp xxx links to cssProp
+      --cssLineboxProp xxx links to cssProp
+      --cssMarqueeProp xxx links to cssProp
+      --cssPagedMediaProp xxx links to cssProp
+      --cssPrintProp   xxx links to cssProp
+      --cssRubyProp    xxx links to cssProp
+      --cssSpeechProp  xxx links to cssProp
+      --cssRenderProp  xxx links to cssProp
+      --cssAttr        xxx links to Constant
+      --cssContentForPagedMediaAttr xxx links to cssAttr
+      --cssDimensionAttr xxx links to cssAttr
+      --cssGridAttr    xxx links to cssAttr
+      --cssHyerlinkAttr xxx links to cssAttr
+      --cssLineboxAttr xxx links to cssAttr
+      --cssMarginAttr  xxx links to cssAttr
+      --cssMarqueeAttr xxx links to cssAttr
+      --cssPaddingAttr xxx links to cssAttr
+      --cssPagedMediaAttr xxx links to cssAttr
+      --cssRubyAttr    xxx links to cssAttr
+      --cssSpeechAttr  xxx links to cssAttr
+      --cssTransformAttr xxx links to cssAttr
+      --cssRenderAttr  xxx links to cssAttr
+      --cssPseudoClassLang xxx links to Constant
+      --cssMediaComma  xxx links to Normal
+      --cssFontDescriptor xxx links to Special
+      --cssUnicodeRange xxx links to Constant
+      --Noise          xxx cleared
+      --cssLength      xxx cleared
+      --cssString      xxx cleared
+      --htmlStyleArg   xxx links to htmlString
+      --htmlStatement  xxx links to Statement
+      --None           xxx cleared
+      --markdownValid  xxx cleared
+      --markdownLineStart xxx cleared
+      --markdownH1     xxx links to htmlH1
+      --markdownH2     xxx links to htmlH2
+      --markdownH3     xxx links to htmlH3
+      --markdownH4     xxx links to htmlH4
+      --markdownH5     xxx links to htmlH5
+      --markdownH6     xxx links to htmlH6
+      --markdownBlockquote xxx links to Comment
+      --markdownListMarker xxx links to htmlTagName
+      --markdownOrderedListMarker xxx links to markdownListMarker
+      --markdownCodeBlock xxx cleared
+      --markdownRule   xxx links to PreProc
+      --markdownLineBreak xxx cleared
+      --markdownLinkText xxx links to htmlLink
+      --markdownItalic xxx links to htmlItalic
+      --markdownBold   xxx links to htmlBold
+      --markdownCode   xxx cleared
+      --markdownEscape xxx links to Special
+      --markdownError  xxx links to Error
+      --markdownHeadingRule xxx links to markdownRule
+      --markdownAutomaticLink xxx links to markdownUrl
+      --markdownH1Delimiter xxx links to markdownHeadingDelimiter
+      --markdownH2Delimiter xxx links to markdownHeadingDelimiter
+      --markdownH3Delimiter xxx links to markdownHeadingDelimiter
+      --markdownH4Delimiter xxx links to markdownHeadingDelimiter
+      --markdownH5Delimiter xxx links to markdownHeadingDelimiter
+      --markdownH6Delimiter xxx links to markdownHeadingDelimiter
+      --markdownLinkDelimiter xxx cleared
+      --markdownUrl    xxx links to Float
+      --markdownIdDeclaration xxx links to Typedef
+      --markdownUrlTitle xxx links to String
+      --markdownUrlDelimiter xxx links to htmlTag
+      --markdownUrlTitleDelimiter xxx links to Delimiter
+      --markdownLinkTextDelimiter xxx cleared
+      --markdownLink   xxx cleared
+      --markdownId     xxx links to Type
+      --markdownIdDelimiter xxx links to markdownLinkDelimiter
+      --markdownItalicDelimiter xxx links to markdownItalic
+      --markdownBoldDelimiter xxx links to markdownBold
+      --markdownBoldItalicDelimiter xxx links to markdownBoldItalic
+      --markdownBoldItalic xxx links to htmlBoldItalic
+      --markdownStrikeDelimiter xxx links to markdownStrike
+      --markdownStrike xxx links to htmlStrike
+      --markdownCodeDelimiter xxx links to Delimiter
+      --markdownFootnote xxx links to Typedef
+      --markdownFootnoteDefinition xxx links to Typedef
+      --yamlTodo       xxx links to Todo
+      --yamlComment    xxx links to Comment
+      --yamlTAGDirective xxx links to yamlDirectiveName
+      --yamlYAMLDirective xxx links to yamlDirectiveName
+      --yamlReservedDirective xxx links to Error
+      --yamlDirective  xxx cleared
+      --yamlTagHandle  xxx links to String
+      --yamlTagPrefix  xxx links to String
+      --yamlYAMLVersion xxx links to Number
+      --yamlFlowStringDelimiter xxx links to yamlString
+      --yamlEscape     xxx links to SpecialChar
+      --yamlFlowMappingDelimiter xxx links to yamlKeyValueDelimiter
+      --yamlFlowString xxx links to yamlString
+      --yamlSingleEscape xxx links to SpecialChar
+      --yamlBool       xxx links to yamlConstant
+      --yamlNull       xxx links to yamlConstant
+      --yamlFlowMapping xxx cleared
+      --yamlFlowCollection xxx cleared
+      --yamlFlowMappingKey xxx links to yamlMappingKey
+      --yamlFlowMappingKeyStart xxx links to yamlMappingKeyStart
+      --yamlFlowMappingMerge xxx links to yamlMappingMerge
+      --yamlPlainScalar xxx cleared
+      --yamlFloat      xxx links to Float
+      --yamlTimestamp  xxx links to Number
+      --yamlInteger    xxx links to Number
+      --yamlAlias      xxx links to Type
+      --yamlFlowNodeProperties xxx cleared
+      --yamlFlowIndicator xxx links to Special
+      --yamlNodeTag    xxx links to Type
+      --yamlAnchor     xxx links to Type
+      --yamlBlockMappingDelimiter xxx links to yamlKeyValueDelimiter
+      --yamlBlockMappingKey xxx links to yamlMappingKey
+      --yamlBlockMappingKeyString xxx cleared
+      --yamlBlockMappingMerge xxx links to yamlMappingMerge
+      --yamlBlockMappingKeyStart xxx links to yamlMappingKeyStart
+      --yamlBlockCollectionItemStart xxx links to Label
+      --yamlBlockScalarHeader xxx links to Special
+      --yamlBlockNodeProperties xxx cleared
+      --yamlBlockString xxx cleared
+      --yamlDocumentStart xxx links to PreProc
+      --yamlDocumentEnd xxx links to PreProc
+      --yamlDirectiveName xxx links to Keyword
+      --yamlString     xxx links to String
+      --yamlMappingKey xxx links to Identifier
+      --yamlMappingKeyStart xxx links to Special
+      --yamlMappingMerge xxx links to Special
+      --yamlKeyValueDelimiter xxx links to Special
+      --yamlConstant   xxx links to Constant
+      --markdownYamlHead xxx cleared
+      --markdownHeadingDelimiter xxx links to Delimiter
+      --@conceal       xxx cleared
+      --@nospell       xxx cleared
+      --lualine_transitional_lualine_a_insert_to_lualine_b_insert xxx gui=nocombine guifg=#c3e88d guibg=#3b4261
+      --lualine_transitional_lualine_b_insert_to_lualine_c_normal xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_transitional_lualine_b_insert_to_lualine_x_3_insert xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --BlinkCmpCursorLineMenuHack xxx guibg=#363c58
+      --RenderMarkdown_RenderMarkdownCodeBorder_bg_as_fg xxx guifg=#1e2030
+      --RenderMarkdown_RenderMarkdownCodeInline_bg_as_fg xxx guifg=#444a73
+      --FlashPrompt    xxx links to MsgArea
+      --FlashCursor    xxx links to Cursor
+      --FlashPromptIcon xxx links to Special
+      --FlashMatch     xxx links to Search
+      --FlashCurrent   xxx links to IncSearch
+      --lualine_c_filetype_MiniIconsGrey_normal xxx gui=nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsGrey_insert xxx gui=nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsGrey_visual xxx gui=nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsGrey_replace xxx gui=nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsGrey_command xxx gui=nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsGrey_terminal xxx gui=nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_c_filetype_MiniIconsGrey_inactive xxx gui=nocombine guifg=#c8d3f5 guibg=#1e2030
+      --lualine_transitional_lualine_b_normal_to_lualine_c_filetype_MiniIconsGrey_normal xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_transitional_lualine_b_visual_to_lualine_c_filetype_MiniIconsGrey_visual xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --SnacksNotifierFooterDebug xxx links to NonText
+      --SnacksNotifierMinimal xxx links to NormalFloat
+      --SnacksNotifierFooterError xxx links to DiagnosticError
+      --SnacksNotifierHistory xxx links to Normal
+      --SnacksNotifierHistoryTitle xxx links to Title
+      --SnacksNotifierHistoryDateTime xxx links to Special
+      --SnacksNotifierFooterTrace xxx links to NonText
+      --SnacksNotifierFooterInfo xxx links to DiagnosticInfo
+      --SnacksNotifierFooterWarn xxx links to DiagnosticWarn
+      --SnacksWinBar   xxx links to Title
+      --SnacksWinBarNC xxx links to SnacksWinBar
+      --SnacksNormalNC xxx links to NormalFloat
+      --SnacksNormal   xxx links to NormalFloat
+      --SnacksWinKeyDesc xxx links to Function
+      --SnacksWinKeySep xxx links to NonText
+      --SnacksBackdrop xxx guibg=#000000
+      --SnacksWinKey   xxx links to Keyword
+      --lualine_c_14_LV_MatchParen_normal xxx gui=bold,nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_c_14_LV_MatchParen_insert xxx gui=bold,nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_c_14_LV_MatchParen_visual xxx gui=bold,nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_c_14_LV_MatchParen_replace xxx gui=bold,nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_c_14_LV_MatchParen_command xxx gui=bold,nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_c_14_LV_MatchParen_terminal xxx gui=bold,nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_c_14_LV_MatchParen_inactive xxx gui=bold,nocombine guifg=#ff966c guibg=#1e2030
+      --lualine_transitional_lualine_b_insert_to_lualine_c_filetype_MiniIconsAzure_insert xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_transitional_lualine_b_normal_to_lualine_c_diagnostics_error_normal xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+      --lualine_transitional_lualine_b_command_to_lualine_c_diagnostics_error_command xxx gui=nocombine guifg=#3b4261 guibg=#1e2030
+    end,
+  },
+}

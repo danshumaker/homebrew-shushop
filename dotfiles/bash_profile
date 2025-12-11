@@ -1,0 +1,165 @@
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# DON'T ECHO ANYTHING BECAUSE IT CAUSES SCP'S TO FAIL.
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+# order of LOGIN execution /etc/profile -> ~/.bash_profile -> ~/.bash_login -> ~/.profile
+# order of NON-login execution /etc/bash.bashrc -> ~/.bashrc
+
+# NOTE: TMUX gives environment to new shells so changes
+# here will not take effect in new window, only in new terminal.
+if [ -n "$TMUX" ]; then
+  if [ -f /etc/profile ]; then
+    PATH=""
+    source /etc/profile
+  fi
+fi
+
+brewh=/opt/homebrew
+if [[ -s $HOME/.bash_profile_functions ]]; then
+  . $HOME/.bash_profile_functions
+  addp /usr/sbin
+  addp /usr/local/sbin
+  addp /usr/local/bin
+  addp /sbin
+  addp /opt/local/bin
+  prep vendor/bin
+  addp $HOME/.composer/vendor/bin
+  prep $HOME/Dev/bin
+  prep $HOME/Dev/bin/python
+  addp $HOME/Dev/bin/bash
+  prep .
+  # ./bin was added for the mr tool but taken out for the open tool
+  #  prep ./bin
+  prep $HOME/.gem/bin
+  prep $HOME/.rbenv/shims
+  prep $HOME/.rbenv/bin
+  prep ${brewh}/opt/gnu-sed/libexec/gnubin
+  prep ${brewh}/opt/coreutils/libexec/gnubin
+  # TESTING bitbucket-cmd development
+  #prep $HOME/danshumaker.github.io/bitbucket-cmd/bin
+  addp /usr/bin
+  addp $HOME/node_modules/.bin
+  addp $HOME/.deno/bin
+fi
+
+export SHELL=${brewh}/bin/bash
+
+# Go development
+export GOPATH="${HOME}/.go"
+export GOROOT="${brewh}/opt/go/libexec/bin"
+export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
+# https://stackoverflow.com/questions/12843063/install-go-with-brew-and-running-the-gotour
+test -d "${GOPATH}" || mkdir "${GOPATH}"
+test -d "${GOPATH}/src/github.com" || mkdir -p "${GOPATH}/src/github.com"
+
+export PATH
+export HISTSIZE=10000
+export HISTTIMEFORMAT="%F %T "
+#PS1="BASH\[\033[40m\]\[\033[1;36m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h \[\033[1;33m\]\`pwd -P\` \[\033[1;31m\]>>\[\033[0m\]"
+export PS1="\[\033[40m\]\[\033[1;36m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h \[\033[1;33m\]\`pwd -P\`\[\033[1;31m\] \$(git_sha) \$(parse_git_branch)>>\[\033[0m\]"
+
+# https://jdhao.github.io/2018/10/19/tmux_nvim_true_color/
+#export TERM="screen-256color"
+
+# https://askubuntu.com/questions/410048/utf-8-character-not-showing-properly-in-tmux
+#export LC_ALL=en_US.UTF-8
+#export LANG=en_US.UTF-8
+[ -z "$TMUX" ] && export TERM="screen-256color"
+
+# Set shell editor to vim that doesn't have all the potential load issues that nvim might.
+export EDITOR=vim
+export GIT_EDITOR=vim
+
+# for normal vim
+export VISUAL=nvim
+
+# No one else can read or write to files (owner only access)
+#umask 000
+
+# for acquia /etc/sites/ check
+export DRUPAL_ENV_NAME="dan"
+
+# Load RVM into a shell session *as a function*
+# RUBY SUCKS! Never works, bash syntax errors, version nightmares.
+#[[ -s /etc/profile.d/rvm.sh ]] && source /etc/profile.d/rvm.sh
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+[[ -s $HOME/.git-completion.bash ]] && . $HOME/.git-completion.bash
+
+export GEM_HOME=$HOME/.gem
+export GEM_PATH=$HOME/.gem
+
+if [ -t 1 ]; then
+  # bash command completion with up arrow
+  bind '"\e[A": history-search-backward'
+fi
+
+#eval "$(rbenv init -)"
+
+[[ -s $HOME/.bash_profile_aliases ]] && . $HOME/.bash_profile_aliases
+[[ -s $HOME/.z.sh ]] && . $HOME/.z.sh
+alias j=z
+alias jj=zz
+
+# Both of these need to be sourced before projects
+#[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# The above line just sources the next line which
+# I needed to make user generic so that /Users/dan and /Users/dshumaker
+# are not confused when I share dot files accross machines
+# with different user names.
+export FZF_DEFAULT_COMMAND='fd --no-ignore --hidden --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--height 50% --reverse --preview "cat {}"'
+#export FZF_CTRL_T_OPTS='fd --no-ignore --hidden -E "!.git/*"'
+[ -f ~/.fzf/shell/key-bindings.bash ] && source ~/.fzf/shell/key-bindings.bash
+#[ -f ~/.forgit/forgit.plugin.sh ] && source ~/.forgit/forgit.plugin.sh
+
+# Switching to rg from ag
+# --files: List files that would be searched but do not search
+# --no-ignore: Do not respect .gitignore, etc...
+# --hidden: Search hidden files and folders
+# --follow: Follow symlinks
+# --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+#export FZF_DEFAULT_COMMAND='ag -g ""'
+#export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*"'
+
+export RIPGREP_CONFIG_PATH=$HOME/.ripgreprc
+
+export PYTHONPATH=$(command -v python3)
+
+#PROMPT_TITLE='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"'
+#export PROMPT_COMMAND="${PROMPT_TITLE}; ${PROMPT_COMMAND}"
+
+export NVM_DIR="$HOME/.nvm"
+export NVM_BREW_DIR="${brewh}/opt/nvm/"
+[ -s "$NVM_BREW_DIR/nvm.sh" ] && \. "$NVM_BREW_DIR/nvm.sh"                                       # This loads nvm
+[ -s "$NVM_BREW_DIR/etc/bash_completion.d/nvm" ] && \. "$NVM_BREW_DIR/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+
+# Give Composer all the memory.
+export COMPOSER_MEMORY_LIMIT=-1
+export COMPOSER_PROCESS_TIMEOUT=200000
+ulimit -n 4096
+export RIG_POWER_USER_MODE=1
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+#test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# Sets terminal cursor movement to be like vi.... sort of annoying ... undecided. Keep it here or comment it but don't remove it so I know it's an option ..
+#set -o vi #  (just ends up being too wierd and awkward)
+
+# Don't use mas-cli to install Mac Apple Store /Applications
+export HOMEBREW_BUNDLE_MAS_SKIP=1
+
+#export GRELEASE_CONFIG=bin/grelease_admin/config
+
+eval "$(${brewh}/bin/brew shellenv)"
+[ -f ${brewh}/etc/bash_completion ] && source ${brewh}/etc/bash_completion
+export LS_COLORS="$(vivid generate molokai)"
+
+# Use nvim plugin command instead of loading via the terminal.
+# export OPENAI_API_KEY=$(op read op://Shumaker-Shared/OpenAI/OPENAI_API_KEY --no-newline)
+
+source <(op completion bash)
+. "$HOME/.cargo/env"

@@ -1,0 +1,6 @@
+name: dcert
+version: "1.0.0"
+description: "Unified mkcert certificate manager for Docksal (global CA + project cert generator)"
+requires:
+  - fin >=1.100.0
+  - mkcert

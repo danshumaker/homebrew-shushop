@@ -1,0 +1,162 @@
+# vim: ft=bash
+
+alias l='ls -Flasctr --color'
+alias l='eza -a -a --git -l -h -s modified --icons -g'
+alias d='drush'
+alias ll=l
+alias gweb='find  . \( -name  "*.htm" -o -name "*.php" -o -name "*.css" -o -name "*.inc" -o -name "*.module" -o -name "*.js" -o -name "*.install" \) -print0 | xargs -0 grep -i -n -H'
+alias path='echo -e ${PATH//:/\\n}'
+alias ep=path
+alias h=history
+alias cdb="cd ~/Dev/bin"
+alias cdpp='eval `cdp \!*`'
+alias epp='echo $PYTHONPATH | tr ":" "\n"'
+alias fm="opendiff"
+alias ge='grepenv '
+alias gpy='find . -type f -name "*.py" -print0 | xargs -0 grep -n -i'
+alias grep="grep -n"
+alias gr='git ls-remote --get-url'
+alias ogr='open `git ls-remote --get-url`'
+alias hg='history | \grep -i'
+alias pg="ps -eaf | grep -i -n"
+alias psg="ps -eaf | grep -i -n"
+alias svndiff='svn diff --diff-cmd svnopendiffshim.py'
+alias svns='svn status -u | egrep -v "^\?"'
+alias dn='du -sk * | sort -n'
+alias ddb='find . -name "settings.php"  | xargs grep  db_url'
+alias cronolist='for ((x=0; x<200; x++ )); do find . -atime $x -printf "%-50.50p %-10s %a\n"; done'
+alias skey='ssh-keygen -t rsa -b 4096'
+alias gconf='cat \!* | sed "/^#/d" | sed "/^$/d"'
+alias iip='/sbin/ifconfig | grep inet'
+alias restart='/usr/bin/sudo /etc/init.d/apache2 restart; /usr/bin/sudo /etc/init.d/memcached restart; /usr/bin/sudo /etc/init.d/varnish restart'
+alias u='cd ..'
+alias uu='cd ../../'
+alias uuu='cd ../../../'
+alias pmg='drush pml | grep'
+alias dg='drush |& grep'
+alias pml='drush pml --type="module" --status="enabled" --no-core'
+alias apa='/usr/bin/sudo /etc/init.d/apache2 restart;'
+alias cn='ls /Volumes'
+alias connect='/usr/bin/osascript $HOME/bin/applescripts/norm_danshumaker.scpt'
+#alias snet='mkdir /Volumes/snet; mount_afp -i afp://danshumaker@snet/snet /Volumes/snet'#Left for reference of mount command
+alias vcf="v ~/.bash_profile_functions"
+alias bak='cd ~/db_backups'
+alias cust='cd `drush dd modules/custom`'
+alias trib='cd `drush dd modules/contrib`'
+alias theme='cd `drush dd themes/`'
+alias cdd='cd `drush dd`'
+alias cache='drush scr ~/bin/php/dcache.php 1 becker'
+alias nocache='drush scr ~/bin/php/dcache.php 0 becker'
+alias ddcache='drush scr ~/bin/php/dcache.php 1 dentegra'
+alias dsolr='drush solr-delete-index; drush solr-mark-all; drush solr-index'
+alias check='drush cron; drush rl; drush rq; drush upc;'
+alias vds='v -S ~/.vim/ds.vimsession'
+alias dcc='rm -rf sites/default/files/css/*; rm -rf sites/default/files/js/*; drush cc all'
+
+alias mycwd='my cwd'
+alias rmo='find . -name "*.orig" -exec rm {} \;'
+alias rms='find . -name ".*.swp" -exec rm {} \;'
+alias fail="grep -i fail auth.log.1 | awk '{ for (i = 1; i <= NF ; i++) {  if (($i~/\./)||(i<=3)) { if (i<3) { printf(\"%s \", $i); } else {printf(\"%s\n\", $i);} } }}'"
+alias fg='~/bin/php/fg'
+alias asites='apache2ctl -S ; egrep -v "^[[:blank:]]*(#|$)" /etc/hosts'
+alias sites='cd ~/Sites'
+alias dst='drush st'
+alias gitk='"$(brew --prefix tcl-tk)/bin/wish" "$(which gitk)"'
+alias gitx='/Applications/GitX.app/Contents/MacOs/GitX'
+alias sc='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=htt://soundcloud.com'
+alias crontab='VIM_CRONTAB=true crontab'
+alias rnd="cd ~/Sites/rnd/"
+alias cj="cd ~/Documents/journal/content"
+
+## Git Aliases
+alias gba='git branch -a -vv'
+alias gbl='git branch -vv'
+alias gs='git st'
+alias gt='git tag -l -n1'
+# GIT_LOG_FORMAT="%C(yellow)%h %C(green)%<(20,trunc)%an %C(red)%<(26,trunc)%ad%C(reset) %s "
+
+GIT_LOG_FORMAT="%C(yellow)%h %C(green)%<(20,trunc)%an %C(red)%<(26,trunc)%ad%C(reset) %s%n%w(0,4,4)%b "
+alias gl='git log --pretty=format:"$GIT_LOG_FORMAT" --abbrev-commit'
+alias gla='git log --pretty=format:"$GIT_LOG_FORMAT" --abbrev-commit --all'
+alias glaa='git log --pretty=format:"$GIT_LOG_FORMAT" `git tag | tail -1`..'
+alias gl2='git log --pretty=format:"$GIT_LOG_FORMAT" --abbrev-commit -2'
+alias glb='git log --branches --source --pretty=oneline --graph --merges'
+alias glme='git log --pretty=format:"$GIT_LOG_FORMAT" --abbrev-commit --all --author="Dan Shumaker"'
+alias glg='git log --pretty=format:"$GIT_LOG_FORMAT" --abbrev-commit --all --grep'
+alias gln='git log --pretty=format:"$GIT_LOG_FORMAT" --no-merges '
+alias gll='git log --pretty=format:"$GIT_LOG_FORMAT" --no-merges `git tag | tail -1`..'
+alias gls='git log --pretty=format:"$GIT_LOG_FORMAT" --no-merges --stat'
+alias glp='git log --pretty=format:"$GIT_LOG_FORMAT" --no-merges -p'
+alias gcm='git commit -m'
+alias gss='git submodule status'
+alias c_on_b='git log --graph --abbrev-commit --decorate --pretty=oneline --first-parent'
+
+alias bpl='bitbucket pr -l'
+
+alias st='open -a SourceTree .'
+
+alias eject='/usr/bin/drutil eject'
+alias agu='ag -u'
+
+# Docker
+alias dc='docker container'
+alias dcls='dc ls -a'
+
+alias vbc="nvim -c \"e ~/.tmux.conf|tabe ~/.README.md|tabe ~/.bash_profile|tabe ~/.bash_profile_aliases|tabe ~/.bash_profile_functions\""
+alias vrc="nvim -c \"e ~/.config/nvim/init.lua|tabe ~/.config/nvim/lua/plugins.lua|tabe ~/.config/nvim/lua/settings/keymap.lua\""
+
+alias v='nvim -O'
+alias va='nvim $(fzf --height 40%)'
+alias vn='v ~/.README.md'
+
+alias vag=vrg
+# DO NOT alias a base command because downstream, in other processors, they
+# might depend on options that conflict with what you pass here.
+# alias rg=myrg
+alias r="docker-compose -f build.yml run"
+
+alias prs="bitbucket pr --list"
+alias cli='docker-compose -f build.yml run --rm cli'
+alias lzd='lazydocker'
+alias kc='kubectl'
+alias pods='kubectl get pods'
+# DO NOT alias a base command because downstream, in other processors, they
+# might depend on options that conflict with what you pass here.
+# alias fd='fd -I -H'
+alias mml='mutagen monitor -l'
+alias ducod='fin drupal duc --only-drupal'
+alias jstart='rm ~/.cache/nvim/log && rm ~/.cache/nvim/lsp.log && tmuxinator start journal'
+alias pstart='tmuxinator start pjournal'
+
+alias who="drush @voyce.loc sqlq 'select s.uid, s.hostname, u.name, u.mail from i4c_sessions s join i4c_users u on u.uid = s.uid;'"
+alias rcc='docker-compose --verbose -f build.yml run --rm drush -vd cc all -y'
+alias sp='open -a "Sequel Pro"'
+alias ec='ssh prod-web1 "sudo /home/jenkins/encore_points_to.php --dsn 192.168.15.250 --user DEV4 --password DEV4 -p; sudo /home/jenkins/encore_points_to.php --dsn 192.168.15.100 --user UATECOM --password UATECOM -p"'
+alias rbf='~/rebuild --full | gnomon --high=20 --medium=5 -t elapsed-total -i'
+alias rb='~/rebuild --full | gnomon --high=20 --medium=5 -t elapsed-total -i'
+alias fx='fin exec "env | grep XDEBUG_ENABLED"'
+alias fxon="fin config set --env=local XDEBUG_ENABLED=1 && fin restart cli;"
+alias fxoff="fin config set --env=local XDEBUG_ENABLED=0 && fin restart cli"
+alias qa='git co qa'
+alias tlzd='tmuxinator start lzd'
+
+alias nprssh='ssh dshumaker@dev1.publicbroadcasting.net'
+alias vss='v ~/.ssh/config'
+alias vhot='v ~/.config/nvim/lua/settings/keymap.lua ~/.dotfiles/README.md'
+
+alias shosts='ssh $(\grep "Host " .ssh/config | tr " " "\n" | egrep -v Host | sort | uniq | fzf)'
+alias sshcopy='ssh-copy-id -i ~/.ssh/dshumaker_unleashed.pub $(\grep "Host " .ssh/config | tr " " "\n" | egrep -v Host | sort | uniq | fzf)'
+alias tsm='tmux source-file tmux_mon.config'
+#alias pr='cd $(cat /Users/dan/work/ffw/projects/projects | fzf)'
+#alias pr='cd $(ls -1 /Users/dan/work/ffw/projects/| fzf)'
+alias jf='cd $(fd --search-path /Users/dan/work/ffw/projects -t d -d 10 --exclude .git | fzf)'
+
+alias cf='cd $(fd -t d | fzf)'
+
+## https://askubuntu.com/questions/410048/utf-8-character-not-showing-properly-in-tmux
+# DO NOT alias a base command because downstream, in other processors, they
+# might depend on options that conflict with what you pass here.
+# alias tmux='tmux -u'
+alias ctds='op item get "Shield Basic Auth Credentials" --fields=password | pbcopy'
+
+alias vg='v $(git diff --name-only)'

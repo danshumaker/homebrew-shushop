@@ -1,0 +1,17 @@
+--no-ignore-vcs
+--ignore-case
+--max-columns=450
+--max-columns-preview
+--glob=!.git/*
+--glob=!.data/*
+--glob=!.cache/*
+--glob=!*.tmp
+--glob=!node_modules
+--glob=!*.map
+-.
+--type-add
+web:*.{html,css,scss,sass,js,jsx,vue,twig}*
+--type-add
+php:*.{install,php,inc,info,module,yml,theme}*
+--type-add
+sass:*.{scss,sass}*

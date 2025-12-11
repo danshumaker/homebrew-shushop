@@ -1,0 +1,765 @@
+{
+  "schema_version": 1,
+  "tools": {
+    "brew:bash": {
+      "name": "bash",
+      "category": "shell",
+      "description": "Bourne-Again shell.",
+      "install": {
+        "method": "brew",
+        "formula": "bash"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "bash"
+      },
+      "verify": {
+        "command": "bash --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.bash_profile",
+          "type": "file"
+        },
+        {
+          "path": "~/.bash_profile_aliases",
+          "type": "file"
+        },
+        {
+          "path": "~/.bash_profile_functions",
+          "type": "file"
+        }
+      ]
+    },
+    "brew:git": {
+      "name": "git",
+      "category": "scm",
+      "description": "Distributed version control system.",
+      "install": {
+        "method": "brew",
+        "formula": "git"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "git"
+      },
+      "verify": {
+        "command": "git --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.gitconfig",
+          "type": "file"
+        },
+        {
+          "path": "~/.gitignore_global",
+          "type": "file"
+        }
+      ]
+    },
+    "brew:neovim": {
+      "name": "neovim",
+      "category": "editor",
+      "description": "Extensible Vim-based text editor.",
+      "install": {
+        "method": "brew",
+        "formula": "neovim"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "neovim"
+      },
+      "verify": {
+        "command": "nvim --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.config/nvim",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.cache/nvim",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.local/share/nvim",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.local/state/nvim",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:node": {
+      "name": "node",
+      "category": "language-runtime",
+      "description": "Node.js runtime and npm.",
+      "install": {
+        "method": "brew",
+        "formula": "node"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "node"
+      },
+      "verify": {
+        "command": "node --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.npm",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.npmrc",
+          "type": "file"
+        },
+        {
+          "path": "~/.config/configstore",
+          "type": "dir",
+          "uninstall": "delete-dir-if-empty"
+        }
+      ]
+    },
+    "brew:go": {
+      "name": "go",
+      "category": "language-runtime",
+      "description": "Go programming language.",
+      "install": {
+        "method": "brew",
+        "formula": "go"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "go"
+      },
+      "verify": {
+        "command": "go version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.go",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:nvm": {
+      "name": "nvm",
+      "category": "version-manager",
+      "description": "Manage multiple Node.js versions.",
+      "install": {
+        "method": "brew",
+        "formula": "nvm"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "nvm"
+      },
+      "verify": {
+        "command": "test -d \"$NVM_DIR\" || test -d \"$HOME/.nvm\""
+      },
+      "artifacts": [
+        {
+          "path": "~/.nvm",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:rcm": {
+      "name": "rcm",
+      "category": "dotfile-manager",
+      "description": "RC file (dotfile) management.",
+      "install": {
+        "method": "brew",
+        "formula": "rcm"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "rcm"
+      },
+      "verify": {
+        "command": "rcup -h >/dev/null 2>&1"
+      },
+      "artifacts": [
+        {
+          "path": "~/.rcrc",
+          "type": "file"
+        },
+        {
+          "path": "~/.dotfiles",
+          "type": "dir"
+        }
+      ]
+    },
+    "brew:ripgrep": {
+      "name": "ripgrep",
+      "category": "cli-tool",
+      "description": "Fast file-search tool.",
+      "install": {
+        "method": "brew",
+        "formula": "ripgrep"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "ripgrep"
+      },
+      "verify": {
+        "command": "rg --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.ripgreprc",
+          "type": "file"
+        }
+      ]
+    },
+    "brew:fzf": {
+      "name": "fzf",
+      "category": "cli-tool",
+      "description": "Command-line fuzzy finder.",
+      "install": {
+        "method": "brew",
+        "formula": "fzf"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "fzf"
+      },
+      "verify": {
+        "command": "fzf --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.fzf.bash",
+          "type": "file"
+        }
+      ]
+    },
+    "brew:tmux": {
+      "name": "tmux",
+      "category": "terminal-manager",
+      "description": "Terminal multiplexer.",
+      "install": {
+        "method": "brew",
+        "formula": "tmux"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "tmux"
+      },
+      "verify": {
+        "command": "tmux -V"
+      },
+      "artifacts": [
+        {
+          "path": "~/.tmux",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.tmux.conf",
+          "type": "file"
+        }
+      ]
+    },
+    "brew:mutagen": {
+      "name": "mutagen",
+      "category": "dev-tool",
+      "description": "Fast file sync and network forwarding.",
+      "install": {
+        "method": "brew",
+        "formula": "mutagen-io/mutagen/mutagen"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "mutagen-io/mutagen/mutagen"
+      },
+      "verify": {
+        "command": "mutagen version || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.mutagen",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:terminus": {
+      "name": "terminus",
+      "category": "dev-tool",
+      "description": "Pantheon CLI.",
+      "install": {
+        "method": "brew",
+        "formula": "pantheon-systems/external/terminus"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "pantheon-systems/external/terminus"
+      },
+      "verify": {
+        "command": "terminus --version || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.terminus",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:docker": {
+      "name": "docker",
+      "category": "container-manager",
+      "description": "Pack, ship, and run containers.",
+      "install": {
+        "method": "brew",
+        "formula": "docker"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "docker"
+      },
+      "verify": {
+        "command": "docker --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.docker",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:docker-machine": {
+      "name": "docker-machine",
+      "category": "container-tooling",
+      "description": "Create Docker hosts locally and on cloud providers.",
+      "install": {
+        "method": "brew",
+        "formula": "docker-machine"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "docker-machine"
+      },
+      "verify": {
+        "command": "docker-machine --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.docker/machine",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:btop": {
+      "name": "btop",
+      "category": "cli-tool",
+      "description": "Resource monitor.",
+      "install": {
+        "method": "brew",
+        "formula": "btop"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "btop"
+      },
+      "verify": {
+        "command": "btop --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.config/btop",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:gh": {
+      "name": "gh",
+      "category": "scm-tool",
+      "description": "GitHub CLI.",
+      "install": {
+        "method": "brew",
+        "formula": "gh"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "gh"
+      },
+      "verify": {
+        "command": "gh --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.config/gh",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:glab": {
+      "name": "glab",
+      "category": "scm-tool",
+      "description": "GitLab CLI.",
+      "install": {
+        "method": "brew",
+        "formula": "glab"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "glab"
+      },
+      "verify": {
+        "command": "glab --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.config/lab",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "brew:mysql-client": {
+      "name": "mysql-client",
+      "category": "database",
+      "description": "MySQL client tools.",
+      "install": {
+        "method": "brew",
+        "formula": "mysql-client"
+      },
+      "uninstall": {
+        "method": "brew",
+        "formula": "mysql-client"
+      },
+      "verify": {
+        "command": "mysql --version || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.my.cnf",
+          "type": "file"
+        }
+      ]
+    },
+    "cask:kitty": {
+      "name": "kitty",
+      "category": "terminal",
+      "description": "GPU-based terminal emulator.",
+      "install": {
+        "method": "brew-cask",
+        "cask": "kitty"
+      },
+      "uninstall": {
+        "method": "brew-cask",
+        "cask": "kitty"
+      },
+      "verify": {
+        "command": "test -d \"$HOME/.config/kitty\" || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.config/kitty",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "cask:vscodium": {
+      "name": "vscodium",
+      "category": "editor",
+      "description": "Telemetry-free VS Code build.",
+      "install": {
+        "method": "brew-cask",
+        "cask": "vscodium"
+      },
+      "uninstall": {
+        "method": "brew-cask",
+        "cask": "vscodium"
+      },
+      "verify": {
+        "command": "test -d \"$HOME/.vscode-oss\" || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.vscode",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.vscode/extensions",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.vscode-oss",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.vscode-oss/extensions",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "cask:1password-cli": {
+      "name": "1password-cli",
+      "category": "security-tool",
+      "description": "1Password command-line interface.",
+      "install": {
+        "method": "brew-cask",
+        "cask": "1password-cli"
+      },
+      "uninstall": {
+        "method": "brew-cask",
+        "cask": "1password-cli"
+      },
+      "verify": {
+        "command": "op --version || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.config/op",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "manual:rustup": {
+      "name": "rustup",
+      "category": "language-manager",
+      "description": "Rust toolchain installer and version manager.",
+      "install": {
+        "method": "script",
+        "command": "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
+      },
+      "uninstall": {
+        "method": "script",
+        "command": "rustup self uninstall -y"
+      },
+      "verify": {
+        "command": "cargo --version"
+      },
+      "artifacts": [
+        {
+          "path": "~/.cargo",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.cargo/bin",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        },
+        {
+          "path": "~/.rustup",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "manual:docksal": {
+      "name": "docksal",
+      "category": "container-manager",
+      "description": "Fin/Docksal Docker-based dev environment.",
+      "install": {
+        "method": "none"
+      },
+      "uninstall": {
+        "method": "none"
+      },
+      "verify": {
+        "command": "fin version || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.docksal",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "manual:colima": {
+      "name": "colima",
+      "category": "container-manager",
+      "description": "Container runtimes on macOS.",
+      "install": {
+        "method": "none"
+      },
+      "uninstall": {
+        "method": "none"
+      },
+      "verify": {
+        "command": "colima version || true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.colima",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "manual:makemkv": {
+      "name": "MakeMKV",
+      "category": "media-tool",
+      "description": "Blu-ray/DVD ripping tool.",
+      "install": {
+        "method": "none"
+      },
+      "uninstall": {
+        "method": "none"
+      },
+      "verify": {
+        "command": "true"
+      },
+      "artifacts": [
+        {
+          "path": "~/.MakeMKV",
+          "type": "dir",
+          "uninstall": "delete-dir"
+        }
+      ]
+    },
+    "system:dotfiles-repo": {
+      "name": "dotfiles-repo",
+      "category": "system",
+      "description": "Your ~/.dotfiles git repo (rcm payload).",
+      "install": {
+        "method": "none"
+      },
+      "uninstall": {
+        "method": "none"
+      },
+      "verify": {
+        "command": "test -d \"$HOME/.dotfiles\""
+      },
+      "artifacts": [
+        {
+          "path": "~/.dotfiles",
+          "type": "dir"
+        },
+        {
+          "path": "~/.editorconfig",
+          "type": "file"
+        },
+        {
+          "path": "~/.inputrc",
+          "type": "file"
+        },
+        {
+          "path": "~/.z.sh",
+          "type": "file"
+        },
+        {
+          "path": "~/.vault_password",
+          "type": "file",
+          "uninstall": "delete-file"
+        },
+        {
+          "path": "~/.wgetrc",
+          "type": "file"
+        },
+        {
+          "path": "~/.DEV_NOTES.md",
+          "type": "file"
+        }
+      ]
+    },
+    "system:home-metadata": {
+      "name": "home-metadata",
+      "category": "system",
+      "description": "System-generated files in $HOME.",
+      "install": {
+        "method": "none"
+      },
+      "uninstall": {
+        "method": "none"
+      },
+      "verify": {
+        "method": "exists"
+      },
+      "artifacts": [
+        {
+          "path": "~/.bash_history",
+          "type": "file"
+        },
+        {
+          "path": "~/.bash_sessions",
+          "type": "dir"
+        },
+        {
+          "path": "~/.CFUserTextEncoding",
+          "type": "file"
+        },
+        {
+          "path": "~/.DS_Store",
+          "type": "file",
+          "uninstall": "delete-file"
+        },
+        {
+          "path": "~/.hushlogin",
+          "type": "file",
+          "uninstall": "delete-file"
+        },
+        {
+          "path": "~/.lesshst",
+          "type": "file",
+          "uninstall": "delete-file"
+        },
+        {
+          "path": "~/.local",
+          "type": "dir"
+        },
+        {
+          "path": "~/.cache",
+          "type": "dir"
+        },
+        {
+          "path": "~/.cups",
+          "type": "dir"
+        },
+        {
+          "path": "~/.cursor",
+          "type": "dir"
+        },
+        {
+          "path": "~/.Trash",
+          "type": "dir"
+        },
+        {
+          "path": "~/.viminfo",
+          "type": "file",
+          "uninstall": "delete-file"
+        },
+        {
+          "path": "~/.Xauthority",
+          "type": "file",
+          "uninstall": "delete-file"
+        },
+        {
+          "path": "~/.rnd",
+          "type": "file",
+          "uninstall": "delete-file"
+        },
+        {
+          "path": "~/.z",
+          "type": "file",
+          "uninstall": "delete-file"
+        }
+      ]
+    }
+  }
+}

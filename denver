@@ -1,0 +1,365 @@
+#!/usr/bin/env python3
+import argparse
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+import shutil
+
+DEFAULT_REGISTRY_PATH = os.environ.get(
+    "DENVER_REGISTRY", str(Path.home() / ".denver" / "registry.json")
+)
+
+
+# ============================================================
+# Utility helpers
+# ============================================================
+
+
+def load_registry(path: str = DEFAULT_REGISTRY_PATH) -> dict:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        print(f"[ERROR] registry.json not found at {path}", file=sys.stderr)
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        print(f"[ERROR] registry.json is not valid JSON: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    validate_registry_schema(data)
+    return data
+
+
+def validate_registry_schema(data: dict) -> None:
+    if "schema_version" not in data or "tools" not in data:
+        fail("registry.json missing required keys: schema_version, tools")
+
+    tools = data["tools"]
+    if not isinstance(tools, dict):
+        fail("registry.tools must be an object")
+
+    seen_paths = {}
+    for tool_id, tool in tools.items():
+        artifacts = tool.get("artifacts", [])
+        if not isinstance(artifacts, list):
+            fail(f"tool {tool_id} has non-list artifacts")
+        for art in artifacts:
+            path = art.get("path")
+            if not path:
+                fail(f"tool {tool_id} has artifact without path")
+            if path in seen_paths:
+                fail(
+                    f"duplicate artifact path {path} in "
+                    f"{seen_paths[path]} and {tool_id}"
+                )
+            seen_paths[path] = tool_id
+
+
+def expand(p: str) -> str:
+    return os.path.expanduser(p)
+
+
+def fail(msg: str):
+    print(f"[ERROR] {msg}", file=sys.stderr)
+    sys.exit(1)
+
+
+def ok(msg: str):
+    print(f"[OK] {msg}")
+
+
+def ask_yes(prompt: str) -> bool:
+    ans = input(f"{prompt} [y/N]: ").strip().lower()
+    return ans in ("y", "yes")
+
+
+# ============================================================
+# Registry + system state queries
+# ============================================================
+
+
+def list_registry_tools(registry: dict) -> None:
+    for tool_id in sorted(registry["tools"].keys()):
+        tool = registry["tools"][tool_id]
+        name = tool.get("name", "")
+        category = tool.get("category", "")
+        print(f"{tool_id}\t{name}\t{category}")
+
+
+def verify_installed(tool_id: str, tool: dict) -> bool:
+    verify = tool.get("verify", {})
+    cmd = verify.get("command")
+    method = verify.get("method")
+
+    if method == "exists":
+        return True
+
+    if not cmd:
+        for art in tool.get("artifacts", []):
+            if os.path.exists(expand(art["path"])):
+                return True
+        return False
+
+    try:
+        result = subprocess.run(
+            cmd,
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        return result.returncode == 0
+    except Exception:
+        return False
+
+
+def list_installed_tools(registry: dict) -> None:
+    for tool_id, tool in sorted(registry["tools"].items()):
+        if verify_installed(tool_id, tool):
+            print(tool_id)
+
+
+def collect_registry_artifacts(registry: dict):
+    artifact_map = {}
+    all_paths = set()
+    for tool_id, tool in registry["tools"].items():
+        for art in tool.get("artifacts", []):
+            p = expand(art["path"])
+            artifact_map[p] = (tool_id, art)
+            all_paths.add(p)
+    return artifact_map, all_paths
+
+
+def find_home_dot_things() -> set:
+    home = str(Path.home())
+    found = set()
+    for root, dirs, files in os.walk(home):
+        dirs[:] = [d for d in dirs if d != ".git"]
+        for name in dirs + files:
+            full = os.path.join(root, name)
+            rel = os.path.relpath(full, home)
+            if rel.startswith("."):
+                found.add(full)
+    return found
+
+
+# ============================================================
+# Install
+# ============================================================
+
+
+def install_tool(
+    tool_id: str, registry: dict, yes: bool = False, dry_run: bool = False
+):
+    if tool_id not in registry["tools"]:
+        fail(f"Unknown tool: {tool_id}")
+
+    tool = registry["tools"][tool_id]
+    install = tool.get("install", {})
+    method = install.get("method")
+
+    if method in ("brew", "brew-cask"):
+        print(
+            f"[INFO] Brew-installed tools should be managed by Brewfile, skipping {tool_id}"
+        )
+        return
+
+    if method == "none":
+        print(f"[INFO] Tool {tool_id} has no installation method (system tool)")
+        return
+
+    if method == "script":
+        cmd = install.get("command")
+        if not cmd:
+            fail(f"Tool {tool_id} method=script but no command provided")
+
+        print(f"[EXEC] {cmd}")
+        if not dry_run:
+            if not yes and not ask_yes(f"Install {tool_id}?"):
+                print("[ABORT]")
+                return
+            subprocess.check_call(cmd, shell=True)
+        ok(f"Installed {tool_id}")
+        return
+
+    fail(f"Unknown install method: {method}")
+
+
+# ============================================================
+# Uninstall logic
+# ============================================================
+
+
+def safe_remove_dir(path: str, dry_run: bool):
+    if not path.startswith(str(Path.home())):
+        fail(f"Refusing to delete directory outside HOME: {path}")
+    if dry_run:
+        print(f"DRYRUN: rm -rf {path}")
+        return
+    shutil.rmtree(path, ignore_errors=True)
+
+
+def safe_remove_file(path: str, dry_run: bool):
+    if not path.startswith(str(Path.home())):
+        fail(f"Refusing to delete file outside HOME: {path}")
+    if dry_run:
+        print(f"DRYRUN: rm -f {path}")
+        return
+    try:
+        os.remove(path)
+    except FileNotFoundError:
+        pass
+
+
+def uninstall_tool(
+    tool_id: str, registry: dict, yes: bool = False, dry_run: bool = False
+):
+    if tool_id not in registry["tools"]:
+        fail(f"Unknown tool: {tool_id}")
+
+    tool = registry["tools"][tool_id]
+    artifacts = tool.get("artifacts", [])
+
+    print(f"[INFO] Uninstalling {tool_id}")
+
+    for art in artifacts:
+        mode = art.get("uninstall")
+        if not mode or mode == "none":
+            continue
+
+        p = expand(art["path"])
+
+        if not os.path.exists(p):
+            print(f"[SKIP] missing: {p}")
+            continue
+
+        if not yes:
+            if not ask_yes(f"Remove artifact {p}?"):
+                print("[SKIP]")
+                continue
+
+        if mode == "delete-file":
+            safe_remove_file(p, dry_run)
+            ok(f"Deleted file {p}")
+
+        elif mode == "delete-dir":
+            safe_remove_dir(p, dry_run)
+            ok(f"Deleted directory {p}")
+
+        elif mode == "delete-dir-if-empty":
+            if dry_run:
+                print(f"DRYRUN: rmdir {p} (if empty)")
+            else:
+                try:
+                    os.rmdir(p)
+                    ok(f"Removed empty directory {p}")
+                except OSError:
+                    print(f"[SKIP] not empty: {p}")
+
+        else:
+            fail(f"Unknown uninstall mode: {mode}")
+
+    ok(f"Finished uninstall for {tool_id}")
+
+
+# ============================================================
+# Audit
+# ============================================================
+
+
+def audit(registry: dict) -> None:
+    artifact_map, registry_paths = collect_registry_artifacts(registry)
+    disk_paths = find_home_dot_things()
+
+    print("=== OWNED (present on disk) ===")
+    for path in sorted(disk_paths & registry_paths):
+        tool_id, art = artifact_map[path]
+        print(f"OK      {path}    [{tool_id}]")
+
+    print("\n=== MISSING (in registry, not on disk) ===")
+    for path in sorted(registry_paths - disk_paths):
+        tool_id, art = artifact_map[path]
+        print(f"MISSING {path}    [{tool_id}]")
+
+    print("\n=== UNKNOWN (on disk, not in registry) ===")
+    for path in sorted(disk_paths - registry_paths):
+        print(f"UNKNOWN {path}")
+
+
+# ============================================================
+# Main entry point
+# ============================================================
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Denver - Developer Environment Manager"
+    )
+
+    parser.add_argument(
+        "-r",
+        "--registry-tools",
+        action="store_true",
+        help="Print all tools defined in registry.json",
+    )
+
+    parser.add_argument(
+        "-i",
+        "--installed-tools",
+        action="store_true",
+        help="Print tools that appear installed",
+    )
+
+    parser.add_argument(
+        "--dry-run",
+        "-n",
+        action="store_true",
+        help="Do not perform any destructive actions",
+    )
+
+    parser.add_argument(
+        "--yes", "-y", action="store_true", help="Do not prompt for confirmation"
+    )
+
+    subparsers = parser.add_subparsers(dest="cmd")
+
+    subparsers.add_parser("audit", help="Audit $HOME against registry")
+
+    p_install = subparsers.add_parser("install", help="Install a non-brew tool")
+    p_install.add_argument("tool_id")
+
+    p_uninstall = subparsers.add_parser(
+        "uninstall", help="Uninstall artifacts of a tool"
+    )
+    p_uninstall.add_argument("tool_id")
+
+    args = parser.parse_args()
+    registry = load_registry()
+
+    if args.registry_tools:
+        list_registry_tools(registry)
+        return
+
+    if args.installed_tools:
+        list_installed_tools(registry)
+        return
+
+    if args.cmd == "audit":
+        audit(registry)
+        return
+
+    if args.cmd == "install":
+        install_tool(args.tool_id, registry, args.yes, args.dry_run)
+        return
+
+    if args.cmd == "uninstall":
+        uninstall_tool(args.tool_id, registry, args.yes, args.dry_run)
+        return
+
+    parser.print_help()
+
+
+if __name__ == "__main__":
+    main()

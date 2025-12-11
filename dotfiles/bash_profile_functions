@@ -1,0 +1,423 @@
+# Bash Custom Functions
+
+# vim: ft=bash
+function addp() {
+  #[[ -s $1 ]] && [[ grep -q $1 <<< $PATH]]; then
+  if [[ $PATH != *":$1:"* ]]; then
+    export PATH=$PATH:$1
+  fi
+}
+
+function prep() {
+  if [[ $PATH != *":$1:"* ]]; then
+    export PATH=$1:$PATH
+  fi
+}
+
+function alg() {
+  echo "-- .bash_profile_functions --------------------"
+  echo
+  \grep function ~/.bash_profile_functions
+  \grep -i "$1" ~/.bash_profile_functions
+  echo
+  echo "-- ACTIVE -------------------------"
+  echo
+  type $1
+  echo
+  echo "-- .bash_profile_aliases --------------------"
+  echo
+  \grep -i "$1" ~/.bash_profile_aliases
+  echo
+  echo
+}
+
+function w2u() {
+  cat $1 | tr "\015" "\n" >$1.new
+  mv $1.new $1
+}
+
+# set upstream
+function gitc() {
+  branch=$(parse_git_branch)
+  git config --global branch.${branch}.remote origin
+  git config --global branch.${branch}.merge refs/heads/${branch}
+}
+
+# git branch delete local and remote
+function gbd() {
+  git branch -D $1
+  git push origin :$1
+}
+
+function gdt() {
+  git tag -d $1
+  git push origin :refs/tags/$1
+}
+
+# Git tag delete
+function gtd() {
+  git push -d origin $1
+  git tag -d $1
+}
+
+# create branch.
+function gcb() {
+  git checkout -b $1 origin/$1
+}
+
+function my() {
+  mysql --defaults-file=~/.my.$*
+}
+
+function tm_get() {
+  cutdirs=$(echo "$1" | awk -F/ '{ print NF-1 }')
+  wget -nH -xr --cut-dirs=$cutdirs ftp://ftp.thought-matrix.net:$1 --ftp-user=wWQRzSnW1Upj1qJU --ftp-password=NuCE81XUSGKM0Wc7
+}
+
+function tm_put() {
+  wput . ftp://wWQRzSnW1Upj1qJU:NuCE81XUSGKM0Wc7@ftp.thought-matrix.net:21$1
+}
+
+function fillp() {
+  echo "drop database first;" | mysql -u root -ptacoshop
+  echo "create database first;" | mysql -u root -ptacoshop
+  ddbb --load=/Users/dan/Projects/First/git_repo/scripts/first.ddbb --llp
+}
+
+function wtitle() {
+  echo -n -e "\033]0;$1\007"
+}
+
+function latest() {
+  gfind . -type f -printf "%-.22T+ %M %n %-8u %-8g %8s %Tx %.8TX %p\n" | sort | cut -f 2- -d ' '
+}
+
+function print_branch_info() {
+  name=$(git log --pretty=tformat:"%an" -1 $1 | tr " " "-")
+  date=$(git log --pretty=tformat:"%ad" -1 $1)
+  printf "%-100.100s %-33.35s %20.24s\n" $1 "$name" "$date"
+  #git log --pretty=tformat:"%<(20)%an %<(20)%ad" -1 $branch
+}
+
+function bsearch() {
+  echo ""
+  echo "..Searching git branches for $1"
+  echo ""
+  git branch -a --list "*${1}*" | while read branch; do
+    print_branch_info $branch
+  done
+
+}
+
+function gsearch() {
+  bsearch $1
+  echo ""
+  echo "..Searching git log for $1"
+  echo ""
+  git log --pretty=format:"$GIT_LOG_FORMAT" --abbrev-commit --all --grep $1
+  echo ""
+}
+
+function parse_git_branch() {
+  git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+function git_sha() {
+  sha=$(git rev-parse --short --sq-quote HEAD 2>/dev/null)
+  if [[ $? -eq 0 ]]; then
+    echo $sha
+  fi
+}
+
+function parse_git_branch() {
+  git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+function prr() {
+  ## do pull request review
+  set -x
+  cb=$(parse_git_branch)
+  git request-pull $cb origin origin/$1 -p
+  git merge --no-commit --no-ff origin/$1
+  read -p "Are you happy with the PR [y/n] " pr
+  if [[ $pr == 'y' ]]; then
+    git commit -m "Merge branch $1 into $cb"
+    git push
+  fi
+  set +x
+}
+
+# is git branch in another branch
+function gbin() {
+  echo branch \($1\) has these commits and \($(parse_git_branch)\) does not
+  git log ..$1 --no-merges --format='%h | Author:%an | Date:%ad | %s' --date=local
+}
+
+function gbout() {
+  echo branch \($(parse_git_branch)\) has these commits and \($1\) does not
+  git log $1.. --no-merges --format='%h | Author:%an | Date:%ad | %s' --date=local
+}
+
+# https://gist.github.com/wandsas/3f48ceb7d592430c8fe6341ac44ace13
+# https://github.com/junegunn/fzf/wiki/examples#changing-directory
+function z() {
+  if [[ -z "$*" ]]; then
+    cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
+  else
+    _last_z_args="$@"
+    _z "$@"
+  fi
+}
+
+function zz() {
+  cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
+}
+
+#####################################################
+############### for GIT STUFF use https://github.com/wfxr/forgit now
+#####################################################
+# fbr - checkout git branch
+#function fbr() {
+#  local branches branch
+#  branches=$(git branch -vv) &&
+#    branch=$(echo "$branches" | fzf +m) &&
+#    git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+#}
+
+# fbr - checkout git branch (including remote branches)
+#fbr() {
+#  local branches branch
+#  branches=$(git branch --all | grep -v HEAD) &&
+#    branch=$(echo "$branches" |
+#  fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+#    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+#}
+# fshow - git commit browser
+#function fshow() {
+#  git log --graph --color=always \
+#    --format="%C(auto)%<(10,trunc)%an%h%d %s %C(black)%C(bold)%cr" "$@" |
+#    fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+#      --bind "ctrl-m:execute:
+#      (grep -o '[a-f0-9]\{7\}' | head -1 |
+#        xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+#              {}
+#FZF-EOF"
+#}
+# fcs - get git commit sha
+# example usage: git rebase -i `fcs`
+function fcs() {
+  local commits commit
+  commits=$(git log --color=always --pretty=oneline --abbrev-commit --reverse) &&
+    commit=$(echo "$commits" | fzf --tac +s +m -e --ansi --reverse) &&
+    echo -n $(echo "$commit" | sed "s/ .*//")
+}
+
+# ftags - search ctags
+function ftags() {
+  local line
+  [ -e tags ] &&
+    line=$(
+      awk 'BEGIN { FS="\t" } !/^!/ {print toupper($4)"\t"$1"\t"$2"\t"$3}' tags |
+        cut -c1-80 | fzf --nth=1,2
+    ) && ${EDITOR:-vim} $(cut -f3 <<<"$line") -c "set nocst" \
+    -c "silent tag $(cut -f2 <<<"$line")"
+}
+
+function vrg() {
+  nvim -p $(\rg -l "$*")
+}
+
+function vifi() {
+  nvim $(rg -l "$*" | fzf)
+}
+
+function ip() {
+  ifconfig ppp0 | \grep inet | awk '{ print $2 }'
+  #docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mti_local_pal_epub
+}
+
+function eip() {
+  my_ip=$(ip)
+  set -x
+  ssh devweb "/opt/development/odbc/local_encore.php -s DEV4LIB -l WEBDEV4 -i http://${my_ip}:7171"
+  set +x
+}
+
+function die() {
+  echo >&2 "$@"
+  exit 1
+}
+
+function rgu() {
+  files=$(fd -d 1)
+  rg -u -i -M 200 --max-columns-preview -F "$1" $files
+}
+
+function gm() {
+  cb=$(parse_git_branch)
+  git merge $1 -m "Merge branch $1 into $cb"
+}
+
+function gup() {
+  b=$(parse_git_branch)
+  git branch --set-upstream-to=origin/${b} ${b}
+}
+
+# Output only these branch names
+function gthis() {
+  if [[ -z "$*" ]]; then
+    b=$1
+  else
+    b=$(parse_git_branch)
+  fi
+  git log --pretty=format:"$GIT_LOG_FORMAT" --first-parent $b
+}
+
+# Setup vim eslinting in repo - eslinting was/is VERY difficult to setup with proper drupal standards
+function vlint() {
+
+  cp ~/eslint_vim_setup/package* .
+  cp ~/eslint_vim_setup/.eslint* .
+  cat ~/eslint_vim_setup/git_info_exclude_example >>.git/info/exclude
+  npm i
+  npm update
+
+}
+
+# Statistics on .tag files - which potentially get very large
+function taggen() {
+  pwd
+  echo -n "Tag file size: "
+  du -sh .tags
+  echo -n "Tag # of Lines: "
+  wc -l .tags
+  ctags --options=/Users/dan/.ctags | gnomon
+  du -sh .tags
+}
+
+# Git pull from multiple git repositories
+function gp() {
+  currentBranch="$(git symbolic-ref HEAD 2>/dev/null)"
+  currentBranch=${currentBranch##refs/heads/}
+  origin=$(git remote show | fzf)
+  set -x
+  git fetch $origin
+  #git fetch acquia
+  git pull --prune --tags $origin $currentBranch
+  git remote update $origin --prune
+  set +x
+}
+
+# Kill processes from search results
+function fkill() {
+
+  #ps -eaf | \grep nvim | fzf -m | awk '{ print $2 }' | xargs kill -9
+
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ ! -z "$pid" ]; then
+    echo $pid | xargs kill -9
+  fi
+
+}
+
+# Old Phase2 AWS command  -deprecated - but keeping for knowledge retention and research
+function shpod() {
+
+  shpod=$(kubectl get po -l app=shpod -o 'jsonpath={.items[*].metadata.name}')
+  kubectl exec -it $shpod bash
+
+}
+
+function newchart() {
+
+  set -x
+  rm -rf database-0.1.0.tgz
+  tar -cvzf database-0.1.0.tgz database
+  curl --insecure -X DELETE https://chartmuseum.kube.fayze2.com/api/charts/database/0.1.0
+  curl -X POST --insecure --data-binary "@database-0.1.0.tgz" https://chartmuseum.kube.fayze2.com/api/charts
+  set +x
+
+}
+
+# Output the port used by Sequelace - good for debugging if Sequelace does not load with `fin sequelace` plugin
+function ace() {
+
+  # $1 should equal the VIRTUAL_HOST env minus docksal
+  port=$(docker ps --all --filter 'label=com.docker.compose.service=db' --filter "label=com.docker.compose.project=$1" --format '{{.Ports}}' | sed 's/.*0.0.0.0://g' | sed 's/->.*//g')
+
+  echo "The port for the Sequel Ace Connection is $port"
+}
+
+# Edit the output of a file search - also done via Control-Tab
+function vfd() {
+  set -x
+  # lowercase p for windows/tabs, uppercase O for horizontal splits
+  nvim -p $(fd $1)
+}
+
+# bash completion for the `wp` command
+# what is the wp command?
+_wp_complete() {
+  local OLD_IFS="$IFS"
+  local cur=${COMP_WORDS[COMP_CWORD]}
+
+  IFS=$'\n' # want to preserve spaces at the end
+  local opts="$(wp cli completions --line="$COMP_LINE" --point="$COMP_POINT")"
+
+  if [[ "$opts" =~ \<file\>\s* ]]; then
+    COMPREPLY=($(compgen -f -- $cur))
+  elif [[ $opts = "" ]]; then
+    COMPREPLY=($(compgen -f -- $cur))
+  else
+    COMPREPLY=(${opts[*]})
+  fi
+
+  IFS="$OLD_IFS"
+  return 0
+}
+complete -o nospace -F _wp_complete wp
+
+# Ripgrep that progressively does not ignore
+function myrg() {
+  # Ripgrep has a progressive unignore caused by adding a u to the arguements.
+  # continue addding a u until we reach the max of 3 u's.
+  u=''
+  keep_going=1
+  while [ $keep_going -gt 0 ]; do
+    \rg -. $u "$*"
+    keep_going=$?
+    if [[ ${u} == '' ]]; then
+      u='-'
+    fi
+    u=${u}u
+    if [[ "${u}" == "-uuuu" ]]; then
+      keep_going=0
+    fi
+  done
+
+}
+
+# Create Merge requests on gitlab
+function mr() {
+
+  gitlab=$(git remote get-url --all origin | awk -F: '{ print $2 }' | awk -F. '{ print $1 }')
+  url="https://gitlab.utdev.com/${gitlab}/-/merge_requests"
+  open $url
+
+}
+
+# Search git status
+function vgs() {
+  nvim -O $(git status -s | awk '{print $2}')
+}
+
+# Edit the results of which command
+function vw() {
+  nvim $(which $1)
+}
+
+# Print Docker Service containers
+function dhn() {
+  docker ps --all --filter 'label=io.docksal.project-root' --format '{{.Label "com.docker.compose.project"}}:{{.Label "com.docker.compose.service"}}'
+}

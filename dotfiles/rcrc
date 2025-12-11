@@ -1,0 +1,3 @@
+EXCLUDES="git"
+UNDOTTED="docksal/docksal.local.env docksal/docksal.env"
+SYMLINK_DIRS="config/nvim config/kitty docksal/addons/dcert tmux"
