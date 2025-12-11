@@ -13,6 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          ref: main
           fetch-depth: 0 # required for tag info
 
       - name: Extract version from tag
@@ -48,5 +49,5 @@ jobs:
           git config user.name "GitHub Actions"
 
           git add Formula/denver.rb
-          git commit -m "Update formula for version ${{ steps.vars.outputs.version }}"
-          git push
+          git commit -m "GitHub-Actions: Auto-update formula for version $VERSION with $SHA"
+          git push origin main
