@@ -3,39 +3,39 @@ set -euo pipefail
 
 # ---------------- Color Support ----------------
 if test -t 1 && command -v tput >/dev/null 2>&1; then
-  COLOR_BLUE="$(tput setaf 4)"
-  COLOR_YELLOW="$(tput setaf 3)"
-  COLOR_RED="$(tput setaf 1)"
-  COLOR_GREEN="$(tput setaf 2)"
-  COLOR_RESET="$(tput sgr0)"
+  BLUE=$(tput setaf 4)
+  YEL=$(tput setaf 3)
+  RED=$(tput setaf 1)
+  GRN=$(tput setaf 2)
+  NC=$(tput sgr0)
 else
-  COLOR_BLUE=""
-  COLOR_YELLOW=""
-  COLOR_RED=""
-  COLOR_GREEN=""
-  COLOR_RESET=""
+  BLUE=""
+  YEL=""
+  RED=""
+  GRN=""
+  NC=""
 fi
 
-info() { printf "%s[INFO]%s %s\n" "$COLOR_BLUE" "$COLOR_RESET" "$*"; }
+info() { printf "%s[INFO]%s %s\n" "$BLUE" "$NC" "$*"; }
 
 info "Developer Envioronment Installer"
 
-warn() { printf "%s[WARN]%s %s\n" "$COLOR_YELLOW" "$COLOR_RESET" "$*"; }
+warn() { printf "%s[WARN]%s %s\n" "$YEL" "$NC" "$*"; }
 error() {
-  printf "%s[ERROR]%s %s\n" "$COLOR_RED" "$COLOR_RESET" "$*"
+  printf "%s[ERROR]%s %s\n" "$RED" "$NC" "$*"
   exit 1
 }
-ok() { printf "%s[SUCCESS]%s %s\n" "$COLOR_GREEN" "$COLOR_RESET" "$*"; }
+ok() { printf "%s[SUCCESS]%s %s\n" "$GRN" "$NC" "$*"; }
 
-# ---------------- Dry-run mode ----------------
-DRYRUN=0
+# ---------------- Dry Run Mode ----------------
+DRY=0
 if [[ "${1:-}" == "--dry-run" || "${1:-}" == "-n" ]]; then
-  DRYRUN=1
-  info "Running in DRY-RUN mode — no commands will be executed."
+  DRY=1
+  info "Running in DRY-RUN mode — commands will NOT execute."
 fi
 
 run() {
-  if [[ $DRYRUN -eq 1 ]]; then
+  if [[ $DRY -eq 1 ]]; then
     echo "DRYRUN: $*"
   else
     eval "$@"
@@ -78,13 +78,15 @@ esac
 info "Platform: $PLATFORM"
 
 # ----------------- xCode Developer Tools -------
-if ! xcode-select -p >/dev/null 2>&1; then
-  info "The Xcode Command Line Tools will be installed."
-  run "xcode-select --install"
-  echo "Press any key when the installation has completed."
-  getc
-else
-  info "Xcode Command Line Tools is already installed."
+if [[ "$PLATFORM" == "macos" ]]; then
+  if ! xcode-select -p >/dev/null 2>&1; then
+    info "The Xcode Command Line Tools will be installed."
+    run "xcode-select --install"
+    echo "Press any key when the installation has completed."
+    getc
+  else
+    info "Xcode Command Line Tools are already installed."
+  fi
 fi
 
 # ----------------- Change Zsh to Bash default shell -------
@@ -109,9 +111,8 @@ else
 fi
 
 # Load brew shellenv
-run 'eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || true)"'
-run 'eval "$(/usr/local/bin/brew shellenv 2>/dev/null || true)"'
-run 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv 2>/dev/null || true)"'
+BREW_PREFIX="$(brew --prefix)"
+run 'eval "$($BREW_PREFIX/bin/brew shellenv)"'
 
 # ---------------- Tap + Install formula ----------
 run "brew untap danshumaker/denver --force"
@@ -119,15 +120,33 @@ info "Tapping danshumaker/denver..."
 run "brew tap danshumaker/denver"
 
 info "Installing Denver formula..."
-run "brew install denver || true"
+if ! run "brew install denver"; then
+  error "Homebrew failed to install 'denver'. Aborting."
+fi
 
-PAYLOAD="$(brew --prefix denver)/share"
-BREWFILE="$PAYLOAD/Brewfile"
+# ---------------- Verify Installation Success ----------------
+DENVER_PREFIX="$(brew --prefix denver || true)"
+if [[ ! -d "$DENVER_PREFIX" ]]; then
+  error "Denver prefix not found at: $DENVER_PREFIX"
+fi
 
-[[ -f "$BREWFILE" ]] || error "Brewfile not found at $BREWFILE"
+PAYLOAD_DIR="$DENVER_PREFIX/share/denver"
+
+if [[ ! -d "$PAYLOAD_DIR" ]]; then
+  error "Denver payload directory missing: $PAYLOAD_DIR"
+fi
+
+info "Denver payload detected at: $PAYLOAD_DIR"
+
+# ---------------- Verify Brewfile Exists ----------------
+BREWFILE="$PAYLOAD_DIR/Brewfile"
+
+if [[ ! -f "$BREWFILE" ]]; then
+  error "Brewfile missing at: $BREWFILE"
+fi
 
 # Update Homebrew and basic sanity
-#brew update
+brew update
 #brew doctor || true
 run "brew cleanup -s"
 run "rm -rf ~/Library/Caches/Homebrew/downloads/*"
@@ -138,7 +157,8 @@ run "mkdir -p \"$BACKUP_DIR\""
 
 info "Backing up existing dotfiles... to $BACKUP_DIR"
 
-files=$(find $PAYLOAD/dotfiles/ -type f -depth 1)
+DOTS="$PAYLOAD_DIR"/dotfiles
+files=$(find "$DOTS" -type f -depth 1)
 for f in ${files[@]}; do
   if [[ -e "$HOME/.$f" ]]; then
     run "mv -v \"$HOME/.$f\" \"$BACKUP_DIR/\""
@@ -155,16 +175,12 @@ run "brew bundle --file=\"$BREWFILE\""
 wait_for_user
 # ---------------- rcup deployment ----------------
 info "Running rcup..."
-run "rcup -d \"$PAYLOAD\""
-
-# ---------------- Fix permissions -----------------
-OP_DIR="$HOME/.dotfiles/config/op"
-OP_CFG="$OP_DIR/config"
-
-if [[ -d "$OP_DIR" ]]; then
-  info "Fixing .dotfiles op config permissions..."
-  run "sudo chmod 700 \"$OP_DIR\""
-  if [[ -f "$OP_CFG" ]]; then run "sudo chmod 600 \"$OP_CFG\""; fi
+run "ln -s \"$DOTS\"/rcrc $HOME/.rcrc"
+run "rcup -d \"$DOTS\""
+if [[! -h $HOME/.bash_profile ]]; then
+  error "RCM up did not link dotfiles."
+else
+  ok "Dotfiles installed"
 fi
 
 # ---------------- Install Rust --------------------
@@ -183,9 +199,20 @@ if [[ "$PLATFORM" == "macos" ]]; then
   if [[ -d "$FONT_SRC" ]]; then
     info "Installing Terminal fonts..."
     run "sudo cp -R \"$FONT_SRC/.\" \"/Library/Fonts/\""
+    run "brew install font-hack-nerd-font"
   else
     warn "Terminal fonts not found at $FONT_SRC"
   fi
 fi
 
 ok "Denver installation complete."
+
+warn "CONFIGURATION LEFT TODO"
+info "Configure 1Pass-cli .config/op/config"
+info "^S^I in Tmux to picup installed plugins"
+info ".config/gh github authentication"
+info "possible powerline fonts install git clone https://github.com/powerline/fonts "
+info "configure .ssh do ssh-keygen but also convert to 1Pass-OP"
+info "Ensure docksal, colima, and terminus work"
+info "Ensure node and hugo work in resume theme"
+info "Ensure shutrail standsup"
