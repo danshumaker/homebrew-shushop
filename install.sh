@@ -118,8 +118,10 @@ run 'eval "$($BREW_PREFIX/bin/brew shellenv)"'
 run "brew untap danshumaker/denver --force"
 info "Tapping danshumaker/denver..."
 run "brew tap danshumaker/denver"
+run "brew upgrade"
 
 info "Installing Denver formula..."
+
 if ! run "brew install denver"; then
   error "Homebrew failed to install 'denver'. Aborting."
 fi
