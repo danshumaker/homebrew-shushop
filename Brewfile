@@ -60,8 +60,6 @@ brew "freetds"
 brew "libpq"
 # Granddaddy of HTML tools, with support for modern standards
 brew "tidy-html5"
-# General-purpose scripting language
-brew "php", link: false
 # Dependency Manager for PHP
 brew "composer"
 # GNU File, Shell, and Text utilities

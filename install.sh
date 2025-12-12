@@ -148,8 +148,8 @@ fi
 # Update Homebrew and basic sanity
 brew update
 #brew doctor || true
-run "brew cleanup -s"
-run "rm -rf ~/Library/Caches/Homebrew/downloads/*"
+# run "brew cleanup -s"
+#run "rm -rf ~/Library/Caches/Homebrew/downloads/*"
 
 # ---------------- Backup dotfiles ----------------
 BACKUP_DIR="$HOME/.old_dots/backup_$(date +%Y%m%d_%H%M%S)"
@@ -167,17 +167,61 @@ done
 
 wait_for_user
 
+# ---------------- Safe Brew Install Wrapper ----------------
+brew_install() {
+  local formula="$1"
+  local logfile="/tmp/brew-install-${formula}.log"
+
+  info "Installing ${formula}…"
+
+  # Run brew install and capture all output.
+  # brew returns 0 even with warnings, so exit code is the only correct test.
+  if ! brew install "${formula}" >"${logfile}" 2>&1; then
+    error "Fatal error installing ${formula}. See ${logfile}"
+  fi
+
+  # Validation: Did Brew actually install it?
+  # brew list <formula> returns 1 if installation did NOT succeed.
+  if ! brew list "${formula}" >/dev/null 2>&1; then
+    warn "Brew did not register '${formula}' as installed."
+    warn "This typically means a post-install failure."
+    warn "See ${logfile}"
+    error "Installation of ${formula} is incomplete."
+  fi
+
+  ok "${formula} installed successfully (non-fatal Brew warnings ignored)"
+}
+
+# ---------------- Brew Bundle ----------------
+safe_brew_bundle() {
+  local brewfile="$1"
+  local logfile="/tmp/brew-bundle.log"
+
+  info "Running brew bundle using ${brewfile}…"
+
+  # Brew bundle returns non-zero only on a real failure
+  if ! brew bundle --file="${brewfile}" >"${logfile}" 2>&1; then
+    error "brew bundle failed. See ${logfile}"
+  fi
+
+  ok "Brew bundle finished successfully"
+}
+
 # ---------------- Brew bundle --------------------
 info "Running brew bundle..."
 run "brew tap homebrew/bundle || true"
-run "brew bundle --file=\"$BREWFILE\""
+safe_brew_bundle "$BREWFILE"
 
 wait_for_user
+# ---------------- PHP Install --------------------
+info "Safe PHP install..."
+brew_install php
+
 # ---------------- rcup deployment ----------------
 info "Running rcup..."
 run "ln -s \"$DOTS\"/rcrc $HOME/.rcrc"
 run "rcup -d \"$DOTS\""
-if [[! -h $HOME/.bash_profile ]]; then
+if [[ ! -L $HOME/.bash_profile ]]; then
   error "RCM up did not link dotfiles."
 else
   ok "Dotfiles installed"
@@ -194,25 +238,25 @@ fi
 # ---------------- Install Fonts (macOS only) -------
 if [[ "$PLATFORM" == "macos" ]]; then
   # TODO: Possible install powerline fonts https://github.com/powerline/fonts.git
+  brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs brew install
 
-  FONT_SRC="/Applications/Utilities/Terminal.app/Contents/Resources/Fonts"
-  if [[ -d "$FONT_SRC" ]]; then
-    info "Installing Terminal fonts..."
-    run "sudo cp -R \"$FONT_SRC/.\" \"/Library/Fonts/\""
-    run "brew install font-hack-nerd-font"
-  else
-    warn "Terminal fonts not found at $FONT_SRC"
-  fi
+  #FONT_SRC="/Applications/Utilities/Terminal.app/Contents/Resources/Fonts"
+  #if [[ -d "$FONT_SRC" ]]; then
+  #  info "Installing Terminal fonts..."
+  #  run "sudo cp -R \"$FONT_SRC/.\" \"/Library/Fonts/\""
+  #else
+  #  warn "Terminal fonts not found at $FONT_SRC"
+  #fi
 fi
 
 ok "Denver installation complete."
 
 warn "CONFIGURATION LEFT TODO"
-info "Configure 1Pass-cli .config/op/config"
-info "^S^I in Tmux to picup installed plugins"
-info ".config/gh github authentication"
-info "possible powerline fonts install git clone https://github.com/powerline/fonts "
-info "configure .ssh do ssh-keygen but also convert to 1Pass-OP"
-info "Ensure docksal, colima, and terminus work"
-info "Ensure node and hugo work in resume theme"
-info "Ensure shutrail standsup"
+info " - Configure 1Pass-cli .config/op/config"
+info " - ^S^I in Tmux to picup installed plugins"
+info " - .config/gh github authentication"
+info " - possible powerline fonts install git clone https://github.com/powerline/fonts "
+info " - configure .ssh do ssh-keygen but also convert to 1Pass-OP"
+info " - Ensure docksal, colima, and terminus work"
+info " - Ensure node and hugo work in resume theme"
+info " - Ensure shutrail standsup"
