@@ -78,99 +78,130 @@ esac
 info "Platform: $PLATFORM"
 
 # ----------------- xCode Developer Tools -------
-if [[ "$PLATFORM" == "macos" ]]; then
-  if ! xcode-select -p >/dev/null 2>&1; then
-    info "The Xcode Command Line Tools will be installed."
-    run "xcode-select --install"
-    echo "Press any key when the installation has completed."
-    getc
-  else
-    info "Xcode Command Line Tools are already installed."
+xcode_install() {
+  if [[ "$PLATFORM" == "macos" ]]; then
+    if ! xcode-select -p >/dev/null 2>&1; then
+      info "The Xcode Command Line Tools will be installed."
+      run "xcode-select --install"
+      echo "Press any key when the installation has completed."
+      getc
+    else
+      info "Xcode Command Line Tools are already installed."
+    fi
   fi
-fi
+}
 
 # ----------------- Change Zsh to Bash default shell -------
-# USER isn't always set so provide a fall back for the installer and subprocesses.
-if [[ -z "${USER-}" ]]; then
-  USER="$(chomp "$(id -un)")"
-  export USER
-fi
-if [[ "$SHELL" == *bash* ]]; then
-  info "SHELL $SHELL already set to bash"
-else
-  info "Changing default user shell to bash"
-  run "chpass -s /usr/local/bin/bash $USER"
-fi
+change_shell() {
+  info "Auditing shell configuration..."
+
+  if [[ -z "${SHELL:-}" ]]; then
+    error "\$SHELL is not set."
+  fi
+
+  if [[ ! -x "$SHELL" ]]; then
+    error "\$SHELL points to a non-executable: $SHELL"
+  fi
+
+  if ! grep -qx "$SHELL" /etc/shells; then
+    warn "\$SHELL ($SHELL) is not listed in /etc/shells"
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+
+    info "Enforcing Homebrew bash as login shell..."
+
+    BREW_BASH="$(brew --prefix)/bin/bash"
+
+    if ! grep -qx "$BREW_BASH" /etc/shells; then
+      info "Registering Homebrew bash in /etc/shells"
+      echo "$BREW_BASH" | sudo tee -a /etc/shells >/dev/null
+    fi
+
+    if [[ "$SHELL" != "$BREW_BASH" ]]; then
+      info "Changing login shell to $BREW_BASH"
+      chsh -s "$BREW_BASH"
+      ok "Login shell updated. Log out/in required."
+    else
+      ok "Homebrew bash already set as login shell"
+    fi
+  fi
+
+}
 
 # ---------------- Homebrew Install --------------
-if ! command -v brew >/dev/null 2>&1; then
-  info "Installing Homebrew..."
-  run 'NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-else
-  info "Homebrew already installed."
-fi
+homebrew_install() {
+  if ! command -v brew >/dev/null 2>&1; then
+    info "Installing Homebrew..."
+    run 'NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+  else
+    info "Homebrew already installed."
+  fi
 
-# Load brew shellenv
-BREW_PREFIX="$(brew --prefix)"
-run 'eval "$($BREW_PREFIX/bin/brew shellenv)"'
+  # Load brew shellenv
+  BREW_PREFIX="$(brew --prefix)"
+  run 'eval "$($BREW_PREFIX/bin/brew shellenv)"'
+}
 
 # ---------------- Tap + Install formula ----------
-run "brew untap danshumaker/denver --force"
-info "Tapping danshumaker/denver..."
-run "brew tap danshumaker/denver"
-run "brew upgrade"
+denver_install() {
+  run "brew untap danshumaker/denver --force"
+  info "Tapping danshumaker/denver..."
+  run "brew tap danshumaker/denver"
+  run "brew upgrade"
 
-info "Installing Denver formula..."
+  info "Installing Denver formula..."
 
-if ! run "brew install denver"; then
-  error "Homebrew failed to install 'denver'. Aborting."
-fi
+  if ! run "brew install denver"; then
+    error "Homebrew failed to install 'denver'. Aborting."
+  fi
 
-# ---------------- Verify Installation Success ----------------
-DENVER_PREFIX="$(brew --prefix denver || true)"
-if [[ ! -d "$DENVER_PREFIX" ]]; then
-  error "Denver prefix not found at: $DENVER_PREFIX"
-fi
+  # ---------------- Verify Installation Success ----------------
+  DENVER_PREFIX="$(brew --prefix denver || true)"
+  if [[ ! -d "$DENVER_PREFIX" ]]; then
+    error "Denver prefix not found at: $DENVER_PREFIX"
+  fi
 
-PAYLOAD_DIR="$DENVER_PREFIX/share/denver"
+  PAYLOAD_DIR="$DENVER_PREFIX/share/denver"
 
-if [[ ! -d "$PAYLOAD_DIR" ]]; then
-  error "Denver payload directory missing: $PAYLOAD_DIR"
-fi
+  if [[ ! -d "$PAYLOAD_DIR" ]]; then
+    error "Denver payload directory missing: $PAYLOAD_DIR"
+  fi
 
-info "Denver payload detected at: $PAYLOAD_DIR"
+  info "Denver payload detected at: $PAYLOAD_DIR"
 
-# ---------------- Verify Brewfile Exists ----------------
-BREWFILE="$PAYLOAD_DIR/Brewfile"
+  # ---------------- Verify Brewfile Exists ----------------
+  BREWFILE="$PAYLOAD_DIR/Brewfile"
 
-if [[ ! -f "$BREWFILE" ]]; then
-  error "Brewfile missing at: $BREWFILE"
-fi
+  if [[ ! -f "$BREWFILE" ]]; then
+    error "Brewfile missing at: $BREWFILE"
+  fi
 
-# Update Homebrew and basic sanity
-brew update
-#brew doctor || true
-# run "brew cleanup -s"
-#run "rm -rf ~/Library/Caches/Homebrew/downloads/*"
+  # Update Homebrew and basic sanity
+  brew update
+  #brew doctor || true
+  # run "brew cleanup -s"
+  #run "rm -rf ~/Library/Caches/Homebrew/downloads/*"
+}
 
 # ---------------- Backup dotfiles ----------------
-BACKUP_DIR="$HOME/.old_dots/backup_$(date +%Y%m%d_%H%M%S)"
-run "mkdir -p \"$BACKUP_DIR\""
+dotfile_backup() {
+  BACKUP_DIR="$HOME/.old_dots/backup_$(date +%Y%m%d_%H%M%S)"
+  run "mkdir -p \"$BACKUP_DIR\""
 
-info "Backing up existing dotfiles... to $BACKUP_DIR"
+  info "Backing up existing dotfiles... to $BACKUP_DIR"
 
-DOTS="$PAYLOAD_DIR"/dotfiles
-files=$(find "$DOTS" -type f -depth 1)
-for f in ${files[@]}; do
-  if [[ -e "$HOME/.$f" ]]; then
-    run "mv -v \"$HOME/.$f\" \"$BACKUP_DIR/\""
-  fi
-done
-
-wait_for_user
+  DOTS="$PAYLOAD_DIR"/dotfiles
+  files=$(find "$DOTS" -type f -depth 1)
+  for f in ${files[@]}; do
+    if [[ -e "$HOME/.$f" ]]; then
+      run "mv -v \"$HOME/.$f\" \"$BACKUP_DIR/\""
+    fi
+  done
+}
 
 # ---------------- Safe Brew Install Wrapper ----------------
-brew_install() {
+formula_install() {
   local formula="$1"
   local logfile="/tmp/brew-install-${formula}.log"
 
@@ -210,55 +241,96 @@ safe_brew_bundle() {
 }
 
 # ---------------- Brew bundle --------------------
-info "Running brew bundle..."
-run "brew tap homebrew/bundle || true"
-safe_brew_bundle "$BREWFILE"
+bundle_install() {
+  info "Running brew bundle..."
+  run "brew tap homebrew/bundle || true"
+  safe_brew_bundle "$BREWFILE"
+}
 
-wait_for_user
 # ---------------- PHP Install --------------------
-info "Safe PHP install..."
-brew_install php
+php_install() {
+  info "Safe PHP install..."
+  formula_install php
+}
 
-# ---------------- rcup deployment ----------------
-info "Running rcup..."
-run "ln -s \"$DOTS\"/rcrc $HOME/.rcrc"
-run "rcup -d \"$DOTS\""
-if [[ ! -L $HOME/.bash_profile ]]; then
-  error "RCM up did not link dotfiles."
-else
-  ok "Dotfiles installed"
-fi
+# ---------------- RCM deployment ----------------
+rcm_setup() {
+  info "Running rcup..."
+  run "ln -s \"$DOTS\"/rcrc $HOME/.rcrc"
+  run "rcup -d \"$DOTS\""
+  if [[ ! -L $HOME/.bash_profile ]]; then
+    error "RCM up did not link dotfiles."
+  else
+    ok "Dotfiles installed"
+  fi
+}
 
 # ---------------- Install Rust --------------------
-if ! command -v cargo >/dev/null 2>&1; then
-  info "Installing Rust/Cargo toolchain..."
-  run 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
-else
-  info "Rust already installed."
-fi
+rust_install() {
+  if ! command -v cargo >/dev/null 2>&1; then
+    info "Installing Rust/Cargo toolchain..."
+    run 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
+  else
+    info "Rust already installed."
+  fi
+}
 
 # ---------------- Install Fonts (macOS only) -------
-if [[ "$PLATFORM" == "macos" ]]; then
-  # TODO: Possible install powerline fonts https://github.com/powerline/fonts.git
-  brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs brew install
+font_install() {
+  if [[ "$PLATFORM" == "macos" ]]; then
+    # TODO: Possible install powerline fonts https://github.com/powerline/fonts.git
+    brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs brew install
 
-  #FONT_SRC="/Applications/Utilities/Terminal.app/Contents/Resources/Fonts"
-  #if [[ -d "$FONT_SRC" ]]; then
-  #  info "Installing Terminal fonts..."
-  #  run "sudo cp -R \"$FONT_SRC/.\" \"/Library/Fonts/\""
-  #else
-  #  warn "Terminal fonts not found at $FONT_SRC"
-  #fi
-fi
+    #FONT_SRC="/Applications/Utilities/Terminal.app/Contents/Resources/Fonts"
+    #if [[ -d "$FONT_SRC" ]]; then
+    #  info "Installing Terminal fonts..."
+    #  run "sudo cp -R \"$FONT_SRC/.\" \"/Library/Fonts/\""
+    #else
+    #  warn "Terminal fonts not found at $FONT_SRC"
+    #fi
+  fi
+}
 
-ok "Denver installation complete."
+kitty_config() {
+  KITTY_CONF="$HOME/.config/kitty/kitty.conf"
 
-warn "CONFIGURATION LEFT TODO"
-info " - Configure 1Pass-cli .config/op/config"
-info " - ^S^I in Tmux to picup installed plugins"
-info " - .config/gh github authentication"
-info " - possible powerline fonts install git clone https://github.com/powerline/fonts "
-info " - configure .ssh do ssh-keygen but also convert to 1Pass-OP"
-info " - Ensure docksal, colima, and terminus work"
-info " - Ensure node and hugo work in resume theme"
-info " - Ensure shutrail standsup"
+  if [[ ! -f "$KITTY_CONF" ]]; then
+    warn "kitty.conf not found"
+    return
+  fi
+
+  if ! grep -q '^shell \$SHELL --login' "$KITTY_CONF"; then
+    warn "Kitty is not configured to use '\$SHELL --login'"
+    warn "Expected: shell \$SHELL --login"
+  else
+    ok "Kitty shell configuration is correct"
+  fi
+}
+
+main() {
+  xcode_install
+  change_shell
+  homebrew_install
+  denver_install
+  dotfile_backup
+  bundle_install
+  php_install
+  rcm_setup
+  font_install
+  kitty_config
+
+  ok "Denver installation complete."
+  warn "CONFIGURATION LEFT TODO"
+  info " - Kitty shell usage"
+  info " - Configure 1Pass-cli .config/op/config"
+  info " - ^S^I in Tmux to picup installed plugins"
+  info " - .config/gh github authentication"
+  info " - possible powerline fonts install git clone https://github.com/powerline/fonts "
+  info " - configure .ssh do ssh-keygen but also convert to 1Pass-OP"
+  info " - Ensure docksal, colima, and terminus work"
+  info " - Ensure node and hugo work in resume theme"
+  info " - Ensure shutrail standsup"
+
+}
+
+main "$@"

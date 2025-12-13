@@ -27,17 +27,21 @@
 
 </p>
 
-Denver is a **one-repository, one-command, fully reversible system bootstrap** that installs:
+Denver is dotfile, tool and environment setup system initially designed for the occasion when new hardward (Desktop | Laptop) is received and needs a quick setup.
+It is designed to do all the downloading for you and installation. Some configuration after the install is still required.
 
-- Your dotfiles (managed by `rcm`)
-- All required packages (via `brew bundle`)
-- Rust toolchain (`rustup`)
-- Fonts (macOS Terminal fonts)
+- dotfiles managed by git and installed by rcm
+- tools installed & managed by homebrew
+- Rust Installed
+- All nerd fonts installed
+
+## Todo
+
 - System configuration and permission fixes
-
-It also provides an equally simple **one-command uninstall** that cleanly reverses everything.
-
-Designed for **clarity, reproducibility, reversibility, and zero manual setup**.
+- Authentication runs/fixes/settings
+  - npm token
+  - gh token and Authentication
+  - 1pass-cli setup
 
 ---
 
@@ -57,23 +61,6 @@ Designed for **clarity, reproducibility, reversibility, and zero manual setup**.
 Everything is **idempotent**, safe, and reversible.
 
 ---
-
-# 📦 Repository Structure
-
-```
-homebrew-denver/
-├── Formula/
-│   └── denver.rb       # Minimal brew formula (payload only)
-├── install.sh           # Full bootstrap script
-├── uninstall.sh         # Full teardown script (reverse of install)
-├── Brewfile             # Declares all packages to install
-└── dotfiles/           # rcm-managed dotfiles
-    ├── rcrc
-    ├── config/
-    │   └── op/
-    │       └── config
-    └── ...your dotfiles...
-```
 
 The Homebrew formula installs the repository payload into:
 
@@ -103,7 +90,6 @@ Install denver in **one command**:
 6. Deploys dotfiles via `rcup`
 7. Installs Rust toolchain
 8. Installs macOS Terminal fonts (macOS only)
-9. Fixes permissions for `.dotfiles/config/op`
 
 ---
 
@@ -210,10 +196,7 @@ MIT License — Do whatever you want, just don’t blame me.
 
 # 🙋 TODO
 
-- put dotfiles in place.
-- fix jj (zz) it's not loading.
-- comb through bash_profile and aliases to clean them up.
 - show list of NON-tracked dot files with explainations why they are not tracked.
 - Convert all hashes and tokens (gh, terminus, acquia, etc) over to use 1pass-cli (op)
-- check fonts
 - test install (xcode, bash, kitty, brewfile, prompt, tmux, 1pass-cli and shutrail.) on laptop
+- test uninstall

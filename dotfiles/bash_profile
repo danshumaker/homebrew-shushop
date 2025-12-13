@@ -14,7 +14,11 @@ if [ -n "$TMUX" ]; then
   fi
 fi
 
-brewh=/opt/homebrew
+# Homebrew
+if command -v brew >/dev/null 2>&1; then
+  eval "$(brew shellenv)"
+fi
+
 if [[ -s $HOME/.bash_profile_functions ]]; then
   . $HOME/.bash_profile_functions
   addp /usr/sbin
@@ -33,8 +37,8 @@ if [[ -s $HOME/.bash_profile_functions ]]; then
   prep $HOME/.gem/bin
   prep $HOME/.rbenv/shims
   prep $HOME/.rbenv/bin
-  prep ${brewh}/opt/gnu-sed/libexec/gnubin
-  prep ${brewh}/opt/coreutils/libexec/gnubin
+  # prep ${brewh}/opt/gnu-sed/libexec/gnubin
+  # prep ${brewh}/opt/coreutils/libexec/gnubin
   # TESTING bitbucket-cmd development
   #prep $HOME/danshumaker.github.io/bitbucket-cmd/bin
   addp /usr/bin
@@ -42,16 +46,16 @@ if [[ -s $HOME/.bash_profile_functions ]]; then
   addp $HOME/.deno/bin
 fi
 
-export SHELL=${brewh}/bin/bash
+#export SHELL=${brewh}/bin/bash
 
 # Go development
-export GOPATH="${HOME}/.go"
-export GOROOT="${brewh}/opt/go/libexec/bin"
-export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+#export GOPATH="${HOME}/.go"
+#export GOROOT="${brewh}/opt/go/libexec/bin"
+#export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 # https://stackoverflow.com/questions/12843063/install-go-with-brew-and-running-the-gotour
-test -d "${GOPATH}" || mkdir "${GOPATH}"
-test -d "${GOPATH}/src/github.com" || mkdir -p "${GOPATH}/src/github.com"
+#test -d "${GOPATH}" || mkdir "${GOPATH}"
+#test -d "${GOPATH}/src/github.com" || mkdir -p "${GOPATH}/src/github.com"
 
 export PATH
 export HISTSIZE=10000
@@ -154,8 +158,8 @@ export HOMEBREW_BUNDLE_MAS_SKIP=1
 
 #export GRELEASE_CONFIG=bin/grelease_admin/config
 
-eval "$(${brewh}/bin/brew shellenv)"
-[ -f ${brewh}/etc/bash_completion ] && source ${brewh}/etc/bash_completion
+eval "$(brew shellenv)"
+[ -f ${HOMEBREW_PREFIX}/etc/bash_completion ] && source ${HOMEBREW_PREFIX}/etc/bash_completion
 export LS_COLORS="$(vivid generate molokai)"
 
 # Use nvim plugin command instead of loading via the terminal.
